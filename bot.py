@@ -1,10 +1,8 @@
-'''
-Официальная документация находится по адресу.
-https://github.com/eternnoir/pyTelegramBotAPI
-'''
-
+#! /usr/bin/python3
 # Импортируем модлуь для работы с телеграм ботом
-import telebot
+import telebot # это модуль pyTelegramBotAPI
+
+# pip install python-telegram-bot
 
 key_api = '1028658654:AAE4KC14J8oxGPrwQCN7u-t9xY0tqKo5wFY'
 
