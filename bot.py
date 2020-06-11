@@ -6,8 +6,10 @@ https://github.com/eternnoir/pyTelegramBotAPI
 # Импортируем модлуь для работы с телеграм ботом
 import telebot
 
+key_api = '1028658654:AAE4KC14J8oxGPrwQCN7u-t9xY0tqKo5wFY'
+
 # Создаем экземпляр класса, и передаем ему API токена.
-bot = telebot.TeleBot('тут токен для работы с API')
+bot = telebot.TeleBot(key_api)
 
 # Обьявляем метод для получения текстовых сообщений, это слушатель для
 # текс сообщ, полу content_types - может приним сообщ и не не только сообщение.
