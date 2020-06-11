@@ -11,7 +11,7 @@ Pygments==2.2.0
 pyparsing==2.2.0
 pyTelegramBotAPI==3.7.1
 python-telegram-bot==7.0.1
-requests==2.13.0
+requests==2.20.0
 six==1.10.0
 virtualenv==15.1.0
 virtualenv-clone==0.3.0
