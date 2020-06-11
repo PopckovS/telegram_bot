@@ -18,23 +18,26 @@ def start_message(message):
 
     # Создаем кнопки с общим функционалом который увидит пользователь при начале работы
     keyboard = telebot.types.ReplyKeyboardMarkup()
-
-    url_ya = telebot.types.InlineKeyboardButton(text="Перейти на Яндекс", url="https://ya.ru")
-    url_mit = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании", url="https://mitlabs.ru/")
-
-    keyboard.row(url_ya, url_mit)
-
-    # @bot.message_handler(content_types=["text"])
-    # def default_test(message):
-    #     keyboard = types.InlineKeyboardMarkup()
-    #     url_button = types.InlineKeyboardButton(text="Перейти на Яндекс", url="https://ya.ru")
-    #     keyboard.add(url_button)
-    #     bot.send_message(message.chat.id, "Привет! Нажми на кнопку и перейди в поисковик.", reply_markup=keyboard)
+    keyboard.row('1', '2')
 
     bot.send_message(message.chat.id, 'Здраствуйте {0} {1} вас приветствует бот компании {2} \n'
-                     .format(message.from_user.first_name, message.from_user.last_name, 'MitLabs', reply_markup=keyboard)
+                     .format(message.from_user.first_name, message.from_user.last_name, 'MitLabs', reply_markup=keyboard))
 
 
+
+
+
+# url_ya = telebot.types.InlineKeyboardButton(text="Перейти на Яндекс", url="https://ya.ru")
+# url_mit = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании", url="https://mitlabs.ru/")
+# Стартовое приветствие
+@bot.message_handler(commands=['btn'])
+def default_test(message):
+    keyboard = telebot.types.InlineKeyboardMarkup()
+    url_ya = telebot.types.InlineKeyboardButton(text="Перейти на Яндекс", url="https://ya.ru")
+    url_mit = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании", url="https://mitlabs.ru")
+    keyboard.add(url_ya)
+    keyboard.add(url_mit)
+    bot.send_message(message.chat.id, "Выберите локацию:", reply_markup=keyboard)
 
 
 
