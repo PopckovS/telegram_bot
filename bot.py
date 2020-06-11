@@ -17,11 +17,22 @@ bot = telebot.TeleBot(key_api)
 def start_message(message):
 
     # Создаем кнопки с общим функционалом который увидит пользователь при начале работы
-    keyboard1 = telebot.types.ReplyKeyboardMarkup()
-    keyboard1.row('Привет', 'Пока')
+    keyboard = telebot.types.ReplyKeyboardMarkup()
 
-    bot.send_message(message.chat.id, 'Здраствуйте {0} {1} вас приветствует бот компании MitLabs \n'
-                     .format(message.from_user.first_name, message.from_user.last_name), reply_markup=keyboard1)
+    url_ya = telebot.types.InlineKeyboardButton(text="Перейти на Яндекс", url="https://ya.ru")
+    url_mit = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании", url="https://mitlabs.ru/")
+
+    keyboard.row(url_ya, url_mit)
+
+    # @bot.message_handler(content_types=["text"])
+    # def default_test(message):
+    #     keyboard = types.InlineKeyboardMarkup()
+    #     url_button = types.InlineKeyboardButton(text="Перейти на Яндекс", url="https://ya.ru")
+    #     keyboard.add(url_button)
+    #     bot.send_message(message.chat.id, "Привет! Нажми на кнопку и перейди в поисковик.", reply_markup=keyboard)
+
+    bot.send_message(message.chat.id, 'Здраствуйте {0} {1} вас приветствует бот компании {2} \n'
+                     .format(message.from_user.first_name, message.from_user.last_name, 'MitLabs', reply_markup=keyboard)
 
 
 
@@ -52,7 +63,7 @@ def get_text_messages(message):
 # Описание возможностей бота
 @bot.message_handler(commands=['help'])
 async def process_help_command(message):
-    await message.reply("Возможности данного бота: 1 2 3 4 5 ... ")
+    message.reply("Возможности данного бота: 1 2 3 4 5 ... ")
 
 
 
