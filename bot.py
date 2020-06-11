@@ -17,12 +17,16 @@ bot = telebot.TeleBot(key_api)
 def get_text_messages(message):
     '''Добавляем в бот реакцию насообщение.'''
 
-    if message.text == "Привет":
-        bot.send_message(message.from_user.id, "Привет")
-    elif message.text == "/help":
-        bot.send_message(message.from_user.id, "Напиши привет")
-    else:
-        bot.send_message(message.from_user.id, "Я тебя не понимаю. Напиши /help.")
+
+    bot.send_message(message.from_user.id, message.text)
+    # if message.text == "Привет":
+    #     bot.send_message(message.from_user.id, "Привет")
+    # elif message.text == "/help":
+    #     bot.send_message(message.from_user.id, "Напиши привет")
+    # elif message.text == "1":
+    #     bot.send_message(message.from_user.id, "1")
+    # else:
+    #     bot.send_message(message.from_user.id, "Я тебя не понимаю. Напиши /help.")
 
 
 # Наш бот будет постоянно спрашивать у сервера телеграмма, ввел что либо пользователь.
