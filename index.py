@@ -80,3 +80,6 @@ pip install pytelegrambotapi
 # message.from_user.first_name
 # message.from_user.last_name
 # message.from_user.username
+
+from mitlabs import MitLabs
+print(MitLabs.get_requisites())

@@ -7,7 +7,7 @@ from mitlabs import MitLabs # Импортирую класс с информа�
 
 # Создаем экземпляр класса для работы с библиотекой pyTelegramBotAPI, и передаем ему API токена.
 bot = telebot.TeleBot(config.key_api)
-
+mt = MitLabs()
 
 
 
@@ -58,7 +58,7 @@ def default_test(message):
 def get_text_messages(message):
 
     if message.text == 'Наши реквизиты':
-        bot.send_message(message.from_user.id, 'f')
+        bot.send_message(message.from_user.id, mt.get_requisites())
     else:
         bot.send_message(message.from_user.id, message.text)
 
