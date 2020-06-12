@@ -52,10 +52,7 @@ def default_test(message):
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
 
-    if message.text == 'popckovM5@yandex.ru':
-        handle_message(message.text)
-    else:
-        bot.send_message(message.from_user.id, message.text)
+    bot.send_message(message.from_user.id, message.text)
 
     # if message.text == "Привет":
     #     bot.send_message(message.from_user.id, "Привет")
@@ -67,10 +64,10 @@ def get_text_messages(message):
     #     bot.send_message(message.from_user.id, "Я тебя не понимаю. Напиши /help.")
 
 
-# Handles all text messages that match the regular expression
-@bot.message_handler(regexp="popckovM5@yandex.ru")
-def handle_message(message):
-	bot.send_message(message.from_user.id, 'Благодарю вы успешно ввели свой  email адрес = ' + message.text)
+# # Handles all text messages that match the regular expression
+# @bot.message_handler(regexp="popckovM5@yandex.ru")
+# def handle_message(message):
+# 	bot.send_message(message.from_user.id, 'Благодарю вы успешно ввели свой  email адрес = ' + message.text)
 
 
 
