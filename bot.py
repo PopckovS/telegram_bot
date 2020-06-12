@@ -60,18 +60,44 @@ def get_text_messages(message):
     if message.text == 'Наши реквизиты':
         bot.send_message(message.from_user.id, mt.get_requisites())
     elif message.text == 'Наши цены':
-
-        keyboard = telebot.types.InlineKeyboardMarkup()
-        list_price = mt.get_price()
-        for item in list_price:
-            btn = telebot.types.InlineKeyboardButton(text=item, callback_data="test")
-            keyboard.add(btn)
-        bot.send_message(message.chat.id, "Услуги компании:", reply_markup=keyboard)
-
+        for_price(message) # Вызываем метод для вывода кнолпок цен на услугм компании
     elif message.text == 'Факты':
         bot.send_message(message.from_user.id, mt.get_facts())
     else:
         bot.send_message(message.from_user.id, message.text)
+
+
+
+
+# В большинстве случаев целесообразно разбить этот хэндлер на несколько маленьких
+@bot.callback_query_handler(func=lambda call: True)
+def callback_inline(call):
+    # Если сообщение из чата с ботом
+    if call.message:
+        if call.data == "test":
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Пыщь")
+    # Если сообщение из инлайн-режима
+    elif call.inline_message_id:
+        if call.data == "test":
+            bot.edit_message_text(inline_message_id=call.inline_message_id, text="Бдыщь")
+
+
+
+
+# Метод для создания кнопок, для уен на услуги компании
+def for_price(message):
+    # Создаем кнопки типа inline тоесть кнопки прямо в тексте телеграмма
+    keyboard = telebot.types.InlineKeyboardMarkup()
+    btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Посетите на сайт компании MitLabs", url="https://mitlabs.ru")
+    keyboard.add(btn_url_mitlabs)
+    # Получаем список всех цен на услуги компании
+    list_price = mt.get_price()
+    # В цикле выводим услуги в кнопки
+    for item in list_price:
+        btn = telebot.types.InlineKeyboardButton(text=item, callback_data="test")
+        keyboard.add(btn)
+    bot.send_message(message.chat.id, "Услуги компании:", reply_markup=keyboard)
+
 
 
 
