@@ -52,7 +52,7 @@ def default_test(message):
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
 
-    if message.text == 'бриф':
+    if message.text == 'popckovM5@yandex.ru':
         handle_message(message.text)
     else:
         bot.send_message(message.from_user.id, message.text)
