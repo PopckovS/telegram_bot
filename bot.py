@@ -3,7 +3,7 @@
 # Импортируем модлуь для работы с телеграм ботом
 import telebot # Модуль pyTelegramBotAPI
 import config  # Файл конфигурации
-
+from mitlabs import MitLabs # Импортирую класс с информацией о компании
 
 # Создаем экземпляр класса для работы с библиотекой pyTelegramBotAPI, и передаем ему API токена.
 bot = telebot.TeleBot(config.key_api)
@@ -19,11 +19,12 @@ def start_message(message):
 
     # Создаем кнопки с общим функционалом который увидит пользователь при начале работы
     keyboard = telebot.types.ReplyKeyboardMarkup()
-    keyboard.row('1', '2')
-    # keyboard.add('1', '2')
+    keyboard.row('Наши реквизиты', '2')
+
 
     bot.send_message(message.chat.id, 'Здраствуйте {0} {1} вас приветствует бот компании {2} \n'
                      .format(message.from_user.first_name, message.from_user.last_name, 'MitLabs'), reply_markup=keyboard)
+
 
 
 
@@ -56,7 +57,10 @@ def default_test(message):
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
 
-    bot.send_message(message.from_user.id, message.text)
+    if message.text == 'Наши реквизиты':
+        bot.send_message(message.from_user.id, MitLabs.get_requisites())
+    else:
+        bot.send_message(message.from_user.id, message.text)
 
     # if message.text == "Привет":
     #     bot.send_message(message.from_user.id, "Привет")
