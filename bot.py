@@ -61,7 +61,7 @@ def get_text_messages(message):
         bot.send_message(message.from_user.id, mt.get_requisites())
     elif message.text == 'Наши цены':
         for_price(message) # Вызываем метод для вывода кнолпок цен на услугм компании
-    elif message.text == 'Факты':
+    elif message.text == 'Факты о нас':
         bot.send_message(message.from_user.id, mt.get_facts())
     else:
         bot.send_message(message.from_user.id, message.text)
@@ -73,13 +73,13 @@ def get_text_messages(message):
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
     # Если сообщение из чата с ботом
-    if call.message:
-        if call.data == "test":
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Пыщь")
+    if call.message :
+        if call.data in mt.get_price():
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text=call.data)
     # Если сообщение из инлайн-режима
-    elif call.inline_message_id:
-        if call.data == "test":
-            bot.edit_message_text(inline_message_id=call.inline_message_id, text="Бдыщь")
+    # elif call.inline_message_id:
+    #     if call.data == "test":
+    #         bot.edit_message_text(inline_message_id=call.inline_message_id, text="Бдыщь")
 
 
 
@@ -94,7 +94,7 @@ def for_price(message):
     list_price = mt.get_price()
     # В цикле выводим услуги в кнопки
     for item in list_price:
-        btn = telebot.types.InlineKeyboardButton(text=item, callback_data="test")
+        btn = telebot.types.InlineKeyboardButton(text=item, callback_data=item)
         keyboard.add(btn)
     bot.send_message(message.chat.id, "Услуги компании:", reply_markup=keyboard)
 
