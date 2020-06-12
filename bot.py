@@ -58,7 +58,7 @@ def default_test(message):
 def get_text_messages(message):
 
     if message.text == 'Наши реквизиты':
-        bot.send_message(message.from_user.id, MitLabs.get_requisites())
+        bot.send_message(message.from_user.id, str(MitLabs.get_requisites()))
     else:
         bot.send_message(message.from_user.id, message.text)
 
