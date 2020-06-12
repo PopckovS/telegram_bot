@@ -72,15 +72,10 @@ def get_text_messages(message):
         btn6 = telebot.types.InlineKeyboardButton(text='AI И ML', callback_data='AI И ML')
         btn7 = telebot.types.InlineKeyboardButton(text='Документы и право', callback_data='Документы и право')
 
-        keyboard.add(btn1)
-        keyboard.add(btn2)
-        keyboard.add(btn3)
-        keyboard.add(btn4)
-        keyboard.add(btn5)
-        keyboard.add(btn6)
-        keyboard.add(btn7)
+        keyboard.add(btn1, btn2, btn3, btn4, btn5, btn6, btn7)
 
         bot.send_message(message.from_user.id, "Услуги компании:", reply_markup=keyboard)
+        # message.chat.id,
     elif message.text == 'Факты о нас':
         bot.send_message(message.from_user.id, mt.get_facts())
     else:
@@ -88,6 +83,31 @@ def get_text_messages(message):
 
 
 
+
+# В большинстве случаев целесообразно разбить этот хэндлер на несколько маленьких
+@bot.callback_query_handler(func=lambda call: True)
+def callback_inline(call):
+
+    # Если сообщение из чата с ботом
+    if call.message:
+        if call.data == 'Дизайн от А до Я':
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Дизайн от А до Я')
+        if call.data == 'Системный маркетинг':
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Системный маркетинг')
+        if call.data == 'Разработка сайта':
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Разработка сайта')
+        if call.data == 'E-COMMERCE продвигаем и продаем':
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='E-COMMERCE продвигаем и продаем')
+        if call.data == 'DEVOPS, АДМИНИСТРИРОВАНИЕ, ТЕХНИЧЕСКАЯ ПОДДЕРЖКА':
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='DEVOPS, АДМИНИСТРИРОВАНИЕ, ТЕХНИЧЕСКАЯ ПОДДЕРЖКА')
+        if call.data == 'AI И ML':
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='AI И ML')
+        if call.data == 'Документы и право':
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Документы и право')
+    # Если сообщение из инлайн-режима
+    # elif call.inline_message_id:
+    #     if call.data == "test":
+    #         bot.edit_message_text(inline_message_id=call.inline_message_id, text="Бдыщь")
 
 
 
