@@ -60,7 +60,27 @@ def get_text_messages(message):
     if message.text == 'Наши реквизиты':
         bot.send_message(message.from_user.id, mt.get_requisites())
     elif message.text == 'Наши цены':
-        for_price(message) # Вызываем метод для вывода кнолпок цен на услугм компании
+        keyboard = telebot.types.InlineKeyboardMarkup()
+
+        btn1 = telebot.types.InlineKeyboardButton(text='Дизайн от А до Я', callback_data='Дизайн от А до Я')
+        btn2 = telebot.types.InlineKeyboardButton(text='Системный маркетинг', callback_data='Системный маркетинг')
+        btn3 = telebot.types.InlineKeyboardButton(text='Разработка сайта', callback_data='Разработка сайта')
+        btn4 = telebot.types.InlineKeyboardButton(text='E-COMMERCE продвигаем и продаем',
+                                                  callback_data='E-COMMERCE продвигаем и продаем')
+        btn5 = telebot.types.InlineKeyboardButton(text='DEVOPS, АДМИНИСТРИРОВАНИЕ, ТЕХНИЧЕСКАЯ ПОДДЕРЖКА',
+                                                  callback_data='DEVOPS, АДМИНИСТРИРОВАНИЕ, ТЕХНИЧЕСКАЯ ПОДДЕРЖКА')
+        btn6 = telebot.types.InlineKeyboardButton(text='AI И ML', callback_data='AI И ML')
+        btn7 = telebot.types.InlineKeyboardButton(text='Документы и право', callback_data='Документы и право')
+
+        keyboard.add(btn1)
+        keyboard.add(btn2)
+        keyboard.add(btn3)
+        keyboard.add(btn4)
+        keyboard.add(btn5)
+        keyboard.add(btn6)
+        keyboard.add(btn7)
+
+        bot.send_message(message.chat.id, "Услуги компании:", reply_markup=keyboard)
     elif message.text == 'Факты о нас':
         bot.send_message(message.from_user.id, mt.get_facts())
     else:
@@ -74,7 +94,7 @@ def get_text_messages(message):
 def callback_inline(call):
 
     # Если сообщение из чата с ботом
-    if call.message :
+    if call.message:
         if call.data == 'Дизайн от А до Я':
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Дизайн от А до Я')
         if call.data == 'Системный маркетинг':
