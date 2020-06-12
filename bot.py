@@ -19,9 +19,9 @@ def start_message(message):
 
     # Создаем кнопки с общим функционалом который увидит пользователь при начале работы
     keyboard = telebot.types.ReplyKeyboardMarkup()
-    keyboard.row('Наши реквизиты', '2')
+    keyboard.row('Наши реквизиты', 'Наши цены')
 
-
+    # Выводим притствие, и показываем кнопки нашему пользователю
     bot.send_message(message.chat.id, 'Здраствуйте {0} {1} вас приветствует бот компании {2} \n'
                      .format(message.from_user.first_name, message.from_user.last_name, 'MitLabs'), reply_markup=keyboard)
 
@@ -59,17 +59,31 @@ def get_text_messages(message):
 
     if message.text == 'Наши реквизиты':
         bot.send_message(message.from_user.id, mt.get_requisites())
+    elif message.text == 'Наши цены':
+        keyboard = get_keyboard_for_price() # Метод создает ряд кнопок с ценами на услуги компании
+        bot.send_message(message.chat.id, "Услуги компании:", reply_markup=keyboard)
     else:
         bot.send_message(message.from_user.id, message.text)
 
-    # if message.text == "Привет":
-    #     bot.send_message(message.from_user.id, "Привет")
-    # elif message.text == "/help":
-    #     bot.send_message(message.from_user.id, "Напиши привет")
-    # elif message.text == "1":
-    #     bot.send_message(message.from_user.id, "1")
-    # else:
-    #     bot.send_message(message.from_user.id, "Я тебя не понимаю. Напиши /help.")
+
+def get_keyboard_for_price():
+    # Создаем кнопки типа inline тоесть кнопки на текстовом поле
+    keyboard = telebot.types.InlineKeyboardMarkup()
+
+    list_price = mt.get_price()
+    for item in list_price:
+        keyboard.add(telebot.types.InlineKeyboardButton(text=item))
+
+    # btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании MitLabs", url="https://mitlabs.ru")
+    # btn_question = telebot.types.InlineKeyboardButton(text="Задать вопрос человеку", url="https://mitlabs.ru")
+    # btn_out = telebot.types.InlineKeyboardButton(text="Отписаться", url="https://mitlabs.ru")
+
+    # keyboard.add(btn_url_mitlabs)
+    # keyboard.add(btn_question)
+    # keyboard.add(btn_out)
+
+    return keyboard
+
 
 
 # # Handles all text messages that match the regular expression
@@ -77,8 +91,16 @@ def get_text_messages(message):
 # def handle_message(message):
 # 	bot.send_message(message.from_user.id, 'Благодарю вы успешно ввели свой  email адрес = ' + message.text)
 
-
-
+    #
+    # keyboard = telebot.types.InlineKeyboardMarkup()
+    #
+    # btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании MitLabs", url="https://mitlabs.ru")
+    # btn_question = telebot.types.InlineKeyboardButton(text="Задать вопрос человеку", url="https://mitlabs.ru")
+    # btn_out = telebot.types.InlineKeyboardButton(text="Отписаться", url="https://mitlabs.ru")
+    #
+    # keyboard.add(btn_url_mitlabs)
+    # keyboard.add(btn_question)
+    # keyboard.add(btn_out)
 
 
 
