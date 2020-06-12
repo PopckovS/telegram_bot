@@ -60,12 +60,14 @@ def get_text_messages(message):
     if message.text == 'Наши реквизиты':
         bot.send_message(message.from_user.id, mt.get_requisites())
     elif message.text == 'Наши цены':
+
         keyboard = telebot.types.InlineKeyboardMarkup()
         list_price = mt.get_price()
         for item in list_price:
-            btn = telebot.types.InlineKeyboardButton(text=item)
+            btn = telebot.types.InlineKeyboardButton(text=item, callback_data="test")
             keyboard.add(btn)
         bot.send_message(message.chat.id, "Услуги компании:", reply_markup=keyboard)
+
     elif message.text == 'Факты':
         bot.send_message(message.from_user.id, mt.get_facts())
     else:
