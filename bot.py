@@ -19,7 +19,7 @@ def start_message(message):
 
     # Создаем кнопки с общим функционалом который увидит пользователь при начале работы
     keyboard = telebot.types.ReplyKeyboardMarkup()
-    keyboard.row('Наши реквизиты', 'Наши цены')
+    keyboard.row('Наши реквизиты', 'Наши цены', 'Факты')
 
     # Выводим притствие, и показываем кнопки нашему пользователю
     bot.send_message(message.chat.id, 'Здраствуйте {0} {1} вас приветствует бот компании {2} \n'
@@ -60,29 +60,17 @@ def get_text_messages(message):
     if message.text == 'Наши реквизиты':
         bot.send_message(message.from_user.id, mt.get_requisites())
     elif message.text == 'Наши цены':
-        keyboard = get_keyboard_for_price() # Метод создает ряд кнопок с ценами на услуги компании
+        keyboard = telebot.types.InlineKeyboardMarkup()
+        list_price = mt.get_price()
+        for item in list_price:
+            btn = telebot.types.InlineKeyboardButton(text=item)
+            keyboard.add(btn)
         bot.send_message(message.chat.id, "Услуги компании:", reply_markup=keyboard)
+    elif message.text == 'Факты':
+        bot.send_message(message.from_user.id, mt.get_facts())
     else:
         bot.send_message(message.from_user.id, message.text)
 
-
-def get_keyboard_for_price():
-    # Создаем кнопки типа inline тоесть кнопки на текстовом поле
-    keyboard = telebot.types.InlineKeyboardMarkup()
-
-    list_price = mt.get_price()
-    for item in list_price:
-        keyboard.add(telebot.types.InlineKeyboardButton(text=item))
-
-    # btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании MitLabs", url="https://mitlabs.ru")
-    # btn_question = telebot.types.InlineKeyboardButton(text="Задать вопрос человеку", url="https://mitlabs.ru")
-    # btn_out = telebot.types.InlineKeyboardButton(text="Отписаться", url="https://mitlabs.ru")
-
-    # keyboard.add(btn_url_mitlabs)
-    # keyboard.add(btn_question)
-    # keyboard.add(btn_out)
-
-    return keyboard
 
 
 
