@@ -19,7 +19,7 @@ def start_message(message):
 
     # Создаем кнопки с общим функционалом который увидит пользователь при начале работы
     keyboard = telebot.types.ReplyKeyboardMarkup()
-    keyboard.row('Наши реквизиты', 'Наши цены', 'Факты')
+    keyboard.row('Наши реквизиты', 'Наши цены', 'Факты о нас')
 
     # Выводим притствие, и показываем кнопки нашему пользователю
     bot.send_message(message.chat.id, 'Здраствуйте {0} {1} вас приветствует бот компании {2} \n'
@@ -72,10 +72,12 @@ def get_text_messages(message):
 # В большинстве случаев целесообразно разбить этот хэндлер на несколько маленьких
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
+
+    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text=call.message)
     # Если сообщение из чата с ботом
-    if call.message :
-        if call.data in mt.get_price():
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text=call.data)
+    # if call.message :
+    #     if call.data == 'price':
+    #         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='price')
     # Если сообщение из инлайн-режима
     # elif call.inline_message_id:
     #     if call.data == "test":
@@ -94,7 +96,7 @@ def for_price(message):
     list_price = mt.get_price()
     # В цикле выводим услуги в кнопки
     for item in list_price:
-        btn = telebot.types.InlineKeyboardButton(text=item, callback_data=f'item')
+        btn = telebot.types.InlineKeyboardButton(text=item, callback_data=item)
         keyboard.add(btn)
     bot.send_message(message.chat.id, "Услуги компании:", reply_markup=keyboard)
 
