@@ -73,11 +73,22 @@ def get_text_messages(message):
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
 
-    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text=call.message)
     # Если сообщение из чата с ботом
-    # if call.message :
-    #     if call.data == 'price':
-    #         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='price')
+    if call.message :
+        if call.data == 'Дизайн от А до Я':
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Дизайн от А до Я')
+        if call.data == 'Системный маркетинг':
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Системный маркетинг')
+        if call.data == 'Разработка сайта':
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Разработка сайта')
+        if call.data == 'E-COMMERCE продвигаем и продаем':
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='E-COMMERCE продвигаем и продаем')
+        if call.data == 'DEVOPS, АДМИНИСТРИРОВАНИЕ, ТЕХНИЧЕСКАЯ ПОДДЕРЖКА':
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='DEVOPS, АДМИНИСТРИРОВАНИЕ, ТЕХНИЧЕСКАЯ ПОДДЕРЖКА')
+        if call.data == 'AI И ML':
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='AI И ML')
+        if call.data == 'Документы и право':
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Документы и право')
     # Если сообщение из инлайн-режима
     # elif call.inline_message_id:
     #     if call.data == "test":
@@ -90,14 +101,23 @@ def callback_inline(call):
 def for_price(message):
     # Создаем кнопки типа inline тоесть кнопки прямо в тексте телеграмма
     keyboard = telebot.types.InlineKeyboardMarkup()
-    btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Посетите на сайт компании MitLabs", url="https://mitlabs.ru")
-    keyboard.add(btn_url_mitlabs)
-    # Получаем список всех цен на услуги компании
-    list_price = mt.get_price()
-    # В цикле выводим услуги в кнопки
-    for item in list_price:
-        btn = telebot.types.InlineKeyboardButton(text=item, callback_data=str(item))
-        keyboard.add(btn)
+
+    btn1 = telebot.types.InlineKeyboardButton(text='Дизайн от А до Я', callback_data='Дизайн от А до Я')
+    btn2 = telebot.types.InlineKeyboardButton(text='Системный маркетинг', callback_data='Системный маркетинг')
+    btn3 = telebot.types.InlineKeyboardButton(text='Разработка сайта', callback_data='Разработка сайта')
+    btn4 = telebot.types.InlineKeyboardButton(text='E-COMMERCE продвигаем и продаем', callback_data='E-COMMERCE продвигаем и продаем')
+    btn5 = telebot.types.InlineKeyboardButton(text='DEVOPS, АДМИНИСТРИРОВАНИЕ, ТЕХНИЧЕСКАЯ ПОДДЕРЖКА', callback_data='DEVOPS, АДМИНИСТРИРОВАНИЕ, ТЕХНИЧЕСКАЯ ПОДДЕРЖКА')
+    btn6 = telebot.types.InlineKeyboardButton(text='AI И ML', callback_data='AI И ML')
+    btn7 = telebot.types.InlineKeyboardButton(text='Документы и право', callback_data='Документы и право')
+
+    keyboard.add(btn1)
+    keyboard.add(btn2)
+    keyboard.add(btn3)
+    keyboard.add(btn4)
+    keyboard.add(btn5)
+    keyboard.add(btn6)
+    keyboard.add(btn7)
+
     bot.send_message(message.chat.id, "Услуги компании:", reply_markup=keyboard)
 
 
