@@ -2,12 +2,10 @@
 
 # Импортируем модлуь для работы с телеграм ботом
 import telebot # Модуль pyTelegramBotAPI
-import config  # Файл конфигураций
+import config  # Файл конфигурации
 
 # Создаем экземпляр класса для работы с библиотекой pyTelegramBotAPI, и передаем ему API токена.
 bot = telebot.TeleBot(config.key_api)
-
-
 
 
 @bot.message_handler(commands=['test'])
@@ -16,8 +14,7 @@ def test_message(message):
 
     greet_kb = telebot.types.ReplyKeyboardMarkup()
     greet_kb.add(button_hi)
-
-
+    bot.send_message("ТЕСТ!", reply_markup=greet_kb)
 
 # Стартовое приветствие
 @bot.message_handler(commands=['start'])
@@ -76,7 +73,7 @@ def get_text_messages(message):
 
 
 
-# Если скрипт запущен как основной, то запустить работу бота. Функция polling запускает т.н. Long Polling
+# Если скрипт запущен как основной, то запустить работу бота,
 # Наш бот будет постоянно спрашивать у сервера телеграмма, ввел что либо пользователь.
 # none_stop=True Опрашивать бота постоянно
 # interval=0     Интервал между опросом
