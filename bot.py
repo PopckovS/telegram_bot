@@ -1,14 +1,21 @@
 #! /usr/bin/python3
+
 # Импортируем модлуь для работы с телеграм ботом
-import telebot # это модуль pyTelegramBotAPI
+import telebot # Модуль pyTelegramBotAPI
+import config  # Файл конфигураций
 
-# pip install python-telegram-bot
+# Создаем экземпляр класса для работы с библиотекой pyTelegramBotAPI, и передаем ему API токена.
+bot = telebot.TeleBot(config.key_api)
 
-key_api = '1028658654:AAE4KC14J8oxGPrwQCN7u-t9xY0tqKo5wFY'
 
-# Создаем экземпляр класса, и передаем ему API токена.
-bot = telebot.TeleBot(key_api)
 
+
+@bot.message_handler(commands=['test'])
+def test_message(message):
+    button_hi = telebot.types.KeyboardButton('Привет! 👋')
+
+    greet_kb = telebot.types.ReplyKeyboardMarkup()
+    greet_kb.add(button_hi)
 
 
 
@@ -30,13 +37,18 @@ def start_message(message):
 # url_ya = telebot.types.InlineKeyboardButton(text="Перейти на Яндекс", url="https://ya.ru")
 # url_mit = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании", url="https://mitlabs.ru/")
 # Стартовое приветствие
-@bot.message_handler(commands=['btn'])
+@bot.message_handler(commands=['help'])
 def default_test(message):
     keyboard = telebot.types.InlineKeyboardMarkup()
-    url_ya = telebot.types.InlineKeyboardButton(text="Перейти на Яндекс", url="https://ya.ru")
-    url_mit = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании", url="https://mitlabs.ru")
-    keyboard.add(url_ya)
-    keyboard.add(url_mit)
+
+    btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании MitLabs", url="https://mitlabs.ru")
+    btn_question = telebot.types.InlineKeyboardButton(text="Задать вопрос человеку", url="https://mitlabs.ru")
+    btn_out = telebot.types.InlineKeyboardButton(text="Отписаться", url="https://mitlabs.ru")
+
+    keyboard.add(btn_url_mitlabs)
+    keyboard.add(btn_question)
+    keyboard.add(btn_out)
+
     bot.send_message(message.chat.id, "Выберите локацию:", reply_markup=keyboard)
 
 
@@ -48,7 +60,6 @@ def default_test(message):
 # @bot.message_handler(content_types=['text', 'document', 'audio'])
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
-    '''Добавляем в бот реакцию насообщение.'''
 
     bot.send_message(message.from_user.id, message.text)
     # if message.text == "Привет":
@@ -63,16 +74,11 @@ def get_text_messages(message):
 
 
 
-# Описание возможностей бота
-@bot.message_handler(commands=['help'])
-async def process_help_command(message):
-    message.reply("Возможности данного бота: 1 2 3 4 5 ... ")
 
 
-
-
-
-
+# Если скрипт запущен как основной, то запустить работу бота. Функция polling запускает т.н. Long Polling
 # Наш бот будет постоянно спрашивать у сервера телеграмма, ввел что либо пользователь.
+# none_stop=True Опрашивать бота постоянно
+# interval=0     Интервал между опросом
 if __name__ == '__main__':
     bot.polling(none_stop=True, interval=0)
