@@ -16,11 +16,11 @@ InlineKeyboardMarkup - настоящая кастомная клавиатур�
 
 
 
-'''
+
 
 keyboard = telebot.types.InlineKeyboardMarkup()
 btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании MitLabs", url="https://mitlabs.ru")
 keyboard.add(btn_url_mitlabs)
 
 bot.send_message(message.chat.id, 'Здраствуйте {0} {1} вас приветствует бот компании {2} \n'
-                 .format(message.from_user.first_name, message.from_user.last_name, 'MitLabs', reply_markup=keyboard))
+                 .format(message.from_user.first_name, message.from_user.last_name, 'MitLabs', reply_markup=keyboard))'''
