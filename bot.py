@@ -2,10 +2,24 @@
 
 # Импортируем модлуь для работы с телеграм ботом
 import telebot # Модуль pyTelegramBotAPI
+from telebot import types
 import config  # Файл конфигурации
 
 # Создаем экземпляр класса для работы с библиотекой pyTelegramBotAPI, и передаем ему API токена.
 bot = telebot.TeleBot(config.key_api)
+
+
+
+
+
+@bot.message_handler(commands=['test'])
+def test_message(message):
+    markup = types.ReplyKeyboardMarkup(row_width=2)
+    itembtn1 = types.KeyboardButton('a')
+    itembtn2 = types.KeyboardButton('v')
+    itembtn3 = types.KeyboardButton('d')
+    markup.add(itembtn1, itembtn2, itembtn3)
+    bot.send_message(message.chat_id, "Choose one letter:", reply_markup=markup)
 
 
 
