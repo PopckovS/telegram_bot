@@ -8,13 +8,18 @@ import config  # Файл конфигурации
 bot = telebot.TeleBot(config.key_api)
 
 
+
+
 @bot.message_handler(commands=['test'])
 def test_message(message):
-    button_hi = telebot.types.KeyboardButton('Привет! 👋')
+
+    button_hi = telebot.types.KeyboardButton('Привет!')
 
     greet_kb = telebot.types.ReplyKeyboardMarkup()
     greet_kb.add(button_hi)
     bot.send_message("ТЕСТ!", reply_markup=greet_kb)
+
+
 
 # Стартовое приветствие
 @bot.message_handler(commands=['start'])
