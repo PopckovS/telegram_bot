@@ -10,17 +10,6 @@ bot = telebot.TeleBot(config.key_api)
 
 
 
-@bot.message_handler(commands=['test'])
-def test_message(message):
-
-    button_hi = telebot.types.KeyboardButton('Привет!')
-
-    greet_kb = telebot.types.ReplyKeyboardMarkup()
-    greet_kb.add(button_hi)
-    bot.send_message("ТЕСТ!", reply_markup=greet_kb)
-
-
-
 # Стартовое приветствие
 @bot.message_handler(commands=['start'])
 def start_message(message):
@@ -36,8 +25,7 @@ def start_message(message):
 
 
 
-# url_ya = telebot.types.InlineKeyboardButton(text="Перейти на Яндекс", url="https://ya.ru")
-# url_mit = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании", url="https://mitlabs.ru/")
+
 # Стартовое приветствие
 @bot.message_handler(commands=['help'])
 def default_test(message):
@@ -56,6 +44,7 @@ def default_test(message):
 
 
 
+
 # Обьявляем метод для получения текстовых сообщений, это слушатель для
 # текс сообщ, полу content_types - может приним сообщ и не не только сообщение.
 # Можно указать и многое другое.
@@ -63,7 +52,11 @@ def default_test(message):
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
 
-    bot.send_message(message.from_user.id, message.text)
+    if message.text == 'бриф':
+        handle_message(message.text)
+    else:
+        bot.send_message(message.from_user.id, message.text)
+
     # if message.text == "Привет":
     #     bot.send_message(message.from_user.id, "Привет")
     # elif message.text == "/help":
@@ -72,6 +65,25 @@ def get_text_messages(message):
     #     bot.send_message(message.from_user.id, "1")
     # else:
     #     bot.send_message(message.from_user.id, "Я тебя не понимаю. Напиши /help.")
+
+
+# Handles all text messages that match the regular expression
+@bot.message_handler(regexp="popckovM5@yandex.ru")
+def handle_message(message):
+	bot.send_message(message.from_user.id, 'Благодарю вы успешно ввели свой  email адрес = ' + message.text)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
