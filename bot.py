@@ -61,6 +61,7 @@ def get_text_messages(message):
         bot.send_message(message.from_user.id, mt.get_requisites())
     elif message.text == 'Наши цены':
 
+        # !!! НЕ ЗНАЮ ПО ЧЕМУ И КАК, НО ОПЫТНЫМ ПУТЕМ ВЫЯСНИЛ, ЧТО ЕСТЬ ОГРАНИЧЕНИЕ НА ДЛИННУ СТРОКИ !!!
         keyboard = telebot.types.InlineKeyboardMarkup()
 
         btn1 = telebot.types.InlineKeyboardButton(text='Дизайн от А до Я', callback_data='Дизайн от А до Я')
@@ -88,20 +89,12 @@ def callback_inline(call):
 
     # Если сообщение из чата с ботом
     if call.message:
-        if call.data == 'Дизайн от А до Я':
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Дизайн от А до Я')
-        if call.data == 'Системный маркетинг':
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Системный маркетинг')
-        if call.data == 'Разработка сайта':
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Разработка сайта')
-        if call.data == 'E-COMMERCE продвигаем и продаем':
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='E-COMMERCE продвигаем и продаем')
-        if call.data == 'DEVOPS, АДМИНИСТРИРОВАНИЕ, ТЕХНИЧЕСКАЯ ПОДДЕРЖКА':
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='DEVOPS, АДМИНИСТРИРОВАНИЕ, ТЕХНИЧЕСКАЯ ПОДДЕРЖКА')
-        if call.data == 'AI И ML':
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='AI И ML')
-        if call.data == 'Документы и право':
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Документы и право')
+        if call.data in mt.get_price():
+            list_price = mt.get_price()
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                  text=list_price[call.data])
+
+
     # Если сообщение из инлайн-режима
     # elif call.inline_message_id:
     #     if call.data == "test":
@@ -133,7 +126,21 @@ def callback_inline(call):
 
 
 
-
+ # if call.message:
+ #        if call.data == 'Дизайн от А до Я':
+ #            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Дизайн от А до Я')
+ #        if call.data == 'Системный маркетинг':
+ #            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Системный маркетинг')
+ #        if call.data == 'Разработка сайта':
+ #            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Разработка сайта')
+ #        if call.data == 'E-COMMERCE продвигаем и продаем':
+ #            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='E-COMMERCE продвигаем и продаем')
+ #        if call.data == 'DEVOPS, АДМИНИСТРИРОВАНИЕ, ТЕХНИЧЕСКАЯ ПОДДЕРЖКА':
+ #            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='DEVOPS, АДМИНИСТРИРОВАНИЕ, ТЕХНИЧЕСКАЯ ПОДДЕРЖКА')
+ #        if call.data == 'AI И ML':
+ #            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='AI И ML')
+ #        if call.data == 'Документы и право':
+ #            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Документы и право')
 
 
 
