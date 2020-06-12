@@ -96,7 +96,7 @@ def for_price(message):
     list_price = mt.get_price()
     # В цикле выводим услуги в кнопки
     for item in list_price:
-        btn = telebot.types.InlineKeyboardButton(text=item, callback_data=item)
+        btn = telebot.types.InlineKeyboardButton(text=item, callback_data=str(item))
         keyboard.add(btn)
     bot.send_message(message.chat.id, "Услуги компании:", reply_markup=keyboard)
 
