@@ -64,8 +64,16 @@ def get_text_messages(message):
         keyboard = telebot.types.InlineKeyboardMarkup()
 
         btn1 = telebot.types.InlineKeyboardButton(text='Дизайн от А до Я', callback_data='Дизайн от А до Я')
+        btn2 = telebot.types.InlineKeyboardButton(text='Системный маркетинг', callback_data='Системный маркетинг')
+        btn3 = telebot.types.InlineKeyboardButton(text='Разработка сайта', callback_data='Разработка сайта')
+        text = 'E-COMMERCE продвигаем и продаем'
+        btn4 = telebot.types.InlineKeyboardButton(text=text, callback_data=text)
+        text = 'DEVOPS, АДМИНИСТРИРОВАНИЕ, ТЕХНИЧЕСКАЯ ПОДДЕРЖКА'
+        btn5 = telebot.types.InlineKeyboardButton(text=text, callback_data=text)
+        btn6 = telebot.types.InlineKeyboardButton(text='AI И ML', callback_data='AI И ML')
+        btn7 = telebot.types.InlineKeyboardButton(text='Документы и право', callback_data='Документы и право')
 
-        keyboard.add(btn1)
+        keyboard.add(btn1, btn2, btn3, btn4, btn5, btn6, btn7)
         bot.send_message(message.chat.id, "Услуги компании:", reply_markup=keyboard)
 
     elif message.text == 'Факты о нас':
