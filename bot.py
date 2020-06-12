@@ -62,20 +62,16 @@ def get_text_messages(message):
     elif message.text == 'Наши цены':
         keyboard = telebot.types.InlineKeyboardMarkup()
 
-        btn1 = telebot.types.InlineKeyboardButton(text='Дизайн от А до Я', callback_data='Дизайн от А до Я')
-        btn2 = telebot.types.InlineKeyboardButton(text='Системный маркетинг', callback_data='Системный маркетинг')
-        btn3 = telebot.types.InlineKeyboardButton(text='Разработка сайта', callback_data='Разработка сайта')
-        btn4 = telebot.types.InlineKeyboardButton(text='E-COMMERCE продвигаем и продаем',
-                                                  callback_data='E-COMMERCE продвигаем и продаем')
-        btn5 = telebot.types.InlineKeyboardButton(text='DEVOPS, АДМИНИСТРИРОВАНИЕ, ТЕХНИЧЕСКАЯ ПОДДЕРЖКА',
-                                                  callback_data='DEVOPS, АДМИНИСТРИРОВАНИЕ, ТЕХНИЧЕСКАЯ ПОДДЕРЖКА')
-        btn6 = telebot.types.InlineKeyboardButton(text='AI И ML', callback_data='AI И ML')
-        btn7 = telebot.types.InlineKeyboardButton(text='Документы и право', callback_data='Документы и право')
+        btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании MitLabs",
+                                                             url="https://mitlabs.ru")
+        btn_question = telebot.types.InlineKeyboardButton(text="Задать вопрос человеку", url="https://mitlabs.ru")
+        btn_out = telebot.types.InlineKeyboardButton(text="Отписаться", url="https://mitlabs.ru")
 
-        keyboard.add(btn1, btn2, btn3, btn4, btn5, btn6, btn7)
+        keyboard.add(btn_url_mitlabs)
+        keyboard.add(btn_question)
+        keyboard.add(btn_out)
 
-        bot.send_message(message.from_user.id, "Услуги компании:", reply_markup=keyboard)
-        # message.chat.id,
+        bot.send_message(message.chat.id, "Выберите локацию:", reply_markup=keyboard)
     elif message.text == 'Факты о нас':
         bot.send_message(message.from_user.id, mt.get_facts())
     else:
