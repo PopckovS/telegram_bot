@@ -21,9 +21,10 @@ def start_message(message):
     keyboard = telebot.types.ReplyKeyboardMarkup()
     keyboard.row('Наши реквизиты', 'Наши цены', 'Факты о нас')
 
+
     # Выводим притствие, и показываем кнопки нашему пользователю
     bot.send_message(message.chat.id, 'Здраствуйте {0} {1} вас приветствует бот компании {2} \n'
-                     .format(message.from_user.first_name, message.from_user.last_name, 'MitLabs'), reply_markup=keyboard)
+                     .format(message.from_user.first_name, message.from_user.last_name, 'MitLabs'), reply_markup=keyboard.markup3)
 
 
 
@@ -89,8 +90,10 @@ def callback_inline(call):
 
     # Если сообщение из чата с ботом
     if call.message:
+        # Если callback_data что была передана есть в массиве данных
         if call.data in mt.get_price():
             list_price = mt.get_price()
+            # По ключу что был передан в callback_data получаю значение и вывожу пользователю
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                                   text=list_price[call.data])
 
