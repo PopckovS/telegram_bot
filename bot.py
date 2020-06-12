@@ -4,6 +4,7 @@
 import telebot # Модуль pyTelegramBotAPI
 import config  # Файл конфигурации
 
+
 # Создаем экземпляр класса для работы с библиотекой pyTelegramBotAPI, и передаем ему API токена.
 bot = telebot.TeleBot(config.key_api)
 
@@ -18,10 +19,11 @@ def start_message(message):
 
     # Создаем кнопки с общим функционалом который увидит пользователь при начале работы
     keyboard = telebot.types.ReplyKeyboardMarkup()
-    keyboard.add('1', '2')
+    keyboard.row('1', '2')
+    # keyboard.add('1', '2')
 
     bot.send_message(message.chat.id, 'Здраствуйте {0} {1} вас приветствует бот компании {2} \n'
-                     .format(message.from_user.first_name, message.from_user.last_name, 'MitLabs', reply_markup=keyboard))
+                     .format(message.from_user.first_name, message.from_user.last_name, 'MitLabs'), reply_markup=keyboard)
 
 
 
