@@ -81,8 +81,5 @@ pip install pytelegrambotapi
 # message.from_user.last_name
 # message.from_user.username
 
-from mitlabs import MitLabs
-mt = MitLabs()
-list_price = mt.get_price()
-for item in list_price:
-    print(item)
+
+

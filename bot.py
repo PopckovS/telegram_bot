@@ -3,6 +3,7 @@
 # Импортируем модлуь для работы с телеграм ботом
 import telebot # Модуль pyTelegramBotAPI
 import config  # Файл конфигурации
+import re # Импортирую модулья для работы с регулярными выражениями, проверки email, phone
 from mitlabs import MitLabs # Импортирую класс с информацией о компании
 
 # Создаем экземпляр класса для работы с библиотекой pyTelegramBotAPI, и передаем ему API токена.
@@ -137,6 +138,34 @@ def get_text_messages(message):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# pattern = compile('(^|\s)[-a-z0-9_.]+@([-a-z0-9]+\.)+[a-z]{2,6}(\s|$)')
+
+
+#     popcovM5@yandex.ru
+# if is_valid:
+#     print('правильный email:', is_valid.group())
+#     # объект is_valid содержит 3 метода
+#     print('методы: start:', is_valid.start(), 'end:',\
+#     is_valid.end(), 'group:', is_valid.group())
+# else:
+#     print('неверный email! введите email...\n')
+
+
+
 # Это ПОТОК команд, метод register_next_step_handler регистрирует ряд методов
 # которые будут выполняться последовательно, один за другим, создавая и устанавливая
 # в нутри методов циклы, можно зациклить эти вопросы, до тех пор пока мы не получим
@@ -158,6 +187,12 @@ def get_email(message):
     '''Метод получает от пользователя email'''
 
     global email
+
+    while not re.search(r'[\w.-]+@[\w.-]+\.?[\w]+?', email):
+        result = re.search(r'[\w.-]+@[\w.-]+\.?[\w]+?', email)
+        if result == None:
+            print('Кажется, это неправильный email :( Попробуй еще раз!')
+
     email = message.text
     bot.send_message(message.from_user.id, 'Ваш телефон ?')
     bot.register_next_step_handler(message, get_phone)
@@ -168,6 +203,12 @@ def get_phone(message):
     '''Метод получает от пользователя телефон'''
 
     global phone
+
+    while not re.search(r"\b\+?[7,8](\s*\d{3}\s*\d{3}\s*\d{2}\s*\d{2})\b", phone):
+        result = re.search(r"\b\+?[7,8](\s*\d{3}\s*\d{3}\s*\d{2}\s*\d{2})\b", phone)
+        if result == None:
+            print('Кажется, это неправильный номер телефона :( Попробуй еще раз!')
+
     phone = message.text
     bot.send_message(message.from_user.id, 'Расскажите о Вашем проекте')
     bot.register_next_step_handler(message, get_about_project)
@@ -184,12 +225,12 @@ def get_about_project(message):
 
     keyboard = telebot.types.InlineKeyboardMarkup()
 
-    yes = '\xF0\x9F\x91\x8D'
-    no = '\xF0\x9F\x91\x8E'
+    # yes = '\xF0\x9F\x91\x8D'
+    # no = '\xF0\x9F\x91\x8E'
 
 
-    btn_yes = telebot.types.InlineKeyboardButton(text=b'\xF0\x9F\x91\x8D Да все верно', callback_data='r_yes')
-    btn_no = telebot.types.InlineKeyboardButton(text=b'\xF0\x9F\x91\x8E  Нет, заполнить с начала', callback_data='r_no')
+    btn_yes = telebot.types.InlineKeyboardButton(text='Да все верно', callback_data='result_yes')
+    btn_no = telebot.types.InlineKeyboardButton(text='Нет, заполнить с начала', callback_data='result_no')
 
     keyboard.add(btn_yes, btn_no)
 
