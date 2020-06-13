@@ -80,7 +80,10 @@ def callback_inline(call):
 
 
 
-
+name = '';
+email = ''
+phone = ''
+about_project = ''
 
 # Обьявляем метод для получения текстовых сообщений, это слушатель для
 # текс сообщ, полу content_types - может приним сообщ и не не только сообщение.
@@ -113,21 +116,11 @@ def get_text_messages(message):
         bot.send_message(message.from_user.id, mt.get_facts())
     elif message.text == 'Расчитать стоимость вашего проекта':
         # Тут мы задаем пользователб вопрос, с которого начинается цикл вопросов пользователю
-        # bot.send_message(message.from_user.id, "Как Вас зовут?");
-        bot.register_next_step_handler(message, get_name);
+        bot.send_message(message.from_user.id, "Проведем мальнький опрос")
+        bot.register_next_step_handler(message, get_name)
     else:
         bot.send_message(message.from_user.id, 'Я вас не понимаю :( Чем я могу тебе помочь?')
 
-
-
-
-# ===========================================================================================
-# ===========================================================================================
-# ===========================================================================================
-name = '';
-email = ''
-phone = ''
-about_project = ''
 
 
 
@@ -136,13 +129,13 @@ def get_name(message):
     global name
     name = message.text
     bot.send_message(message.from_user.id, 'Как Вас зовут?')
-    bot.register_next_step_handler(message, get_contact())
+    bot.register_next_step_handler(message, get_contact)
 
 def get_contact(message):
     global email
     email = message.text
     bot.send_message('Как с Вами связаться?')
-    bot.register_next_step_handler(message, get_about_project())
+    bot.register_next_step_handler(message, get_about_project)
 
 def get_about_project(message):
     global about_project
@@ -152,10 +145,6 @@ def get_about_project(message):
         except Exception:
              bot.send_message(message.from_user.id, 'Цифрами, пожалуйста')
     bot.send_message(message.from_user.id, 'Тебе '+about_project+' лет, тебя зовут '+name+' '+email+'?')
-# ===========================================================================================
-# ===========================================================================================
-# ===========================================================================================
-
 
 
 
