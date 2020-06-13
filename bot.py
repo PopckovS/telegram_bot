@@ -85,6 +85,12 @@ def callback_inline(call):
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                                   text=list_price[call.data])
 
+        if call.data == 'project_yes':
+            bot.send_message(call.message.from_user.id, 'Прекрасно, продолжим')
+        if call.data == 'project_no':
+            bot.send_message(call.message.from_user.id, 'Хорошо, давайте с начала')
+            bot.send_message(call.message.from_user.id, "Как Вас зовут?")
+            bot.register_next_step_handler(call.message, get_name)
     # Если сообщение из инлайн-режима
     # elif call.inline_message_id:
     #     if call.data == "test":
@@ -239,8 +245,8 @@ def get_about_project(message):
     # no = '\xF0\x9F\x91\x8E'
 
 
-    btn_yes = telebot.types.InlineKeyboardButton(text='Да все верно', callback_data='result_yes')
-    btn_no = telebot.types.InlineKeyboardButton(text='Нет, заполнить с начала', callback_data='result_no')
+    btn_yes = telebot.types.InlineKeyboardButton(text='Да все верно', callback_data='project_yes')
+    btn_no = telebot.types.InlineKeyboardButton(text='Нет, заполнить с начала', callback_data='project_no')
 
     keyboard.add(btn_yes, btn_no)
 
