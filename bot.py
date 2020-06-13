@@ -239,7 +239,7 @@ def get_about_project(message):
     keyboard = get_btn_project() # Добавляем кнопки к результату заполнения опроса
     result_text = get_final_text # Получаем финальный текст заполнения опроса
 
-    bot.send_message(message.from_user.id, result_text, reply_markup=keyboard)
+    bot.send_message(message.from_user.id, str(result_text), reply_markup=keyboard)
 
 
 def get_final_text():
@@ -252,6 +252,7 @@ def get_final_text():
     Лписание проекта = "{about_project}"
     '''
     return result_text
+
 
 def get_btn_project():
     '''Создаем и добавляем inline кнопки, да/нет для продолжения или сброса опроса'''
