@@ -208,7 +208,8 @@ def get_phone(message):
 
     global phone
 
-    result = re.search(r'[\w.-]+@[\w.-]+\.?[\w]+?', message.text)
+    result = re.search(r"\b\+?[7,8](\s*\d{3}\s*\d{3}\s*\d{2}\s*\d{2})\b", message.text)
+    # result = re.search(r'[\w.-]+@[\w.-]+\.?[\w]+?', message.text)
     if result == None:
         bot.send_message(message.from_user.id, 'Кажется, это неправильный телефона :( Попробуй еще раз!')
         bot.register_next_step_handler(message, get_phone)
