@@ -13,6 +13,8 @@ mt = MitLabs()
 
 
 
+
+
 # Стартовое приветствие
 @bot.message_handler(commands=['start'])
 def start_message(message):
@@ -21,7 +23,7 @@ def start_message(message):
     # При создании передаем параметр = True это ркгулирует размер кнопок под ширину экрана
     keyboard = telebot.types.ReplyKeyboardMarkup(True)
     keyboard.row('Наши реквизиты', 'Наши цены', 'Факты о нас')
-    keyboard.add('asfdafaf')
+    keyboard.add('Расчитать стоимость вашего проекта')
 
     # Выводим притствие, и показываем кнопки нашему пользователю
     bot.send_message(message.chat.id, 'Здраствуйте {0} {1} вас приветствует бот компании {2} \n'
@@ -47,6 +49,34 @@ def default_test(message):
     keyboard.add(btn_out)
 
     bot.send_message(message.chat.id, "Выберите локацию:", reply_markup=keyboard)
+
+
+
+
+
+
+
+# В большинстве случаев целесообразно разбить этот хэндлер на несколько маленьких
+@bot.callback_query_handler(func=lambda call: True)
+def callback_inline(call):
+
+    # Если сообщение из чата с ботом
+    if call.message:
+        # Если callback_data что была передана есть в массиве данных
+        if call.data in mt.get_price():
+            list_price = mt.get_price()
+            # По ключу что был передан в callback_data получаю значение и вывожу пользователю
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                  text=list_price[call.data])
+    # Если сообщение из инлайн-режима
+    # elif call.inline_message_id:
+    #     if call.data == "test":
+    #         bot.edit_message_text(inline_message_id=call.inline_message_id, text="Бдыщь")
+
+
+
+
+
 
 
 
@@ -81,30 +111,52 @@ def get_text_messages(message):
 
     elif message.text == 'Факты о нас':
         bot.send_message(message.from_user.id, mt.get_facts())
+    elif message.text == 'Расчитать стоимость вашего проекта':
+        # Тут мы задаем пользователб вопрос, с которого начинается цикл вопросов пользователю
+        bot.send_message(message.from_user.id, "Как Вас зовут?");
+        bot.register_next_step_handler(message, get_name);
     else:
         bot.send_message(message.from_user.id, 'Я вас не понимаю :( Чем я могу тебе помочь?')
 
 
 
 
-# В большинстве случаев целесообразно разбить этот хэндлер на несколько маленьких
-@bot.callback_query_handler(func=lambda call: True)
-def callback_inline(call):
-
-    # Если сообщение из чата с ботом
-    if call.message:
-        # Если callback_data что была передана есть в массиве данных
-        if call.data in mt.get_price():
-            list_price = mt.get_price()
-            # По ключу что был передан в callback_data получаю значение и вывожу пользователю
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                  text=list_price[call.data])
+# ===========================================================================================
+# ===========================================================================================
+# ===========================================================================================
+name = '';
+email = ''
+phone = ''
+about_project = ''
 
 
-    # Если сообщение из инлайн-режима
-    # elif call.inline_message_id:
-    #     if call.data == "test":
-    #         bot.edit_message_text(inline_message_id=call.inline_message_id, text="Бдыщь")
+
+# Получаем Имя Фамилию пользователя
+def get_name(message):
+    global name;
+    name = message.text;
+    bot.send_message(message.from_user.id, 'Какая у тебя фамилия?');
+    bot.register_next_step_handler(message, get_contact());
+
+def get_contact(message):
+    global email;
+    email = message.text;
+    bot.send_message('Как с Вами связаться?');
+    bot.register_next_step_handler(message, get_about_project());
+
+def get_about_project(message):
+    global about_project
+    while about_project == '': #проверяем что возраст изменился
+        try:
+            about_project = str(message.text) #проверяем, что возраст введен корректно
+        except Exception:
+             bot.send_message(message.from_user.id, 'Цифрами, пожалуйста')
+    bot.send_message(message.from_user.id, 'Тебе '+about_project+' лет, тебя зовут '+name+' '+email+'?')
+# ===========================================================================================
+# ===========================================================================================
+# ===========================================================================================
+
+
 
 
 
