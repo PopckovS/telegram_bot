@@ -181,21 +181,23 @@ def get_about_project(message):
     #         about_project = str(message.text)
     #     except Exception:
     #          bot.send_message(message.from_user.id, 'Цифрами, пожалуйста')
+
+    keyboard = telebot.types.InlineKeyboardMarkup()
+
+    btn_yes = telebot.types.InlineKeyboardButton(text='U+1F44D Да все верно', callback_data='r_yes')
+    btn_no = telebot.types.InlineKeyboardButton(text='U+1F44E  Нет, заполнить с начала', callback_data='r_no')
+
+    keyboard.add(btn_yes, btn_no)
+
     result_text = f'''Все правильно ?
     Вас зовут = {name}
     Ваш email = {email}
     Ваш телефон = {phone}
     Лписание проекта = "{about_project}"
     '''
-    bot.send_message(message.from_user.id, result_text)
-    keyboard = telebot.types.InlineKeyboardMarkup()
+    bot.send_message(message.from_user.id, result_text, reply_markup=keyboard)
 
-    btn_yes = telebot.types.InlineKeyboardButton(text='\xF0\x9F\x91\x8D Да все верно', callback_data='r_yes')
-    btn_no = telebot.types.InlineKeyboardButton(text='\xF0\x9F\x91\x8E  Нет, заполнить с начала', callback_data='r_no')
 
-    keyboard.add(btn_yes, btn_no)
-
-    bot.send_message(message.chat.id, "Подтвердите:", reply_markup=keyboard)
 
 
 
