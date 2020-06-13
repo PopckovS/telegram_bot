@@ -188,8 +188,8 @@ def get_about_project(message):
     no = '\xF0\x9F\x91\x8E'
 
 
-    btn_yes = telebot.types.InlineKeyboardButton(text='CAADAgADsQADWQMDAAEJK1niI56hlhYE Да все верно', callback_data='r_yes')
-    btn_no = telebot.types.InlineKeyboardButton(text='CAADAgADsQADWQMDAAEJK1niI56hlhYE  Нет, заполнить с начала', callback_data='r_no')
+    btn_yes = telebot.types.InlineKeyboardButton(text=b'\xF0\x9F\x91\x8D Да все верно', callback_data='r_yes')
+    btn_no = telebot.types.InlineKeyboardButton(text=b'\xF0\x9F\x91\x8E  Нет, заполнить с начала', callback_data='r_no')
 
     keyboard.add(btn_yes, btn_no)
 
