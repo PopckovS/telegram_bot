@@ -190,8 +190,8 @@ def get_email(message):
 
     while not re.search(r'[\w.-]+@[\w.-]+\.?[\w]+?', email):
         result = re.search(r'[\w.-]+@[\w.-]+\.?[\w]+?', email)
-        if result == None:
-            print('Кажется, это неправильный email :( Попробуй еще раз!')
+        # if result == None:
+        #     print('Кажется, это неправильный email :( Попробуй еще раз!')
 
     email = message.text
     bot.send_message(message.from_user.id, 'Ваш телефон ?')
@@ -206,8 +206,8 @@ def get_phone(message):
 
     while not re.search(r"\b\+?[7,8](\s*\d{3}\s*\d{3}\s*\d{2}\s*\d{2})\b", phone):
         result = re.search(r"\b\+?[7,8](\s*\d{3}\s*\d{3}\s*\d{2}\s*\d{2})\b", phone)
-        if result == None:
-            print('Кажется, это неправильный номер телефона :( Попробуй еще раз!')
+        # if result == None:
+        #     print('Кажется, это неправильный номер телефона :( Попробуй еще раз!')
 
     phone = message.text
     bot.send_message(message.from_user.id, 'Расскажите о Вашем проекте')
