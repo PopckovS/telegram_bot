@@ -81,36 +81,71 @@ def callback_inline(call):
 
 
 name = '';
-surname = '';
-age = 0;
+email = ''
+phone = ''
+about_project = ''
+
+# Обьявляем метод для получения текстовых сообщений, это слушатель для
+# текс сообщ, полу content_types - может приним сообщ и не не только сообщение.
+# Можно указать и многое другое.
+# @bot.message_handler(content_types=['text', 'document', 'audio'])
 @bot.message_handler(content_types=['text'])
-def start(message):
-    if message.text == '/reg':
-        bot.send_message(message.from_user.id, "Как тебя зовут?");
-        bot.register_next_step_handler(message, get_name); #следующий шаг – функция get_name
+def get_text_messages(message):
+
+    if message.text == 'Наши реквизиты':
+        bot.send_message(message.from_user.id, mt.get_requisites())
+    elif message.text == 'Наши цены':
+
+        # !!! НЕ ЗНАЮ ПО ЧЕМУ И КАК, НО ОПЫТНЫМ ПУТЕМ ВЫЯСНИЛ, ЧТО ЕСТЬ ОГРАНИЧЕНИЕ !!!
+        # !!! НА ДЛИННУ СТРОКИ ПРИ СТАВКИ ЗНАЧЕНИЯ В callback_data !!!
+        keyboard = telebot.types.InlineKeyboardMarkup()
+
+        btn1 = telebot.types.InlineKeyboardButton(text='Дизайн от А до Я', callback_data='Дизайн от А до Я')
+        btn2 = telebot.types.InlineKeyboardButton(text='Системный маркетинг', callback_data='Системный маркетинг')
+        btn3 = telebot.types.InlineKeyboardButton(text='Разработка сайта', callback_data='Разработка сайта')
+        btn4 = telebot.types.InlineKeyboardButton(text='E-COMMERCE', callback_data='E-COMMERCE')
+        btn5 = telebot.types.InlineKeyboardButton(text='DEVOPS', callback_data='DEVOPS')
+        btn6 = telebot.types.InlineKeyboardButton(text='AI И ML', callback_data='AI И ML')
+        btn7 = telebot.types.InlineKeyboardButton(text='Документы и право', callback_data='Документы и право')
+
+        keyboard.add(btn1, btn2, btn3, btn4, btn5, btn6, btn7)
+
+        bot.send_message(message.chat.id, "Услуги компании:", reply_markup=keyboard)
+
+    elif message.text == 'Факты о нас':
+        bot.send_message(message.from_user.id, mt.get_facts())
+    elif message.text == 'Расчитать стоимость вашего проекта':
+        # Тут мы задаем пользователб вопрос, с которого начинается цикл вопросов пользователю
+        bot.send_message(message.from_user.id, "Как Вас зовут?")
+        bot.register_next_step_handler(message, get_name)
     else:
-        bot.send_message(message.from_user.id, 'Напиши /reg');
+        bot.send_message(message.from_user.id, 'Я вас не понимаю :( Чем я могу тебе помочь?')
 
-def get_name(message): #получаем фамилию
-    global name;
-    name = message.text;
-    bot.send_message(message.from_user.id, 'Какая у тебя фамилия?');
-    bot.register_next_step_handler(message, get_surname);
 
-def get_surname(message):
-    global surname;
-    surname = message.text;
-    bot.send_message('Сколько тебе лет?');
-    bot.register_next_step_handler(message, get_age);
 
-def get_age(message):
-    global age;
-    while age == 0: #проверяем что возраст изменился
-        try:
-             age = int(message.text) #проверяем, что возраст введен корректно
-        except Exception:
-             bot.send_message(message.from_user.id, 'Цифрами, пожалуйста');
-    bot.send_message(message.from_user.id, 'Тебе '+str(age)+' лет, тебя зовут '+name+' '+surname+'?')
+
+# Получаем Имя Фамилию пользователя
+def get_name(message):
+    global name
+    name = message.text
+    bot.send_message(message.from_user.id, 'Как с Вами связаться?')
+    bot.register_next_step_handler(message, get_contact)
+
+def get_contact(message):
+    global email
+    email = message.text
+    bot.send_message('Расскажите о Вашем проекте')
+    bot.register_next_step_handler(message, get_about_project)
+
+def get_about_project(message):
+    global about_project
+    about_project = message.text
+    # while about_project == '':
+    #     try:
+    #         about_project = str(message.text)
+    #     except Exception:
+    #          bot.send_message(message.from_user.id, 'Цифрами, пожалуйста')
+    bot.send_message(message.from_user.id, 'Тебе '+about_project+' лет, тебя зовут '+name+' '+email+'?')
 
 
 
