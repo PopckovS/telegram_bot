@@ -113,7 +113,7 @@ def get_text_messages(message):
         bot.send_message(message.from_user.id, mt.get_facts())
     elif message.text == 'Расчитать стоимость вашего проекта':
         # Тут мы задаем пользователб вопрос, с которого начинается цикл вопросов пользователю
-        bot.send_message(message.from_user.id, "Как Вас зовут?");
+        # bot.send_message(message.from_user.id, "Как Вас зовут?");
         bot.register_next_step_handler(message, get_name);
     else:
         bot.send_message(message.from_user.id, 'Я вас не понимаю :( Чем я могу тебе помочь?')
@@ -133,16 +133,16 @@ about_project = ''
 
 # Получаем Имя Фамилию пользователя
 def get_name(message):
-    global name;
-    name = message.text;
-    bot.send_message(message.from_user.id, 'Какая у тебя фамилия?');
-    bot.register_next_step_handler(message, get_contact());
+    global name
+    name = message.text
+    bot.send_message(message.from_user.id, 'Как Вас зовут?')
+    bot.register_next_step_handler(message, get_contact())
 
 def get_contact(message):
-    global email;
-    email = message.text;
-    bot.send_message('Как с Вами связаться?');
-    bot.register_next_step_handler(message, get_about_project());
+    global email
+    email = message.text
+    bot.send_message('Как с Вами связаться?')
+    bot.register_next_step_handler(message, get_about_project())
 
 def get_about_project(message):
     global about_project
