@@ -199,17 +199,12 @@ def get_email(message):
 
     global email
 
-
     result = re.search(r'[\w.-]+@[\w.-]+\.?[\w]+?', message.text)
+
     if result == None:
         bot.send_message(message.from_user.id, 'Кажется, это неправильный email :( Попробуй еще раз!')
         bot.register_next_step_handler(message, get_email)
     else:
-    # while not re.search(r'[\w.-]+@[\w.-]+\.?[\w]+?', email):
-    #     result = re.search(r'[\w.-]+@[\w.-]+\.?[\w]+?', email)
-    #     if result == None:
-    #         bot.send_message(message.from_user.id, 'Кажется, это неправильный email :( Попробуй еще раз!')
-
         email = message.text
         bot.send_message(message.from_user.id, 'Ваш телефон ?')
         bot.register_next_step_handler(message, get_phone)
@@ -221,19 +216,15 @@ def get_phone(message):
     global phone
 
     result = re.search(r"\b\+?[7,8](\s*\d{3}\s*\d{3}\s*\d{2}\s*\d{2})\b", message.text)
-    # result = re.search(r'[\w.-]+@[\w.-]+\.?[\w]+?', message.text)
+
     if result == None:
         bot.send_message(message.from_user.id, 'Кажется, это неправильный телефона :( Попробуй еще раз!')
         bot.register_next_step_handler(message, get_phone)
     else:
-    # while not re.search(r"\b\+?[7,8](\s*\d{3}\s*\d{3}\s*\d{2}\s*\d{2})\b", phone):
-        # result = re.search(r"\b\+?[7,8](\s*\d{3}\s*\d{3}\s*\d{2}\s*\d{2})\b", phone)
-        # if result == None:
-        #     bot.send_message(message.from_user.id, 'Кажется, это неправильный номер телефона :( Попробуй еще раз!')
-
         phone = message.text
         bot.send_message(message.from_user.id, 'Расскажите о Вашем проекте')
         bot.register_next_step_handler(message, get_about_project)
+
 
 
 def get_about_project(message):
@@ -245,16 +236,7 @@ def get_about_project(message):
     #     except Exception:
     #          bot.send_message(message.from_user.id, 'Цифрами, пожалуйста')
 
-    keyboard = telebot.types.InlineKeyboardMarkup()
-
-    # yes = '\xF0\x9F\x91\x8D'
-    # no = '\xF0\x9F\x91\x8E'
-
-
-    btn_yes = telebot.types.InlineKeyboardButton(text='Да все верно', callback_data='project_yes')
-    btn_no = telebot.types.InlineKeyboardButton(text='Нет, заполнить с начала', callback_data='project_no')
-
-    keyboard.add(btn_yes, btn_no)
+    keyboard = get_btn_project() # Добавляем кнопки к результату заполнения опроса
 
     result_text = f'''Все правильно ?
     Вас зовут = {name}
@@ -265,9 +247,13 @@ def get_about_project(message):
     bot.send_message(message.from_user.id, result_text, reply_markup=keyboard)
 
 
-
-
-
+# Создаем и добавляем inline кнопки, да/нет
+def get_btn_project():
+    keyboard = telebot.types.InlineKeyboardMarkup()
+    btn_yes = telebot.types.InlineKeyboardButton(text='Да все верно', callback_data='project_yes')
+    btn_no = telebot.types.InlineKeyboardButton(text='Нет, заполнить с начала', callback_data='project_no')
+    keyboard.add(btn_yes, btn_no)
+    return keyboard
 
 
 
