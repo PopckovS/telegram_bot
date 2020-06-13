@@ -135,7 +135,7 @@ def get_name(message):
 def get_contact(message):
     global email
     email = message.text
-    bot.send_message('Расскажите о Вашем проекте')
+    bot.send_message(message.from_user.id, 'Расскажите о Вашем проекте')
     bot.register_next_step_handler(message, get_about_project)
 
 def get_about_project(message):
