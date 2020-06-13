@@ -21,6 +21,7 @@ def start_message(message):
     # При создании передаем параметр = True это ркгулирует размер кнопок под ширину экрана
     keyboard = telebot.types.ReplyKeyboardMarkup(True)
     keyboard.row('Наши реквизиты', 'Наши цены', 'Факты о нас')
+    keyboard.add('asfdafaf')
 
     # Выводим притствие, и показываем кнопки нашему пользователю
     bot.send_message(message.chat.id, 'Здраствуйте {0} {1} вас приветствует бот компании {2} \n'
@@ -65,13 +66,16 @@ def get_text_messages(message):
         # !!! НЕ ЗНАЮ ПО ЧЕМУ И КАК, НО ОПЫТНЫМ ПУТЕМ ВЫЯСНИЛ, ЧТО ЕСТЬ ОГРАНИЧЕНИЕ !!!
         # !!! НА ДЛИННУ СТРОКИ ПРИ СТАВКИ ЗНАЧЕНИЯ В callback_data !!!
         keyboard = telebot.types.InlineKeyboardMarkup()
-        list_price = mt.get_price()
 
-        btn = []
-        for item in list_price:
-            i = telebot.types.InlineKeyboardButton(text=item, callback_data=item)
-            btn.append(i)
-        keyboard.add(btn)
+        btn1 = telebot.types.InlineKeyboardButton(text='Дизайн от А до Я', callback_data='Дизайн от А до Я')
+        btn2 = telebot.types.InlineKeyboardButton(text='Системный маркетинг', callback_data='Системный маркетинг')
+        btn3 = telebot.types.InlineKeyboardButton(text='Разработка сайта', callback_data='Разработка сайта')
+        btn4 = telebot.types.InlineKeyboardButton(text='E-COMMERCE', callback_data='E-COMMERCE')
+        btn5 = telebot.types.InlineKeyboardButton(text='DEVOPS', callback_data='DEVOPS')
+        btn6 = telebot.types.InlineKeyboardButton(text='AI И ML', callback_data='AI И ML')
+        btn7 = telebot.types.InlineKeyboardButton(text='Документы и право', callback_data='Документы и право')
+
+        keyboard.add(btn1, btn2, btn3, btn4, btn5, btn6, btn7)
 
         bot.send_message(message.chat.id, "Услуги компании:", reply_markup=keyboard)
 
@@ -145,15 +149,7 @@ def callback_inline(call):
  #            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Документы и право')
 
 
-  # btn1 = telebot.types.InlineKeyboardButton(text='Дизайн от А до Я', callback_data='Дизайн от А до Я')
-        # btn2 = telebot.types.InlineKeyboardButton(text='Системный маркетинг', callback_data='Системный маркетинг')
-        # btn3 = telebot.types.InlineKeyboardButton(text='Разработка сайта', callback_data='Разработка сайта')
-        # btn4 = telebot.types.InlineKeyboardButton(text='E-COMMERCE', callback_data='E-COMMERCE')
-        # btn5 = telebot.types.InlineKeyboardButton(text='DEVOPS', callback_data='DEVOPS')
-        # btn6 = telebot.types.InlineKeyboardButton(text='AI И ML', callback_data='AI И ML')
-        # btn7 = telebot.types.InlineKeyboardButton(text='Документы и право', callback_data='Документы и право')
-        #
-        # keyboard.add(btn1, btn2, btn3, btn4, btn5, btn6, btn7)
+
 
 
 
