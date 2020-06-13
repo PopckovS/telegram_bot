@@ -237,6 +237,13 @@ def get_about_project(message):
     #          bot.send_message(message.from_user.id, 'Цифрами, пожалуйста')
 
     keyboard = get_btn_project() # Добавляем кнопки к результату заполнения опроса
+    result_text = get_final_text # Получаем финальный текст заполнения опроса
+
+    bot.send_message(message.from_user.id, result_text, reply_markup=keyboard)
+
+
+def get_final_text():
+    '''Генерируем финальный текст, на основе заполненных данных'''
 
     result_text = f'''Все правильно ?
     Вас зовут = {name}
@@ -244,15 +251,16 @@ def get_about_project(message):
     Ваш телефон = {phone}
     Лписание проекта = "{about_project}"
     '''
-    bot.send_message(message.from_user.id, result_text, reply_markup=keyboard)
+    return result_text
 
-
-# Создаем и добавляем inline кнопки, да/нет
 def get_btn_project():
+    '''Создаем и добавляем inline кнопки, да/нет для продолжения или сброса опроса'''
+
     keyboard = telebot.types.InlineKeyboardMarkup()
     btn_yes = telebot.types.InlineKeyboardButton(text='Да все верно', callback_data='project_yes')
     btn_no = telebot.types.InlineKeyboardButton(text='Нет, заполнить с начала', callback_data='project_no')
     keyboard.add(btn_yes, btn_no)
+
     return keyboard
 
 
