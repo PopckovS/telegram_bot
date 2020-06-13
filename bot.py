@@ -7,8 +7,15 @@ from mitlabs import MitLabs # Импортирую класс с информа�
 
 # Создаем экземпляр класса для работы с библиотекой pyTelegramBotAPI, и передаем ему API токена.
 bot = telebot.TeleBot(config.key_api)
+
+# Создаем экземляр класса для получения из него данных о компании
 mt = MitLabs()
 
+# Обьявление ряда переменных, для получения и сохранения игформации от пользователя
+name = ''
+email = ''
+phone = ''
+about_project = ''
 
 
 
@@ -19,6 +26,8 @@ mt = MitLabs()
 @bot.message_handler(commands=['start'])
 def start_message(message):
 
+    '''Главный базовый метод, срабатвает в момент активайии бота, выводит приветствие, и создает кнопки.'''
+
     # Создаем кнопки с общим функционалом который увидит пользователь при начале работы
     # При создании передаем параметр = True это ркгулирует размер кнопок под ширину экрана
     keyboard = telebot.types.ReplyKeyboardMarkup(True)
@@ -26,7 +35,7 @@ def start_message(message):
     keyboard.add('Расчитать стоимость вашего проекта')
 
     # Выводим притствие, и показываем кнопки нашему пользователю
-    bot.send_message(message.chat.id, 'Здраствуйте {0} {1} вас приветствует бот компании {2} \n'
+    bot.send_message(message.chat.id, 'Привет {0} {1} вас приветствует бот компании {2} \n'
                      .format(message.from_user.first_name, message.from_user.last_name, 'MitLabs'), reply_markup=keyboard)
 
 
@@ -38,6 +47,9 @@ def start_message(message):
 # Стартовое приветствие
 @bot.message_handler(commands=['help'])
 def default_test(message):
+
+    '''Метод помошник, выводит справочную информацию.'''
+
     keyboard = telebot.types.InlineKeyboardMarkup()
 
     btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании MitLabs", url="https://mitlabs.ru")
@@ -60,14 +72,18 @@ def default_test(message):
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
 
-    # Если сообщение из чата с ботом
+    '''Метод обработчик нажатых Inline кнопок, тоесть заранее заготов.кнопок меню.'''
+
     if call.message:
+
+        # Это для обработки запроса на показ Услуг компании.
         # Если callback_data что была передана есть в массиве данных
         if call.data in mt.get_price():
             list_price = mt.get_price()
             # По ключу что был передан в callback_data получаю значение и вывожу пользователю
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                                   text=list_price[call.data])
+
     # Если сообщение из инлайн-режима
     # elif call.inline_message_id:
     #     if call.data == "test":
@@ -80,10 +96,7 @@ def callback_inline(call):
 
 
 
-name = '';
-email = ''
-phone = ''
-about_project = ''
+
 
 # Обьявляем метод для получения текстовых сообщений, это слушатель для
 # текс сообщ, полу content_types - может приним сообщ и не не только сообщение.
@@ -97,7 +110,7 @@ def get_text_messages(message):
     elif message.text == 'Наши цены':
 
         # !!! НЕ ЗНАЮ ПО ЧЕМУ И КАК, НО ОПЫТНЫМ ПУТЕМ ВЫЯСНИЛ, ЧТО ЕСТЬ ОГРАНИЧЕНИЕ !!!
-        # !!! НА ДЛИННУ СТРОКИ ПРИ СТАВКИ ЗНАЧЕНИЯ В callback_data !!!
+        # !!! НА ДЛИННУ СТРОКИ ПРИ СТАВКИ ЗНАЧЕНИЯ В callback_data В ДОКАХ ПРО ЭТО НИЧЕГО!!!
         keyboard = telebot.types.InlineKeyboardMarkup()
 
         btn1 = telebot.types.InlineKeyboardButton(text='Дизайн от А до Я', callback_data='Дизайн от А до Я')
@@ -114,7 +127,7 @@ def get_text_messages(message):
 
     elif message.text == 'Факты о нас':
         bot.send_message(message.from_user.id, mt.get_facts())
-    elif message.text == 'Расчитать стоимость вашего проекта':
+    elif message.text == 'Расчитать стоимость проекта':
         # Тут мы задаем пользователб вопрос, с которого начинается цикл вопросов пользователю
         bot.send_message(message.from_user.id, "Как Вас зовут?")
         bot.register_next_step_handler(message, get_name)
@@ -124,19 +137,41 @@ def get_text_messages(message):
 
 
 
-
-# Получаем Имя Фамилию пользователя
+# Это ПОТОК команд, метод register_next_step_handler регистрирует ряд методов
+# которые будут выполняться последовательно, один за другим, создавая и устанавливая
+# в нутри методов циклы, можно зациклить эти вопросы, до тех пор пока мы не получим
+# нужный результат, а если пользователь хочет выйти из потока методов, то мы можем
+# сделать исключение при помощи InlineKeyboardButton и просто не регистрировать
+# следующего метода, а просто выйти из потока методов.
 def get_name(message):
+
+    '''Метод получает от пользователя Имя Фамилию по установленному паттерну'''
+
     global name
     name = message.text
-    bot.send_message(message.from_user.id, 'Как с Вами связаться?')
-    bot.register_next_step_handler(message, get_contact)
+    bot.send_message(message.from_user.id, 'Ваш email ?')
+    bot.register_next_step_handler(message, get_email)
 
-def get_contact(message):
+
+def get_email(message):
+
+    '''Метод получает от пользователя email'''
+
     global email
     email = message.text
+    bot.send_message(message.from_user.id, 'Ваш телефон ?')
+    bot.register_next_step_handler(message, get_phone)
+
+
+def get_phone(message):
+
+    '''Метод получает от пользователя телефон'''
+
+    global phone
+    phone = message.text
     bot.send_message(message.from_user.id, 'Расскажите о Вашем проекте')
     bot.register_next_step_handler(message, get_about_project)
+
 
 def get_about_project(message):
     global about_project
@@ -146,7 +181,21 @@ def get_about_project(message):
     #         about_project = str(message.text)
     #     except Exception:
     #          bot.send_message(message.from_user.id, 'Цифрами, пожалуйста')
-    bot.send_message(message.from_user.id, 'Тебе '+about_project+' лет, тебя зовут '+name+' '+email+'?')
+    result_text = f'''Все правильно ?
+    Вас зовут = {name}
+    Ваш email = {email}
+    Ваш телефон = {phone}
+    Лписание проекта = "{about_project}"
+    '''
+    bot.send_message(message.from_user.id, result_text)
+    keyboard = telebot.types.InlineKeyboardMarkup()
+
+    btn_yes = telebot.types.InlineKeyboardButton(text='\xF0\x9F\x91\x8D Да все верно', callback_data='result yes')
+    btn_no = telebot.types.InlineKeyboardButton(text='\xF0\x9F\x91\x8E  Нет, заполнить с начала', callback_data='result no')
+
+    keyboard.add(btn_yes, btn_no)
+
+    bot.send_message(message.chat.id, "Подтвердите:", reply_markup=keyboard)
 
 
 
