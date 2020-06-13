@@ -124,6 +124,7 @@ def get_text_messages(message):
 
 
 
+
 # Получаем Имя Фамилию пользователя
 def get_name(message):
     global name
