@@ -5,8 +5,6 @@ import telebot # Модуль pyTelegramBotAPI
 import config  # Файл конфигурации
 from mitlabs import MitLabs # Импортирую класс с информацией о компании
 
-from emoji import emojize as em
-
 # Создаем экземпляр класса для работы с библиотекой pyTelegramBotAPI, и передаем ему API токена.
 bot = telebot.TeleBot(config.key_api)
 
@@ -189,11 +187,9 @@ def get_about_project(message):
     yes = '\xF0\x9F\x91\x8D'
     no = '\xF0\x9F\x91\x8E'
 
-    yes = em("yummy :cake:")
 
-
-    btn_yes = telebot.types.InlineKeyboardButton(text=f'{yes} Да все верно', callback_data='r_yes')
-    btn_no = telebot.types.InlineKeyboardButton(text=f'{yes}  Нет, заполнить с начала', callback_data='r_no')
+    btn_yes = telebot.types.InlineKeyboardButton(text='CAADAgADsQADWQMDAAEJK1niI56hlhYE Да все верно', callback_data='r_yes')
+    btn_no = telebot.types.InlineKeyboardButton(text='CAADAgADsQADWQMDAAEJK1niI56hlhYE  Нет, заполнить с начала', callback_data='r_no')
 
     keyboard.add(btn_yes, btn_no)
 
