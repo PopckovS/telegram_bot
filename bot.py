@@ -237,21 +237,20 @@ def get_about_project(message):
     #          bot.send_message(message.from_user.id, 'Цифрами, пожалуйста')
 
     keyboard = get_btn_project() # Добавляем кнопки к результату заполнения опроса
-    result_text = get_final_text # Получаем финальный текст заполнения опроса
 
-    bot.send_message(message.from_user.id, ''.join(result_text), reply_markup=keyboard)
+    result_text = f"Все правильно ? \nВас зовут = {name}"
+
+    if not email == '':
+        result_text += f'\nВаш email = {email}'
+    if not phone == '':
+        result_text += f'\nВаш телефон = {phone}'
+
+    result_text += f'\nОписание проекта = {about_project}'
 
 
-def get_final_text():
-    '''Генерируем финальный текст, на основе заполненных данных'''
+    bot.send_message(message.from_user.id, result_text, reply_markup=keyboard)
 
-    result_text = f'''Все правильно ?
-    Вас зовут = {name}
-    Ваш email = {email}
-    Ваш телефон = {phone}
-    Лписание проекта = "{about_project}"
-    '''
-    return result_text
+
 
 
 def get_btn_project():
