@@ -187,19 +187,20 @@ def get_email(message):
 
     global email
 
-    email = re.search(r'[\w.-]+@[\w.-]+\.?[\w]+?', message.text)
-    if email == None:
+
+    result = re.search(r'[\w.-]+@[\w.-]+\.?[\w]+?', message.text)
+    if result == None:
         bot.send_message(message.from_user.id, 'Кажется, это неправильный email :( Попробуй еще раз!')
         bot.register_next_step_handler(message, get_email)
-        pass
+    else:
     # while not re.search(r'[\w.-]+@[\w.-]+\.?[\w]+?', email):
     #     result = re.search(r'[\w.-]+@[\w.-]+\.?[\w]+?', email)
     #     if result == None:
     #         bot.send_message(message.from_user.id, 'Кажется, это неправильный email :( Попробуй еще раз!')
 
-    email = message.text
-    bot.send_message(message.from_user.id, 'Ваш телефон ?')
-    bot.register_next_step_handler(message, get_phone)
+        email = message.text
+        bot.send_message(message.from_user.id, 'Ваш телефон ?')
+        bot.register_next_step_handler(message, get_phone)
 
 
 def get_phone(message):
@@ -207,19 +208,19 @@ def get_phone(message):
 
     global phone
 
-    phone = re.search(r'[\w.-]+@[\w.-]+\.?[\w]+?', message.text)
-    if phone == None:
+    result = re.search(r'[\w.-]+@[\w.-]+\.?[\w]+?', message.text)
+    if result == None:
         bot.send_message(message.from_user.id, 'Кажется, это неправильный телефона :( Попробуй еще раз!')
         bot.register_next_step_handler(message, get_phone)
-        pass
+    else:
     # while not re.search(r"\b\+?[7,8](\s*\d{3}\s*\d{3}\s*\d{2}\s*\d{2})\b", phone):
         # result = re.search(r"\b\+?[7,8](\s*\d{3}\s*\d{3}\s*\d{2}\s*\d{2})\b", phone)
         # if result == None:
         #     bot.send_message(message.from_user.id, 'Кажется, это неправильный номер телефона :( Попробуй еще раз!')
 
-    phone = message.text
-    bot.send_message(message.from_user.id, 'Расскажите о Вашем проекте')
-    bot.register_next_step_handler(message, get_about_project)
+        phone = message.text
+        bot.send_message(message.from_user.id, 'Расскажите о Вашем проекте')
+        bot.register_next_step_handler(message, get_about_project)
 
 
 def get_about_project(message):
