@@ -68,7 +68,7 @@ def get_text_messages(message):
 
         for item in list_price:
             btn = telebot.types.InlineKeyboardButton(text=item, callback_data=item)
-        keyboard.add(btn)
+            keyboard.add(btn)
         # btn1 = telebot.types.InlineKeyboardButton(text='Дизайн от А до Я', callback_data='Дизайн от А до Я')
         # btn2 = telebot.types.InlineKeyboardButton(text='Системный маркетинг', callback_data='Системный маркетинг')
         # btn3 = telebot.types.InlineKeyboardButton(text='Разработка сайта', callback_data='Разработка сайта')
