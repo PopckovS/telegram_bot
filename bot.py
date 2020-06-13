@@ -93,7 +93,9 @@ def callback_inline(call):
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                                   text='Хорошо, давайте с начала')
             # bot.send_message(call.message.from_user.id, 'Хорошо, давайте с начала')
-            bot.send_message(call.message.from_user.id, "Как Вас зовут?")
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                  text='Как Вас зовут?')
+            # bot.send_message(call.message.from_user.id, "Как Вас зовут?")
             bot.register_next_step_handler(call.message, get_name)
     # Если сообщение из инлайн-режима
     # elif call.inline_message_id:
