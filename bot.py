@@ -86,11 +86,15 @@ def callback_inline(call):
                                   text=list_price[call.data])
 
         if call.data == 'project_yes':
-            bot.send_message(call.message.from_user.id, 'Прекрасно, продолжим')
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                  text='Прекрасно, продолжим')
+            # bot.send_message(call.message.from_user.id, 'Прекрасно, продолжим')
         if call.data == 'project_no':
-            bot.send_message(call.message.from_user.id, 'Хорошо, давайте с начала')
-            bot.send_message(call.message.from_user.id, "Как Вас зовут?")
-            bot.register_next_step_handler(call.message, get_name)
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                  text='Хорошо, давайте с начала')
+            # bot.send_message(call.message.from_user.id, 'Хорошо, давайте с начала')
+            # bot.send_message(call.message.from_user.id, "Как Вас зовут?")
+            # bot.register_next_step_handler(call.message, get_name)
     # Если сообщение из инлайн-режима
     # elif call.inline_message_id:
     #     if call.data == "test":
