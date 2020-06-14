@@ -113,12 +113,16 @@ def default_test(message):
     keyboard.add(btn_url_mitlabs)
     # keyboard.add(btn_question)
     # keyboard.add(btn_out)
-    bot.send_sticker(message.chat.id, '\xF0\x9F\x91\x8D')
+    bot.send_sticker(message.chat.id, '')
     bot.send_message(message.chat.id, "Выберите локацию:", reply_markup=keyboard)
 
 
 
 
+
+@bot.message_handler(content_types=['sticker'])
+def default_test(message):
+    print(message)
 
 
 
