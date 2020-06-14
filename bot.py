@@ -43,19 +43,45 @@ def handle_docs_photo(message):
     except Exception as e:
         bot.reply_to(message, 'Возникла ошибка: ' + e)
 
+
+    uis_pdf = open('received/' + message.document.file_name + '.pdf', 'rb')
+    bot.send_document(message.chat.id, uis_pdf)
+    uis_pdf.close()
+
+
+
 # Стартовое приветствие
 @bot.message_handler(commands=['start'])
 def start_message(message):
 
     '''Главный базовый метод, срабатвает в момент активайии бота, выводит приветствие, и создает кнопки.'''
 
-    path = 'received'
-    files = os.listdir(path)
-    result = ''
-    for i in files:
-        result += str(i)
+    # path = 'received'
+    # files = os.listdir(path)
+    # result = ''
+    # for i in files:
+    #     result += str(i)
+    # bot.send_message(message.chat.id, result)
 
-    bot.send_message(message.chat.id, result)
+
+
+    # Создаем кнопки с общим функционалом который увидит пользователь при начале работы
+    # При создании передаем параметр = True это ркгулирует размер кнопок под ширину экрана
+    keyboard = telebot.types.ReplyKeyboardMarkup(True)
+    keyboard.row('Наши реквизиты', 'Наши цены', 'Факты о нас')
+    keyboard.add('Расчитать стоимость проекта')
+
+    # Выводим притствие, и показываем кнопки нашему пользователю
+    bot.send_message(message.chat.id, 'Привет {0} {1} вас приветствует бот компании {2} \n'
+                     .format(message.from_user.first_name, message.from_user.last_name, 'MitLabs'),
+                     reply_markup=keyboard)
+
+    # Создаем и отправляем кнопу для перехода на сайт компании
+    keyboard_inline = telebot.types.InlineKeyboardMarkup()
+    btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании MitLabs",
+                                                         url="https://mitlabs.ru")
+    keyboard_inline.add(btn_url_mitlabs)
+    bot.send_message(message.chat.id, "Перейти на сайт компании MitLabs", reply_markup=keyboard_inline)
 
 
 
