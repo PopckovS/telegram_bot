@@ -44,7 +44,7 @@ def start_message(message):
     btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании MitLabs",
                                                          url="https://mitlabs.ru")
     keyboard_inline.add(btn_url_mitlabs)
-    bot.send_message(message.chat.id, "Выберите локацию:", reply_markup=keyboard)
+    bot.send_message(message.chat.id, "", reply_markup=keyboard_inline)
 
 
 
