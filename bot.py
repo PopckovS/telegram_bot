@@ -62,7 +62,9 @@ def start_message(message):
     #     result += str(i)
     # bot.send_message(message.chat.id, result)
 
-
+    # uis_pdf = open('received/' + src + '.pdf', 'rb')
+    # bot.send_document(message.chat.id, uis_pdf)
+    # uis_pdf.close()
 
     # Создаем кнопки с общим функционалом который увидит пользователь при начале работы
     # При создании передаем параметр = True это ркгулирует размер кнопок под ширину экрана
@@ -80,7 +82,7 @@ def start_message(message):
     btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании MitLabs",
                                                          url="https://mitlabs.ru")
     keyboard_inline.add(btn_url_mitlabs)
-    bot.send_message(message.chat.id, "Перейти на сайт компании MitLabs", reply_markup=keyboard_inline)
+    bot.send_message(message.chat.id, "", reply_markup=keyboard_inline)
 
 
 
@@ -92,9 +94,17 @@ def default_test(message):
 
     '''Метод помошник, выводит справочную информацию.'''
 
-    uis_pdf = open('received/' + src + '.pdf', 'rb')
-    bot.send_document(message.chat.id, uis_pdf)
-    uis_pdf.close()
+    keyboard = telebot.types.InlineKeyboardMarkup()
+
+    btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании MitLabs", url="https://mitlabs.ru")
+    # btn_question = telebot.types.InlineKeyboardButton(text="Задать вопрос человеку", url="https://mitlabs.ru")
+    # btn_out = telebot.types.InlineKeyboardButton(text="Отписаться", url="https://mitlabs.ru")
+
+    keyboard.add(btn_url_mitlabs)
+    # keyboard.add(btn_question)
+    # keyboard.add(btn_out)
+
+    bot.send_message(message.chat.id, "Выберите локацию:", reply_markup=keyboard)
 
 
 
