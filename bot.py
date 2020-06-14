@@ -113,7 +113,7 @@ def default_test(message):
     keyboard.add(btn_url_mitlabs)
     # keyboard.add(btn_question)
     # keyboard.add(btn_out)
-
+    bot.send_sticker(message.chat.id, '\xF0\x9F\x91\x8D')
     bot.send_message(message.chat.id, "Выберите локацию:", reply_markup=keyboard)
 
 
@@ -195,7 +195,6 @@ def get_text_messages(message):
         bot.send_message(message.from_user.id, mt.get_facts())
     elif message.text == 'Расчитать стоимость проекта':
         # bot.send_sticker(message.chat.id, 'CAADBQADiQMAAukKyAPZH7wCI2BwFxYE')
-        bot.send_sticker(message.chat.id, 'U+1F44D')
         # Тут мы задаем пользователб вопрос, с которого начинается цикл вопросов пользователю
         bot.send_message(message.from_user.id, "Как Вас зовут?")
         bot.register_next_step_handler(message, get_name)
