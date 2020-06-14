@@ -91,7 +91,8 @@ def start_message(message):
         пошагового руководства к действию, по которому можно развивать 
         и поддерживать свою компанию с нуля.
     '''
-    bot.send_message(message.chat.id, "", reply_markup=keyboard_inline)
+    bot.send_message(message.chat.id, text, reply_markup=keyboard_inline)
+    bot.send_sticker(message.chat.id, 'CAADBQADiQMAAukKyAPZH7wCI2BwFxYE')
 
 
 
