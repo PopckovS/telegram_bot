@@ -82,7 +82,16 @@ def start_message(message):
     btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании MitLabs",
                                                          url="https://mitlabs.ru")
     keyboard_inline.add(btn_url_mitlabs)
-    bot.send_message(message.chat.id, " ", reply_markup=keyboard_inline)
+    text = '''Анализируем, планируем, помогаем развиваться:
+        - Анализ вашего бизнеса
+        - Выявление эффективных каналов продаж
+        - Анализ ЦА и конкурентов
+        - Разработка детальной стратегии развития
+        Планирование digital-стратегии — это создание полного, 
+        пошагового руководства к действию, по которому можно развивать 
+        и поддерживать свою компанию с нуля.
+    '''
+    bot.send_message(message.chat.id, "", reply_markup=keyboard_inline)
 
 
 
