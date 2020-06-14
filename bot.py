@@ -51,7 +51,9 @@ def start_message(message):
 
     path = 'received'
     files = os.listdir(path)
-
+    result = ''
+    for i in files:
+        result += str(i)+'\n'
 
     # Создаем кнопки с общим функционалом который увидит пользователь при начале работы
     # При создании передаем параметр = True это ркгулирует размер кнопок под ширину экрана
@@ -61,7 +63,7 @@ def start_message(message):
 
     # Выводим притствие, и показываем кнопки нашему пользователю
     bot.send_message(message.chat.id, 'Привет {0} {1} вас приветствует бот компании {2} \n Содерж:{3}'
-                     .format(message.from_user.first_name, message.from_user.last_name, 'MitLabs', files),
+                     .format(message.from_user.first_name, message.from_user.last_name, 'MitLabs', result),
                      reply_markup=keyboard)
 
     # Создаем и отправляем кнопу для перехода на сайт компании
