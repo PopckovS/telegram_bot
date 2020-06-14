@@ -7,6 +7,11 @@ import re # Импортирую модулья для работы с регу�
 import os
 from mitlabs import MitLabs # Импортирую класс с информацией о компании
 
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import smtplib
+
+
 # Создаем экземпляр класса для работы с библиотекой pyTelegramBotAPI, и передаем ему API токена.
 bot = telebot.TeleBot(config.key_api)
 
@@ -19,15 +24,24 @@ email = ''
 phone = ''
 about_project = ''
 other = ''
-
-
-
 src = ''
+
+
+# path = 'received'
+# files = os.listdir(path)
+# result = ''
+# for i in files:
+#     result += str(i)
+# bot.send_message(message.chat.id, result)
+
+# uis_pdf = open('received/' + src + '.pdf', 'rb')
+# bot.send_document(message.chat.id, uis_pdf)
+# uis_pdf.close()
+
 @bot.message_handler(content_types=['document'])
 def handle_docs_photo(message):
-
     '''Прием документов от пользователя'''
-
+ 
     global src
     try:
         chat_id = message.chat.id
@@ -46,25 +60,50 @@ def handle_docs_photo(message):
 
 
 
+@bot.message_handler(commands=['email'])
+def handle_email(message):
+    # create message object instance
+    msg = MIMEMultipart()
+
+    message = "Thank you"
+
+    # setup the parameters of the message
+    password = "IremOfPilars"
+    msg['From'] = "popckovM5@yandex.ru"
+    msg['To'] = "popckovM5@yandex.ru"
+    msg['Subject'] = "Subscription"
+
+    # add in the message body
+    msg.attach(MIMEText(message, 'plain'))
+
+    # create server
+    # server = smtplib.SMTP('smtp.yandex.ru: 587')
+    server = smtplib.SMTP('smtp.yandex.ru:465')
+
+    server.starttls()
+
+    # Login Credentials for sending the mail
+    server.login(msg['From'], password)
+
+    # send the message via the server.
+    server.sendmail(msg['From'], msg['To'], msg.as_string())
+
+    server.quit()
+
+
+
+
+
+
+
 
 
 
 # Стартовое приветствие
 @bot.message_handler(commands=['start'])
 def start_message(message):
-
     '''Главный базовый метод, срабатвает в момент активайии бота, выводит приветствие, и создает кнопки.'''
 
-    # path = 'received'
-    # files = os.listdir(path)
-    # result = ''
-    # for i in files:
-    #     result += str(i)
-    # bot.send_message(message.chat.id, result)
-
-    # uis_pdf = open('received/' + src + '.pdf', 'rb')
-    # bot.send_document(message.chat.id, uis_pdf)
-    # uis_pdf.close()
 
     # Создаем кнопки с общим функционалом который увидит пользователь при начале работы
     # При создании передаем параметр = True это ркгулирует размер кнопок под ширину экрана
@@ -101,35 +140,21 @@ def start_message(message):
 # Стартовое приветствие
 @bot.message_handler(commands=['help'])
 def default_test(message):
-
     '''Метод помошник, выводит справочную информацию.'''
 
     keyboard = telebot.types.InlineKeyboardMarkup()
-
     btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании MitLabs", url="https://mitlabs.ru")
-    # btn_question = telebot.types.InlineKeyboardButton(text="Задать вопрос человеку", url="https://mitlabs.ru")
-    # btn_out = telebot.types.InlineKeyboardButton(text="Отписаться", url="https://mitlabs.ru")
-
     keyboard.add(btn_url_mitlabs)
-    # keyboard.add(btn_question)
-    # keyboard.add(btn_out)
-    bot.send_sticker(message.chat.id, '')
     bot.send_message(message.chat.id, "Выберите локацию:", reply_markup=keyboard)
 
 
 
 
 
-@bot.message_handler(content_types=['sticker'])
-def default_test(message):
-    print(message)
-
-
 
 # В большинстве случаев целесообразно разбить этот хэндлер на несколько маленьких
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
-
     '''Метод обработчик нажатых Inline кнопок, тоесть заранее заготов.кнопок меню.'''
 
     if call.message:
