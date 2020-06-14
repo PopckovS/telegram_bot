@@ -39,7 +39,7 @@ def start_message(message):
     bot.send_message(message.chat.id, 'Привет {0} {1} вас приветствует бот компании {2} \n'
                      .format(message.from_user.first_name, message.from_user.last_name, 'MitLabs'), reply_markup=keyboard)
 
-    bot.send_poll(message.chat.id, 'вопрос', options=['1', '2', '3'])
+
 
 
 
@@ -261,7 +261,7 @@ def get_about_project(message):
 
 
     bot.send_message(message.from_user.id, result_text, reply_markup=keyboard)
-
+    bot.send_poll(message.chat.id, 'Оцените работу бота', options=['Ужасно', 'Хорошо', 'Старайся'])
 
 
 
