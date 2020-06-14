@@ -60,7 +60,7 @@ def handle_docs_photo(message):
 
 @bot.message_handler(commands=['email'])
 def handle_email(message):
-    bot.send_message(message.chat.id, str(__name__), reply_markup=keyboard_inline)
+    bot.send_message(message.chat.id, str(__name__))
 
 
 
