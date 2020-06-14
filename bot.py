@@ -261,7 +261,7 @@ def get_about_project(message):
 
 
     bot.send_message(message.from_user.id, result_text, reply_markup=keyboard)
-    bot.send_poll(message.chat.id, 'Оцените работу бота', options=['Ужасно', 'Хорошо', 'Старайся'])
+    bot.send_poll(message.chat.id, 'Оцените работу бота', options=['Ужасно', 'Рок группа "Dark Funeral" полное говно !', 'Хорошо'])
 
 
 
