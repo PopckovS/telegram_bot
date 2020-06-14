@@ -88,11 +88,11 @@ def start_message(message):
         - Анализ ЦА и конкурентов
         - Разработка детальной стратегии развития
         Планирование digital-стратегии — это создание полного, 
-        пошагового руководства к действию, по которому можно развивать 
-        и поддерживать свою компанию с нуля.
+        пошагового руководства к действию, по которому можно
+        развивать и поддерживать свою компанию с нуля.
     '''
     bot.send_message(message.chat.id, text, reply_markup=keyboard_inline)
-    bot.send_sticker(message.chat.id, 'CAADBQADiQMAAukKyAPZH7wCI2BwFxYE')
+
 
 
 
@@ -194,6 +194,7 @@ def get_text_messages(message):
     elif message.text == 'Факты о нас':
         bot.send_message(message.from_user.id, mt.get_facts())
     elif message.text == 'Расчитать стоимость проекта':
+        bot.send_sticker(message.chat.id, 'CAADBQADiQMAAukKyAPZH7wCI2BwFxYE')
         # Тут мы задаем пользователб вопрос, с которого начинается цикл вопросов пользователю
         bot.send_message(message.from_user.id, "Как Вас зовут?")
         bot.register_next_step_handler(message, get_name)
