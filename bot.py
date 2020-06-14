@@ -4,6 +4,7 @@
 import telebot # Модуль pyTelegramBotAPI
 import config  # Файл конфигурации
 import re # Импортирую модулья для работы с регулярными выражениями, проверки email, phone
+import os
 from mitlabs import MitLabs # Импортирую класс с информацией о компании
 
 # Создаем экземпляр класса для работы с библиотекой pyTelegramBotAPI, и передаем ему API токена.
@@ -22,12 +23,35 @@ other = ''
 
 
 
+@bot.message_handler(content_types=['document'])
+def handle_docs_photo(message):
+
+    '''Прием документов от пользователя'''
+
+    try:
+        chat_id = message.chat.id
+
+        file_info = bot.get_file(message.document.file_id)
+        downloaded_file = bot.download_file(file_info.file_path)
+
+        # src = '/home/users-name/received/' + message.document.file_name;
+        src = 'received/' + message.document.file_name;
+        src = message.document.file_name;
+        with open(src, 'wb') as new_file:
+            new_file.write(downloaded_file)
+        bot.reply_to(message, "Я сохраню ваш файл")
+    except Exception as e:
+        bot.reply_to(message, 'Возникла ошибка: ' + e)
 
 # Стартовое приветствие
 @bot.message_handler(commands=['start'])
 def start_message(message):
 
     '''Главный базовый метод, срабатвает в момент активайии бота, выводит приветствие, и создает кнопки.'''
+
+    path = 'received'
+    files = os.listdir(path)
+
 
     # Создаем кнопки с общим функционалом который увидит пользователь при начале работы
     # При создании передаем параметр = True это ркгулирует размер кнопок под ширину экрана
@@ -36,15 +60,16 @@ def start_message(message):
     keyboard.add('Расчитать стоимость проекта')
 
     # Выводим притствие, и показываем кнопки нашему пользователю
-    bot.send_message(message.chat.id, 'Привет {0} {1} вас приветствует бот компании {2} \n'
-                     .format(message.from_user.first_name, message.from_user.last_name, 'MitLabs'), reply_markup=keyboard)
+    bot.send_message(message.chat.id, 'Привет {0} {1} вас приветствует бот компании {2} \n Содерж:{3}'
+                     .format(message.from_user.first_name, message.from_user.last_name, 'MitLabs', files),
+                     reply_markup=keyboard)
 
     # Создаем и отправляем кнопу для перехода на сайт компании
     keyboard_inline = telebot.types.InlineKeyboardMarkup()
     btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании MitLabs",
                                                          url="https://mitlabs.ru")
     keyboard_inline.add(btn_url_mitlabs)
-    bot.send_message(message.chat.id, "", reply_markup=keyboard_inline)
+    bot.send_message(message.chat.id, "Перейти на сайт компании MitLabs", reply_markup=keyboard_inline)
 
 
 
@@ -155,25 +180,6 @@ def get_text_messages(message):
 
 
 
-@bot.message_handler(content_types=['document'])
-def handle_docs_photo(message):
-
-    '''Прием документов от пользователя'''
-
-    try:
-        chat_id = message.chat.id
-
-        file_info = bot.get_file(message.document.file_id)
-        downloaded_file = bot.download_file(file_info.file_path)
-
-        # src = '/home/users-name/received/' + message.document.file_name;
-        src = 'received/' + message.document.file_name;
-        src = message.document.file_name;
-        with open(src, 'wb') as new_file:
-            new_file.write(downloaded_file)
-        bot.reply_to(message, "Я сохраню ваш файл")
-    except Exception as e:
-        bot.reply_to(message, 'Возникла ошибка: ' + e)
 
 
 # class User:
