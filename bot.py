@@ -17,7 +17,7 @@ name = ''
 email = ''
 phone = ''
 about_project = ''
-
+other = ''
 
 
 
@@ -39,7 +39,7 @@ def start_message(message):
     bot.send_message(message.chat.id, 'Привет {0} {1} вас приветствует бот компании {2} \n'
                      .format(message.from_user.first_name, message.from_user.last_name, 'MitLabs'), reply_markup=keyboard)
 
-
+    bot.send_poll(message.chat.id, 'вопрос', options=['1', '2', '3'])
 
 
 
@@ -192,6 +192,18 @@ def get_name(message):
     name = message.text
     bot.send_message(message.from_user.id, 'Ваш email ?')
     bot.register_next_step_handler(message, get_email)
+
+    # keyboard = telebot.types.InlineKeyboardMarkup()
+    # btn_no_email = telebot.types.InlineKeyboardButton(text='Да все верно', callback_data='no_email')
+    # keyboard.add(btn_no_email)
+    #
+    # bot.send_message(message.from_user.id, 'Ваш email ?')
+    # bot.register_next_step_handler(message, get_email)
+
+#     keyboard = telebot.types.InlineKeyboardMarkup()
+#     btn_yes = telebot.types.InlineKeyboardButton(text='Да все верно', callback_data='project_yes')
+#     btn_no = telebot.types.InlineKeyboardButton(text='Нет, заполнить с начала', callback_data='project_no')
+#     keyboard.add(btn_yes, btn_no)
 
 
 def get_email(message):
