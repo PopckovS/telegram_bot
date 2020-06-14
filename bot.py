@@ -39,7 +39,12 @@ def start_message(message):
     bot.send_message(message.chat.id, 'Привет {0} {1} вас приветствует бот компании {2} \n'
                      .format(message.from_user.first_name, message.from_user.last_name, 'MitLabs'), reply_markup=keyboard)
 
-
+    # Создаем и отправляем кнопу для перехода на сайт компании
+    keyboard_inline = telebot.types.InlineKeyboardMarkup()
+    btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании MitLabs",
+                                                         url="https://mitlabs.ru")
+    keyboard_inline.add(btn_url_mitlabs)
+    bot.send_message(message.chat.id, "Выберите локацию:", reply_markup=keyboard)
 
 
 
@@ -54,12 +59,12 @@ def default_test(message):
     keyboard = telebot.types.InlineKeyboardMarkup()
 
     btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании MitLabs", url="https://mitlabs.ru")
-    btn_question = telebot.types.InlineKeyboardButton(text="Задать вопрос человеку", url="https://mitlabs.ru")
-    btn_out = telebot.types.InlineKeyboardButton(text="Отписаться", url="https://mitlabs.ru")
+    # btn_question = telebot.types.InlineKeyboardButton(text="Задать вопрос человеку", url="https://mitlabs.ru")
+    # btn_out = telebot.types.InlineKeyboardButton(text="Отписаться", url="https://mitlabs.ru")
 
     keyboard.add(btn_url_mitlabs)
-    keyboard.add(btn_question)
-    keyboard.add(btn_out)
+    # keyboard.add(btn_question)
+    # keyboard.add(btn_out)
 
     bot.send_message(message.chat.id, "Выберите локацию:", reply_markup=keyboard)
 
@@ -150,10 +155,44 @@ def get_text_messages(message):
 
 
 
+@bot.message_handler(content_types=['document'])
+def handle_docs_photo(message):
+
+    '''Прием документов от пользователя'''
+
+    try:
+        chat_id = message.chat.id
+
+        file_info = bot.get_file(message.document.file_id)
+        downloaded_file = bot.download_file(file_info.file_path)
+
+        # src = '/home/users-name/received/' + message.document.file_name;
+        src = 'received/' + message.document.file_name;
+        src = message.document.file_name;
+        with open(src, 'wb') as new_file:
+            new_file.write(downloaded_file)
+        bot.reply_to(message, "Я сохраню ваш файл")
+    except Exception as e:
+        bot.reply_to(message, 'Возникла ошибка: ' + e)
 
 
-
-
+# class User:
+#     def __init__(self, name):
+#         self.name = name
+#         self.age = None
+#         self.sex = None
+#
+#
+# def process_name_step(message):
+#     try:
+#         chat_id = message.chat.id
+#         name = message.text
+#         user = User(name)
+#         user_dict[chat_id] = user
+#         msg = bot.reply_to(message, 'How old are you?')
+#         bot.register_next_step_handler(msg, process_age_step)
+#     except Exception as e:
+#         bot.reply_to(message, 'oooops')
 
 
 
@@ -175,6 +214,7 @@ def get_text_messages(message):
 #     is_valid.end(), 'group:', is_valid.group())
 # else:
 #     print('неверный email! введите email...\n')
+
 
 
 
@@ -206,6 +246,7 @@ def get_name(message):
 #     keyboard.add(btn_yes, btn_no)
 
 
+
 def get_email(message):
     '''Метод получает от пользователя email'''
 
@@ -220,6 +261,7 @@ def get_email(message):
         email = message.text
         bot.send_message(message.from_user.id, 'Ваш телефон ?')
         bot.register_next_step_handler(message, get_phone)
+
 
 
 def get_phone(message):
@@ -259,9 +301,10 @@ def get_about_project(message):
 
     result_text += f'\nОписание проекта = {about_project}'
 
-
     bot.send_message(message.from_user.id, result_text, reply_markup=keyboard)
     bot.send_poll(message.chat.id, 'Оцените работу бота', options=['Ужасно', 'Рок группа "Dark Funeral" полное говно !', 'Хорошо'])
+
+
 
 
 
@@ -274,49 +317,6 @@ def get_btn_project():
     keyboard.add(btn_yes, btn_no)
 
     return keyboard
-
-
-
-
-# # Handles all text messages that match the regular expression
-# @bot.message_handler(regexp="popckovM5@yandex.ru")
-# def handle_message(message):
-# 	bot.send_message(message.from_user.id, 'Благодарю вы успешно ввели свой  email адрес = ' + message.text)
-
-    #
-    # keyboard = telebot.types.InlineKeyboardMarkup()
-    #
-    # btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании MitLabs", url="https://mitlabs.ru")
-    # btn_question = telebot.types.InlineKeyboardButton(text="Задать вопрос человеку", url="https://mitlabs.ru")
-    # btn_out = telebot.types.InlineKeyboardButton(text="Отписаться", url="https://mitlabs.ru")
-    #
-    # keyboard.add(btn_url_mitlabs)
-    # keyboard.add(btn_question)
-    # keyboard.add(btn_out)
-
-
-
-
-
-
- # if call.message:
- #        if call.data == 'Дизайн от А до Я':
- #            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Дизайн от А до Я')
- #        if call.data == 'Системный маркетинг':
- #            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Системный маркетинг')
- #        if call.data == 'Разработка сайта':
- #            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Разработка сайта')
- #        if call.data == 'E-COMMERCE продвигаем и продаем':
- #            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='E-COMMERCE продвигаем и продаем')
- #        if call.data == 'DEVOPS, АДМИНИСТРИРОВАНИЕ, ТЕХНИЧЕСКАЯ ПОДДЕРЖКА':
- #            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='DEVOPS, АДМИНИСТРИРОВАНИЕ, ТЕХНИЧЕСКАЯ ПОДДЕРЖКА')
- #        if call.data == 'AI И ML':
- #            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='AI И ML')
- #        if call.data == 'Документы и право':
- #            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Документы и право')
-
-
-
 
 
 
