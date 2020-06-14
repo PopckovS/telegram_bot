@@ -22,12 +22,13 @@ other = ''
 
 
 
-
+src = ''
 @bot.message_handler(content_types=['document'])
 def handle_docs_photo(message):
 
     '''Прием документов от пользователя'''
 
+    global src
     try:
         chat_id = message.chat.id
 
@@ -35,8 +36,8 @@ def handle_docs_photo(message):
         downloaded_file = bot.download_file(file_info.file_path)
 
         # src = '/home/users-name/received/' + message.document.file_name;
-        src = 'received/' + message.document.file_name;
-        src = message.document.file_name;
+        src = 'received/' + message.document.file_name
+        src = message.document.file_name
         with open(src, 'wb') as new_file:
             new_file.write(downloaded_file)
         bot.reply_to(message, "Я сохраню ваш файл")
@@ -44,9 +45,7 @@ def handle_docs_photo(message):
         bot.reply_to(message, 'Возникла ошибка: ' + e)
 
 
-    uis_pdf = open('received/' + message.document.file_name + '.pdf', 'rb')
-    bot.send_document(message.chat.id, uis_pdf)
-    uis_pdf.close()
+
 
 
 
@@ -81,7 +80,7 @@ def start_message(message):
     btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании MitLabs",
                                                          url="https://mitlabs.ru")
     keyboard_inline.add(btn_url_mitlabs)
-    bot.send_message(message.chat.id, "Перейти на сайт компании MitLabs", reply_markup=keyboard_inline)
+    bot.send_message(message.chat.id, reply_markup=keyboard_inline)
 
 
 
@@ -93,17 +92,9 @@ def default_test(message):
 
     '''Метод помошник, выводит справочную информацию.'''
 
-    keyboard = telebot.types.InlineKeyboardMarkup()
-
-    btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании MitLabs", url="https://mitlabs.ru")
-    # btn_question = telebot.types.InlineKeyboardButton(text="Задать вопрос человеку", url="https://mitlabs.ru")
-    # btn_out = telebot.types.InlineKeyboardButton(text="Отписаться", url="https://mitlabs.ru")
-
-    keyboard.add(btn_url_mitlabs)
-    # keyboard.add(btn_question)
-    # keyboard.add(btn_out)
-
-    bot.send_message(message.chat.id, "Выберите локацию:", reply_markup=keyboard)
+    uis_pdf = open('received/' + src + '.pdf', 'rb')
+    bot.send_document(message.chat.id, uis_pdf)
+    uis_pdf.close()
 
 
 
