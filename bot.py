@@ -53,25 +53,9 @@ def start_message(message):
     files = os.listdir(path)
     result = ''
     for i in files:
-        result += str(i)+'\n'
+        result += str(i)
 
-    # Создаем кнопки с общим функционалом который увидит пользователь при начале работы
-    # При создании передаем параметр = True это ркгулирует размер кнопок под ширину экрана
-    keyboard = telebot.types.ReplyKeyboardMarkup(True)
-    keyboard.row('Наши реквизиты', 'Наши цены', 'Факты о нас')
-    keyboard.add('Расчитать стоимость проекта')
-
-    # Выводим притствие, и показываем кнопки нашему пользователю
-    bot.send_message(message.chat.id, 'Привет {0} {1} вас приветствует бот компании {2} \n Содерж:{3}'
-                     .format(message.from_user.first_name, message.from_user.last_name, 'MitLabs', result),
-                     reply_markup=keyboard)
-
-    # Создаем и отправляем кнопу для перехода на сайт компании
-    keyboard_inline = telebot.types.InlineKeyboardMarkup()
-    btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Перейти на сайт компании MitLabs",
-                                                         url="https://mitlabs.ru")
-    keyboard_inline.add(btn_url_mitlabs)
-    bot.send_message(message.chat.id, "Перейти на сайт компании MitLabs", reply_markup=keyboard_inline)
+    bot.send_message(message.chat.id, result)
 
 
 
