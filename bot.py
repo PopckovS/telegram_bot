@@ -7,6 +7,7 @@ import re # Импортирую модулья для работы с регу�
 import os
 from mitlabs import MitLabs # Импортирую класс с информацией о компании
 
+import requests
 
 
 
@@ -311,6 +312,7 @@ def get_phone(message):
         bot.register_next_step_handler(message, get_about_project)
 
 
+all_response = ''
 
 def get_about_project(message):
     global about_project
@@ -333,8 +335,8 @@ def get_about_project(message):
     result_text += f'\nОписание проекта = {about_project}'
 
     bot.send_message(message.from_user.id, result_text, reply_markup=keyboard)
-    bot.send_poll(message.chat.id, 'Оцените работу бота', options=['Ужасно', 'Рок группа "Dark Funeral" полное говно !', 'Хорошо'])
-
+    msg = bot.send_poll(message.chat.id, 'Оцените работу бота', options=['Ужасно', 'Рок группа "Dark Funeral" полное говно !', 'Хорошо'])
+    all_response.chat_id = msg.chat.id
 
 
 
