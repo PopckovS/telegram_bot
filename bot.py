@@ -182,7 +182,7 @@ def get_text_messages(message):
         keyboard = telebot.types.InlineKeyboardMarkup()
 
         btn1 = telebot.types.InlineKeyboardButton(text='Дизайн от А до Я', callback_data='Дизайн от А до Я')
-        btn2 = telebot.types.InlineKeyboardButton(text='Маркетинг', callback_data='Системный маркетинг')
+        btn2 = telebot.types.InlineKeyboardButton(text='Маркетинг', callback_data='Маркетинг')
         btn3 = telebot.types.InlineKeyboardButton(text='Разработка сайта', callback_data='Разработка сайта')
         btn4 = telebot.types.InlineKeyboardButton(text='E-COMMERCE', callback_data='E-COMMERCE')
         btn5 = telebot.types.InlineKeyboardButton(text='DEVOPS', callback_data='DEVOPS')
@@ -335,7 +335,7 @@ def get_about_project(message):
     result_text += f'\nОписание проекта = {about_project}'
 
     bot.send_message(message.from_user.id, result_text, reply_markup=keyboard)
-    msg = bot.send_poll(message.chat.id, 'Оцените работу бота', options=['Ужасно', 'Рок группа "Dark Funeral" полное говно !', 'Хорошо'])
+    msg = bot.send_poll(message.chat.id, 'Оцените работу бота', options=['Ужасно', 'Рок группа "Dark Funeral" полное го*но !', 'Хорошо'])
     all_response.chat_id = msg.chat.id
 
 
