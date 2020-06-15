@@ -71,3 +71,15 @@ pip install pytelegrambotapi
     Теперь бот будет находиться в постоянно слушающем состоянии.
 '''
 
+# Можно работать с картинками по их id а можно по их имени, для этого потребуется установить
+# модуль emoji
+# модуль sqlite3
+
+# Так можно получить данные о пользователе с которым общается наш бот
+# message.from_user.id
+# message.from_user.first_name
+# message.from_user.last_name
+# message.from_user.username
+
+
+
