@@ -335,7 +335,7 @@ def get_about_project(message):
     result_text += f'\nОписание проекта = {about_project}'
 
     bot.send_message(message.from_user.id, result_text, reply_markup=keyboard)
-    # msg = bot.send_poll(message.chat.id, 'Оцените работу бота', options=['Ужасно', 'Рок группа "Dark Funeral" полное го*но !', 'Хорошо'])
+    msg = bot.send_poll(message.chat.id, 'Оцените работу бота', options=['Ужасно', 'Рок группа "Dark Funeral" полное го*но !', 'Хорошо'])
     # all_response.chat_id = msg.chat.id
 
 
