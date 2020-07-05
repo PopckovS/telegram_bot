@@ -4,6 +4,8 @@ class MitLabs():
 
     '''Простой класс с информацией о компании MitLabs'''
 
+    PRES_MITLABS = 'presmitlab.pdf'
+
     def __init__(self):
         pass
 

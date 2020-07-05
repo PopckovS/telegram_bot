@@ -8,11 +8,13 @@ import os
 from mitlabs import MitLabs # Импортирую класс с информацией о компании
 
 import requests
+import urllib.request
 
-
+# contact@formica.pro
+# popckvoM5@yandex.ru
 
 # Создаем экземпляр класса для работы с библиотекой pyTelegramBotAPI, и передаем ему API токена.
-bot = telebot.TeleBot(config.key_api)
+bot = telebot.TeleBot(config.key_api_long_pool)
 
 # Создаем экземляр класса для получения из него данных о компании
 mt = MitLabs()
@@ -26,6 +28,41 @@ other = ''
 src = ''
 
 
+
+
+
+@bot.message_handler(commands=["poll"])
+def handle_docs_audio(message):
+    # bot.send_poll(message.chat.id, 'вопрос', options=['1', '2', '3'])
+    bot.send_message(message.chat.id, 'Привет')
+    bot.send_message(message.chat.id, message.chat.id)
+    print('==========')
+    print(message.chat.id)
+    print('==========')
+
+    # bot.answer_callback_query(callback_query_id=cmd.id, text="Изменять голос запрещено", show_alert=False)
+    # bot.answer_callback_query(callback_query_id=cmd.id, text="Неверно, Верный ответ...", show_alert=True)
+
+
+
+
+# @bot.message_handler(content_types=["document"])
+# def handle_docs_audio(message):
+#     '''Получаем от пользователя документ'''
+#
+#     document_id = message.document.file_id
+#     file_info = bot.get_file(document_id)
+#
+#     print('====================')
+#     print(file_info)
+#     print('====================')
+#
+#     urllib.request.urlretrieve(f'http://api.telegram.org/file/bot{config.key_api_long_pool}/{file_info.file_path}', file_info.file_path)
+
+
+
+
+
 # path = 'received'
 # files = os.listdir(path)
 # result = ''
@@ -37,7 +74,7 @@ src = ''
 # bot.send_document(message.chat.id, uis_pdf)
 # uis_pdf.close()
 
-@bot.message_handler(content_types=['document'])
+@bot.message_handler(commands=['document'])
 def handle_docs_photo(message):
     '''Прием документов от пользователя'''
  
@@ -49,26 +86,44 @@ def handle_docs_photo(message):
         downloaded_file = bot.download_file(file_info.file_path)
 
         # src = '/home/users-name/received/' + message.document.file_name;
-        src = 'received/' + message.document.file_name
+        # src = '/document/' + message.document.file_name
         src = message.document.file_name
         with open(src, 'wb') as new_file:
-            new_file.write(downloaded_file)
+            # new_file.write(downloaded_file)
+            new_file.write('/document/' + downloaded_file)
         bot.reply_to(message, "Я сохраню ваш файл")
     except Exception as e:
         bot.reply_to(message, 'Возникла ошибка: ' + e)
 
+    # bot.send_message(message.chat.id, 'message.document.file_name = '+message.document.file_name)
 
 
-@bot.message_handler(commands=['email'])
+@bot.message_handler(commands=['name'])
 def handle_email(message):
     bot.send_message(message.chat.id, str(__name__))
 
 
+@bot.message_handler(commands=['document'])
+def handle_email(message):
+    pass
+
+    # uis_pdf = open('document/pres_mitlab.pdf', 'rb')
+    # uis_pdf = open('1.pdf', 'rb')
+    # bot.send_document(message.chat.id, uis_pdf)
 
 
+    # img = open('../Peek 2020-06-09 15-44.gif', 'rb')
+    # bot.send_photo(message.chat.id, img)
 
+    # bot.send_animation(message.chat.id, img)
+    # bot.send_message(id, '<a href="IMG_URL">&#8203;</a>', parse_mode="HTML")
+    # bot.send_message(message.chat.id, '<a href="">&#8203;</a>', parse_mode="HTML")
 
+# bot.send_animation - Посылает гифки и возможно видео
+# bot.send_photo     - Посылает картинки
 
+# import time
+# time.sleep(1)
 
 
 

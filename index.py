@@ -82,4 +82,59 @@ pip install pytelegrambotapi
 # message.from_user.username
 
 
+'''
+Примеры работы с API Telegram по средствам GET,POST,PUT,DELETE запросов по средству протокола https.
+Очень интересные статьи по этой теме, можно найти на сайте: http://docs.botmother.com/
 
+по документации, можно работать с ботом телеграмма, при помощт https
+задавая различные методы и получая результат.
+Результат возвращается в виде json
+Тело в GET запросе можно передавать в строке URL, для остальных запросов — только в специальном поле компонента.
+
+1) Метод getMe выводит информацию о самом боте, его id, бот это или нет, имя бота, username бота.
+    https://api.telegram.org/bot{ТОКЕН_API}/getMe
+    {"ok":true,"result":
+        {"id":1266890760,
+        "is_bot":true,
+        "first_name":"test_sergey_bot_2",
+        "username":"test_sergey_username_2_bot",
+        "can_join_groups":true,
+        "can_read_all_group_messages":false,
+        "supports_inline_queries":false}
+    }
+  
+2) Послать сообщенение от лица бота в определенный чат, тоесть конкретному человеку.   
+    Этот запрсо типа Get отправит в чат с id = 932670856 текст "Привет-Мир"
+    Что это значит, мы можем отправлять сообщения в различные чаты, при помощи
+    стандартного модуля requests то-есть управлять ботом.
+    
+    Также при отправки текстов в место пробелов надо исп-ть символ + при GET запросе.
+    
+    https://api.telegram.org/bot{ТОКЕН_API}/sendMessage?chat_id=932670856&text=Привет-Мир
+    
+    В ответе получим, номер сообщения(тоесть сколько всего сообщений вабще было топравлено за все время)
+    от кого, id бота его имя и прочее. И кому, id чата, имя фамилия человека в телеграмме.
+    {"ok":true,"result":
+        {
+        "message_id":98,
+        "from":
+            {"id":1266890760,
+            "is_bot":true,
+            "first_name":"test_sergey_bot_2",
+            "username":"test_sergey_username_2_bot"
+            },
+        "chat":
+            {"id":932670856,
+            "first_name":"Sergey",
+            "last_name":"Popckov",
+            "username":"popkovS",
+            "type":"private"
+            },
+        "date":1592263743,
+        "text":"\u0425\u0430\u0439-\u0411\u043b\u044f\u0442\u044c"
+        }
+    }
+    
+    Ошибка если не указать чат id при отправки GET запроса.
+    {"ok":false,"error_code":400,"description":"Bad Request: chat_id is empty"}
+'''
