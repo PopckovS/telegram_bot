@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    {% if style_main %}
+        <link type="text/css" href="{{ style_main }}">
+    {% endif %}
+    <link type="text/css" href="style/main.css">
+    <title>Сервер на Flask</title>
+</head>
+<body>
+
+<!-- Вывод главного меню -->
+{% if menu %}
+    {{ menu|safe }}
+{% endif %}
+
+<!-- Вывод Заголовка -->
+{% if header %}
+    <h1>{{ header }}</h1>
+{% endif %}
+
+
+<!-- Вывод всех пользователей в системе -->
+{% if users %}
+    <ul>
+    {% for user in users %}
+        <a href="{{linkMessages}}{{ user.telegramID}}">
+            <li>
+                {{ user.telegramID}}<br>
+                {{ user.first_name}}<br>
+                {{ user.last_name }}<br>
+            </li>
+        </a>
+
+        <hr>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+
+</body>
+</html>

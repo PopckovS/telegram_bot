@@ -1,0 +1,12 @@
+{
+  "ok": true,
+  "result": {
+    "id": 1266890760,
+    "is_bot": true,
+    "first_name": "test_sergey_bot_2",
+    "username": "test_sergey_username_2_bot",
+    "can_join_groups": true,
+    "can_read_all_group_messages": false,
+    "supports_inline_queries": false
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "ok": true,
+  "result": [
+    {
+      "update_id": 839139374,
+      "message": {
+        "message_id": 650,
+        "from": {
+          "id": 932670856,
+          "is_bot": false,
+          "first_name": "Sergey",
+          "last_name": "Popckov",
+          "username": "popkovS",
+          "language_code": "en"
+        },
+        "chat": {
+          "id": 932670856,
+          "first_name": "Sergey",
+          "last_name": "Popckov",
+          "username": "popkovS",
+          "type": "private"
+        },
+        "date": 1597011760,
+        "text": "111"
+      }
+    },
+    {
+      "update_id": 839139375,
+      "message": {
+        "message_id": 651,
+        "from": {
+          "id": 932670856,
+          "is_bot": false,
+          "first_name": "Sergey",
+          "last_name": "Popckov",
+          "username": "popkovS",
+          "language_code": "en"
+        },
+        "chat": {
+          "id": 932670856,
+          "first_name": "Sergey",
+          "last_name": "Popckov",
+          "username": "popkovS",
+          "type": "private"
+        },
+        "date": 1597011763,
+        "text": "222"
+      }
+    },
+    {
+      "update_id": 839139376,
+      "message": {
+        "message_id": 652,
+        "from": {
+          "id": 932670856,
+          "is_bot": false,
+          "first_name": "Sergey",
+          "last_name": "Popckov",
+          "username": "popkovS",
+          "language_code": "en"
+        },
+        "chat": {
+          "id": 932670856,
+          "first_name": "Sergey",
+          "last_name": "Popckov",
+          "username": "popkovS",
+          "type": "private"
+        },
+        "date": 1597011765,
+        "text": "333"
+      }
+    },
+    {
+      "update_id": 839139377,
+      "message": {
+        "message_id": 653,
+        "from": {
+          "id": 932670856,
+          "is_bot": false,
+          "first_name": "Sergey",
+          "last_name": "Popckov",
+          "username": "popkovS",
+          "language_code": "en"
+        },
+        "chat": {
+          "id": 932670856,
+          "first_name": "Sergey",
+          "last_name": "Popckov",
+          "username": "popkovS",
+          "type": "private"
+        },
+        "date": 1597011821,
+        "text": "/start",
+        "entities": [
+          {
+            "offset": 0,
+            "length": 6,
+            "type": "bot_command"
+          }
+        ]
+      }
+    },
+    {
+      "update_id": 839139378,
+      "message": {
+        "message_id": 654,
+        "from": {
+          "id": 932670856,
+          "is_bot": false,
+          "first_name": "Sergey",
+          "last_name": "Popckov",
+          "username": "popkovS",
+          "language_code": "en"
+        },
+        "chat": {
+          "id": 932670856,
+          "first_name": "Sergey",
+          "last_name": "Popckov",
+          "username": "popkovS",
+          "type": "private"
+        },
+        "date": 1597011825,
+        "text": "/url",
+        "entities": [
+          {
+            "offset": 0,
+            "length": 4,
+            "type": "bot_command"
+          }
+        ]
+      }
+    },
+    {
+      "update_id": 839139379,
+      "message": {
+        "message_id": 655,
+        "from": {
+          "id": 932670856,
+          "is_bot": false,
+          "first_name": "Sergey",
+          "last_name": "Popckov",
+          "username": "popkovS",
+          "language_code": "en"
+        },
+        "chat": {
+          "id": 932670856,
+          "first_name": "Sergey",
+          "last_name": "Popckov",
+          "username": "popkovS",
+          "type": "private"
+        },
+        "date": 1597016972,
+        "text": "new"
+      }
+    }
+  ]
+}
