@@ -8,7 +8,6 @@ from models.Projects import Projects
 from app import bot
 
 
-# Стартовое приветствие
 @bot.message_handler(commands=['start'])
 def start_message(message):
     '''Главный базовый метод, срабатвает в момент активайии бота, выводит приветствие, и создает кнопки.'''
@@ -49,6 +48,11 @@ def start_message(message):
 
 
 
+# TODO сделать регистрацию админа в этом телеграмботе, чтобы бот мог писать админу,
+# TODO что клиент хочет с ним пообщаться на тему проекта.
+@bot.message_handler(commands=['adminRegistration'])
+def admin_registration(message):
+    bot.send_message(message.chat.id, 'adminRegistration')
 
 
 

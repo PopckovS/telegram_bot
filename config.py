@@ -14,7 +14,7 @@ BOT_ID = 1266890760
 
 # Ключ API для аутентификации с ботом, ключ можно получить от BotFather в telegram
 # key_api_heruko = ''
-key_api_long_pool = '123123'
+key_api_long_pool = '111'
 
 # Ссылка на бота для начала взаимодействия
 BOT_LINK = 'https://t.me/test_sergey_username_2_bot'
@@ -29,7 +29,7 @@ CONNECT_DB = 'mysql+pymysql://serg:11@localhost/telegram'
 URL = 'https://api.telegram.org/bot'
 
 # Приватный токен для обращения к боту
-API_KEY = '123123'
+API_KEY = '111'
 
 # Адрес для обращения к боту через API телеграма
 BOT_URL = f'{URL}{API_KEY}/'
