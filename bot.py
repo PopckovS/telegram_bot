@@ -11,7 +11,7 @@ from commands import *
 # Создаем экземляр класса для получения из него данных о компании
 mt = MitLabs()
 
-
+# https://api.telegram.org/bot1266890760:AAEok8g0d0_-c5kIiz4jctShKp_yoIbw8QI
 
 
 # Обьявляем метод для получения текстовых сообщений, это слушатель для
@@ -24,10 +24,11 @@ def get_text_messages(message):
     # Сохраняем информацию о сообщении,акимбы оно не было
     save_message(message)
 
-    user = db.session.query(User).first()
+    user = db.session.query(User).filter(User.telegramID == message.chat.id).first()
 
-    # print(user)
-    # print(user.bot_command)
+    print('========================')
+    print(message.message_id)
+    print('========================')
 
     if user.bot_command == 0:
         if message.text == 'Наши реквизиты':

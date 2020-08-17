@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    {% if style_main %}
+        <link type="text/css" href="{{ style_main }}">
+    {% endif %}
+    <link type="text/css" href="style/main.css">
+    <title>Сервер на Flask</title>
+</head>
+<body>
+
+<!-- Вывод главного меню -->
+{% if menu %}
+    {{ menu|safe }}
+{% endif %}
+
+<!-- Вывод Заголовка -->
+{% if header %}
+    <h1>{{ header }}</h1>
+{% endif %}
+
+
+<h1>Все сообщения пользователя</h1>
+{% if userMessages %}
+    {% for uMsg in userMessages %}
+        <p>
+            {{uMsg.id}}  {{uMsg.message}}
+        </p>
+    {% endfor %}
+{% endif %}
+
+
+
+<h1>Все сообщения бота пользователю</h1>
+{% if botMessages %}
+    {% for bMsg in botMessages %}
+        <p>
+            id = {{bMsg.id}}
+            recipient = {{bMsg.recipient}}
+            message = {{bMsg.message}}
+        </p>
+    {% endfor %}
+{% endif %}
+
+
+<h1>Все сообщения вместе</h1>
+{% if allMessages %}
+    {% for aMsg in allMessages %}
+
+        {% if aMsg.recipient == man %}
+            <p style="color:red">
+                id = {{aMsg.id}}
+                recipient = {{aMsg.recipient}}
+                message = {{aMsg.message}}
+            </p>
+        {% elif aMsg.recipient == bot %}
+            <p style="color:blue">
+                id = {{aMsg.id}}
+                recipient = {{aMsg.recipient}}
+                message = {{aMsg.message}}
+            </p>
+        {% endif %}
+
+    {% endfor %}
+{% endif %}
+
+</body>
+</html>

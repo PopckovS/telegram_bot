@@ -12,6 +12,7 @@ class Messages(db.Model):
     telegramID = db.Column(db.Integer(), nullable=False)
     recipient = db.Column(db.Integer(), nullable=False)
     message = db.Column(db.Text(), nullable=False)
+    messageID = db.Column(db.Integer(), nullable=False)
 
     created_on = db.Column(db.DateTime(), default=datetime.utcnow)
     updated_on = db.Column(db.DateTime(), default=datetime.utcnow, onupdate=datetime.utcnow)
@@ -23,12 +24,14 @@ class Messages(db.Model):
                "telegramID={}\n" \
                "recipient={}\n" \
                "message={}\n" \
+               "messageID={}\n" \
                "created_on={}\n" \
                "updated_on={}".format(
             self.id,
             self.telegramID,
             self.recipient,
             self.message,
+            self.messageID,
             self.created_on,
             self.updated_on
         )

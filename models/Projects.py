@@ -14,7 +14,9 @@ class Projects(db.Model):
     email = db.Column(db.String(255), nullable=True)
     fio = db.Column(db.String(255), nullable=True)
     phone = db.Column(db.String(255), nullable=True)
+
     aboutProject = db.Column(db.Text(), nullable=True)
+    document = db.Column(db.Integer(), default=0, nullable=False)
 
     created_on = db.Column(db.DateTime(), default=datetime.utcnow)
     updated_on = db.Column(db.DateTime(), default=datetime.utcnow, onupdate=datetime.utcnow)

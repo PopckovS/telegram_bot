@@ -20,10 +20,10 @@ def save_message(message, text='', mod='user'):
     # print('================')
     if mod is 'user':
         # Сохранение сообщения от пользователя к боту
-        message = Messages(telegramID=message.chat.id, message=message.text, recipient=config.BOT_ID)
+        message = Messages(telegramID=message.chat.id, message=message.text, recipient=config.BOT_ID, messageID=message.message_id)
     elif mod is 'bot':
         # Сохранение сообщения от бота пользователю
-        message = Messages(telegramID=config.BOT_ID, message=text, recipient=message.chat.id)
+        message = Messages(telegramID=config.BOT_ID, message=text, recipient=message.chat.id, messageID=message.message_id)
 
     # print(message)
 

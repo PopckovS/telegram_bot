@@ -27,6 +27,7 @@ class User(db.Model):
     username = db.Column(db.String(255), nullable=False)
     type = db.Column(db.String(255), nullable=False)
 
+    create_project = db.Column(db.Integer(), default=0, nullable=False)
     bot_command = db.Column(db.Integer(), default=0, nullable=False)
 
     created_on = db.Column(db.DateTime(), default=datetime.utcnow)
@@ -43,6 +44,7 @@ class User(db.Model):
                "last_name={}\n" \
                "username={}\n" \
                "type={}\n" \
+               "bot_command={}\n" \
                "created_on={}\n" \
                "updated_on={}".format(
             self.id,
@@ -51,6 +53,7 @@ class User(db.Model):
             self.last_name,
             self.username,
             self.type,
+            self.bot_command,
             self.created_on,
             self.updated_on
         )
