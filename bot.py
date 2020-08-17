@@ -34,7 +34,7 @@ def get_text_messages(message):
         if message.text == 'Наши реквизиты':
             save_message(message, "Пользователю показан блок 'Наши реквизиты'", 'bot')
             bot.send_message(message.from_user.id, mt.get_requisites())
-        elif message.text == 'Наши цены':
+        elif message.text == 'Наши услуги':
 
             # !!! НЕ ЗНАЮ ПО ЧЕМУ И КАК, НО ОПЫТНЫМ ПУТЕМ ВЫЯСНИЛ, ЧТО ЕСТЬ ОГРАНИЧЕНИЕ !!!
             # !!! НА ДЛИННУ СТРОКИ ПРИ СТАВКИ ЗНАЧЕНИЯ В callback_data В ДОКАХ ПРО ЭТО НИЧЕГО!!!
@@ -60,11 +60,40 @@ def get_text_messages(message):
             # bot.send_sticker(message.chat.id, 'CAADBQADiQMAAukKyAPZH7wCI2BwFxYE')
             # Тут мы задаем пользователб вопрос, с которого начинается цикл вопросов пользователю
             save_message(message, "Как Вас зовут?", 'bot')
-            bot.send_message(message.from_user.id, "Как Вас зовут?")
+
             bot.register_next_step_handler(message, get_name)
+        elif message.text == 'Говорить с нашим Менеджером':
+            send_contacts_manager(message)
+        elif message.text == 'Говорить с нашим Менеджером в чате этого бота':
+            send_contacts_manager(message)
         else:
             bot.send_message(message.from_user.id, 'Я вас не понимаю :( Чем я могу тебе помочь?')
             save_message(message, 'Я вас не понимаю :( Чем я могу тебе помочь?', 'bot')
+
+
+
+def send_contacts_manager(message):
+    '''Показать клиенту контакты наших менеджеров.'''
+
+
+    # bot.send_message(message.chat.id, "Доступные контакты:", reply_markup=keyboard)
+    bot.send_message(message.chat.id, "Доступные контакты:")
+
+
+    bot.send_message(message.from_user.id, "Руководитель проектов\nМария Преснякова\n+79056542592\nEmail: mp@mitlabs.ru\nТелеграм: https://t.me/ma_svarchuk")
+
+
+    bot.send_message(message.from_user.id, "Системный маркетинг\nДарина Терехова\n+79515521503\nEmail: dt@mitlabs.ru\nТелеграм: https://t.me/nemayakovsky")
+
+    # btn1 = telebot.types.InlineKeyboardButton(
+    #     text='Руководитель проектов\nМария Преснякова\n+79056542592\nEmail: mp@mitlabs.ru\nТелеграм: https://t.me/ma_svarchuk', callback_data='Мария Преснякова')
+    # btn2 = telebot.types.InlineKeyboardButton(
+    #     text='Системный маркетинг\nДарина Терехова\n+79515521503\nEmail: dt@mitlabs.ru\nТелеграм: https://t.me/nemayakovsky', callback_data='Дарина Терехова')
+
+
+    # keyboard.add(btn1, btn2)
+
+    save_message(message, "Пользователю показаны контакты Менеджеров'", 'bot')
 
 
 
@@ -83,7 +112,8 @@ def callback_inline(call):
 
         if call.data == 'project_yes':
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Прекрасно, продолжим')
-            # bot.send_message(call.message.from_user.id, 'Прекрасно, продолжим')
+
+
         if call.data == 'project_no':
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Хорошо, давайте с начала')
             # bot.send_message(call.message.from_user.id, 'Хорошо, давайте с начала')
@@ -227,7 +257,7 @@ def get_about_project(message):
 
     # Сохраняем и ответ пользователя на превыдущий вопрос и новый вопрос бота
     save_message(message)
-    save_message(message, "Пользователю задан вопрос 'Правильно ли заполнил данные'", 'bot')
+    save_message(message, "Пользователю задан вопрос 'Правильно ли он заполнил данные'", 'bot')
 
     # ======================= Новая версия ======================
     keyboard = get_btn_project() # Добавляем кнопки к результату заполнения опроса

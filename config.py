@@ -8,16 +8,21 @@ def initialBot():
     response = requests.get(config.BOT_URL + 'getMe')
     return response.json()['result']['id']
 
+
+
 # Получаем ID телеграм бота в системе
 # BOT_ID = initialBot()
 BOT_ID = 1266890760
 
 # Ключ API для аутентификации с ботом, ключ можно получить от BotFather в telegram
 # key_api_heruko = ''
-key_api_long_pool = '111'
+key_api_long_pool = ''
 
 # Ссылка на бота для начала взаимодействия
 BOT_LINK = 'https://t.me/test_sergey_username_2_bot'
+
+# Сайт по работе с ботом
+SAIT = 'localhost:5000'
 
 #
 IS_MAN = False
@@ -29,7 +34,7 @@ CONNECT_DB = 'mysql+pymysql://serg:11@localhost/telegram'
 URL = 'https://api.telegram.org/bot'
 
 # Приватный токен для обращения к боту
-API_KEY = '111'
+API_KEY = ''
 
 # Адрес для обращения к боту через API телеграма
 BOT_URL = f'{URL}{API_KEY}/'

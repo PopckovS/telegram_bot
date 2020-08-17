@@ -1,12 +1,15 @@
 import requests
 import telebot
 
+from config import SAIT
+
 from methods import save_user, save_message
 from flaskSQLalchemy import db
 from models.Projects import Projects
 
 from app import bot
 
+from models.Admin import Admin
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
@@ -17,8 +20,11 @@ def start_message(message):
     # Создаем кнопки с общим функционалом который увидит пользователь при начале работы
     # При создании передаем параметр = True это ркгулирует размер кнопок под ширину экрана
     keyboard = telebot.types.ReplyKeyboardMarkup(True)
-    keyboard.row('Наши реквизиты', 'Наши цены', 'Факты о нас')
+    keyboard.row('Наши реквизиты', 'Наши услуги', 'Факты о нас')
     keyboard.add('Расчитать стоимость проекта')
+    keyboard.add('Говорить с нашим Менеджером')
+    keyboard.add('Говорить с нашим Менеджером в чате этого бота')
+
 
     # Выводим притствие, и показываем кнопки нашему пользователю
     bot.send_message(message.chat.id, 'Привет {0} {1} вас приветствует бот компании {2} \n'
@@ -48,11 +54,78 @@ def start_message(message):
 
 
 
-# TODO сделать регистрацию админа в этом телеграмботе, чтобы бот мог писать админу,
-# TODO что клиент хочет с ним пообщаться на тему проекта.
+# TODO сделать регистрацию пароля
 @bot.message_handler(commands=['adminRegistration'])
 def admin_registration(message):
-    bot.send_message(message.chat.id, 'adminRegistration')
+    '''Регистрация администратора.'''
+
+    bot.send_message(message.from_user.id, "Как вас зовут?")
+    bot.register_next_step_handler(message, registration_admin_name)
+
+
+
+
+def registration_admin_name(message):
+    '''Метод регистрацции имени нового администратора.'''
+
+    admin = db.session.query(Admin).filter(Admin.telegramID == message.chat.id).first()
+
+    # Такого Администратора еще нету, так что создадим его
+    if admin is None:
+        admin = Admin(
+            telegramID=message.chat.id,
+            name=message.text,
+            password='-',
+            get_messages=0,
+        )
+        db.session.add(admin)
+        db.session.commit()
+    else:
+        admin.name = message.text
+        db.session.add(admin)
+        db.session.commit()
+
+    bot.send_message(message.from_user.id, 'Готовы работать с клиентом и \nполучать сообщения в телеграме ?')
+    bot.register_next_step_handler(message, registration_admin_get_messages)
+
+
+
+def registration_admin_get_messages(message):
+    '''Метод регистрации администратора, будет ли он получать сообщения ?.'''
+
+    admin = db.session.query(Admin).filter(Admin.telegramID == message.chat.id).first()
+    if message.text == 'да':
+        admin.get_messages = 1
+    else:
+        admin.get_messages = 0
+
+    db.session.add(admin)
+    db.session.commit()
+
+    bot.send_message(message.from_user.id, 'Введите секретный пароль полученный на сайте ?')
+    bot.register_next_step_handler(message, registration_admin_password)
+
+
+
+def registration_admin_password(message):
+    '''Метод регистрации пароль нового администратора.'''
+
+    admin = db.session.query(Admin).filter(Admin.telegramID == message.chat.id).first()
+    admin.password = message.text
+    db.session.add(admin)
+    db.session.commit()
+
+    # bot.send_message(message.from_user.id, 'Вы зарегестрированы ! \nПерейдите на сайт <a>{sait}'.format(sait=SAIT))
+
+    keyboard = telebot.types.InlineKeyboardMarkup()
+    btn_url_mitlabs = telebot.types.InlineKeyboardButton(
+        text="Mitlabs Bot",
+        url="https://mitlabs.ru")
+
+    keyboard.add(btn_url_mitlabs)
+    bot.send_message(message.chat.id, "Вы зарегестрированы ! \nПерейдите на сайт для управления ботом", reply_markup=keyboard)
+
+
 
 
 
@@ -122,7 +195,7 @@ def handle_docs_audio(message):
 def handle_docs_photo(message):
     '''Прием документов от пользователя'''
 
-    global src
+    # global src
     try:
         chat_id = message.chat.id
 
