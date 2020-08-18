@@ -1,17 +1,31 @@
 #! /usr/bin/python3
 
 import re
-
+import config
 
 from mitlabs import MitLabs
 from methods import *
 from commands import *
 
+# pip3 install emoji
+# Библиотека для работы
+from emoji import emojize
+from random import choice
 
+#
 # Создаем экземляр класса для получения из него данных о компании
 mt = MitLabs()
 
 # https://api.telegram.org/bot1266890760:AAEok8g0d0_-c5kIiz4jctShKp_yoIbw8QI
+
+
+
+@bot.message_handler(commands=['test'])
+def test(message):
+    smile = emojize(choice(config.SMILE), use_aliases=True)
+    bot.send_message(message.from_user.id, 'Рандомно выбран emodji = ' + smile)
+
+
 
 
 # Обьявляем метод для получения текстовых сообщений, это слушатель для
