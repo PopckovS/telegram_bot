@@ -42,5 +42,10 @@ BOT_URL = f'{URL}{API_KEY}/'
 # Директория для хранения файлов формата json с результатами запросов к API
 DIR_JSON = 'json'
 
-# Emodji Полный список находится по адресу http://www.unicode.org/emoji/charts/full-emoji-list.html
-SMILE = "👁 📙 📄 ⚙ ❤ 🙂 📘 🖋 🗑 🔒 🔗 👉 💰 💹 📅 📎 🔓 ✔ ❌ 👍 👎 📍 📌 📊 ⚠ ☢"
+# Emoji Полный список находится по адресу
+# http://www.unicode.org/emoji/charts/full-emoji-list.html
+SMILE = "👁 📙 📄 ⚙ ❤ 🙂 📘 🖋 🗑 🔒 🔗 👉 " \
+        "💰 💹 📅 📎 🔓 ✔ ❌ 👍 👎 📍 📌 📊 ⚠ ☢"
+
+
+

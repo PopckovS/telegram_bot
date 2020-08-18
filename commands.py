@@ -22,7 +22,7 @@ def start_message(message):
     keyboard = telebot.types.ReplyKeyboardMarkup(True)
     keyboard.row('Наши реквизиты', 'Наши услуги', 'Факты о нас')
     keyboard.add('Расчитать стоимость проекта')
-    keyboard.add('Говорить с нашим Менеджером')
+    keyboard.add('Контакты наших Менеджеров')
     keyboard.add('Говорить с нашим Менеджером в чате этого бота')
 
 
@@ -51,6 +51,19 @@ def start_message(message):
     # message.text Содержит в себе текст сообщения от пользоватеял
     save_user(message)
     save_message(message)
+
+
+
+
+@bot.message_handler(commands=['help'])
+def default_test(message):
+    '''Метод помошник, выводит справочную информацию.'''
+    text = "/start Начало работы с ботом \n" \
+           "/help Получить список всех доступных команд \n" \
+           "/info Получить информацию о пользователе\n"
+    bot.send_message(message.from_user.id, text)
+
+
 
 
 
@@ -119,7 +132,7 @@ def registration_admin_password(message):
 
     keyboard = telebot.types.InlineKeyboardMarkup()
     btn_url_mitlabs = telebot.types.InlineKeyboardButton(
-        text="Mitlabs Bot",
+        text="Mitlabs BotFather",
         url="https://mitlabs.ru")
 
     keyboard.add(btn_url_mitlabs)
@@ -181,7 +194,7 @@ def handle_docs_audio(message):
     '''В ответе с сервера telegram мы получаем'''
     # # bot.send_poll(message.chat.id, 'вопрос', options=['1', '2', '3'])
 
-    bot.send_message(message.chat.id, 'Содержимое переменной message.chat')
+    bot.send_message(message.chat.id, 'Содержимое переменной message.chat текущем состоянии чата')
     bot.send_message(message.chat.id, f'id = {message.chat.id}')
     bot.send_message(message.chat.id, f'first_name = {message.chat.first_name}')
     bot.send_message(message.chat.id, f'last_name = {message.chat.last_name}')
@@ -249,14 +262,3 @@ def handle_email(message):
 
 
 
-@bot.message_handler(commands=['help'])
-def default_test(message):
-    '''Метод помошник, выводит справочную информацию.'''
-
-    keyboard = telebot.types.InlineKeyboardMarkup()
-    btn_url_mitlabs = telebot.types.InlineKeyboardButton(
-        text="Перейти на сайт компании MitLabs",
-        url="https://mitlabs.ru")
-
-    keyboard.add(btn_url_mitlabs)
-    bot.send_message(message.chat.id, "Выберите локацию:", reply_markup=keyboard)

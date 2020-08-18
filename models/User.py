@@ -23,7 +23,7 @@ class User(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     telegramID = db.Column(db.Integer(), nullable=False)
     first_name = db.Column(db.String(255), nullable=False)
-    last_name = db.Column(db.String(255), nullable=False)
+    last_name = db.Column(db.String(255), nullable=True)
     username = db.Column(db.String(255), nullable=False)
     type = db.Column(db.String(255), nullable=False)
 

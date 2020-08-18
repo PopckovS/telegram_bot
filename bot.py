@@ -16,15 +16,15 @@ from random import choice
 # Создаем экземляр класса для получения из него данных о компании
 mt = MitLabs()
 
-# https://api.telegram.org/bot1266890760:AAEok8g0d0_-c5kIiz4jctShKp_yoIbw8QI
-
 
 
 @bot.message_handler(commands=['test'])
 def test(message):
-    smile = emojize(choice(config.SMILE), use_aliases=True)
-    bot.send_message(message.from_user.id, 'Рандомно выбран emodji = ' + smile)
-
+    # smile = emojize(choice(config.SMILE), use_aliases=True)
+    # smile = emojize('\ud83d\ude17', use_aliases=True)
+    smile = emojize('\N{grinning face}', use_aliases=True)
+    bot.send_message(message.from_user.id, 'Рандомно выбран emoji = ' + smile)
+    bot.send_sticker(message.chat.id, 'CAADBQADiQMAAukKyAPZH7wCI2BwFxYE')
 
 
 
@@ -60,12 +60,14 @@ def get_text_messages(message):
             btn4 = telebot.types.InlineKeyboardButton(text='E-COMMERCE', callback_data='E-COMMERCE')
             btn5 = telebot.types.InlineKeyboardButton(text='DEVOPS', callback_data='DEVOPS')
             btn6 = telebot.types.InlineKeyboardButton(text='AI И ML', callback_data='AI И ML')
-            btn7 = telebot.types.InlineKeyboardButton(text='Документы и право', callback_data='Документы и право')
+            em1 = emojize('\N{page facing up}', use_aliases=True)
+            btn7 = telebot.types.InlineKeyboardButton(text= em1 + ' Документы и право', callback_data='Документы и право')
 
             keyboard.add(btn1, btn2, btn3, btn4, btn5, btn6, btn7)
 
+            em2 = emojize('gear', use_aliases=True)
             save_message(message, "Пользователю показан блок 'Услуг Компании'", 'bot')
-            bot.send_message(message.chat.id, "Услуги компании:", reply_markup=keyboard)
+            bot.send_message(message.chat.id, f"{em2} Услуги компании:", reply_markup=keyboard)
 
         elif message.text == 'Факты о нас':
             save_message(message, "Пользователю показан блок 'Факты о нас'", 'bot')
@@ -73,8 +75,8 @@ def get_text_messages(message):
         elif message.text == 'Расчитать стоимость проекта':
             # bot.send_sticker(message.chat.id, 'CAADBQADiQMAAukKyAPZH7wCI2BwFxYE')
             # Тут мы задаем пользователб вопрос, с которого начинается цикл вопросов пользователю
+            bot.send_message(message.from_user.id, "Как Вас зовут?")
             save_message(message, "Как Вас зовут?", 'bot')
-
             bot.register_next_step_handler(message, get_name)
         elif message.text == 'Говорить с нашим Менеджером':
             send_contacts_manager(message)
@@ -108,6 +110,8 @@ def send_contacts_manager(message):
     # keyboard.add(btn1, btn2)
 
     save_message(message, "Пользователю показаны контакты Менеджеров'", 'bot')
+
+
 
 
 
@@ -179,7 +183,8 @@ def get_name(message):
     save_message(message)
     save_message(message, "Ваш email ?", 'bot')
 
-    bot.send_message(message.from_user.id, 'Ваш email ?')
+    em = emojize('\N{envelope}', use_aliases=True)
+    bot.send_message(message.from_user.id, f'Ваш email {em} ?')
     bot.register_next_step_handler(message, get_email)
 
     # keyboard = telebot.types.InlineKeyboardMarkup()
@@ -222,9 +227,9 @@ def get_email(message):
         save_message(message)
         save_message(message, "Ваш телефон ?", 'bot')
 
-        bot.send_message(message.from_user.id, 'Ваш телефон ?')
+        em = emojize('☎', use_aliases=True)
+        bot.send_message(message.from_user.id, f'{em} Ваш телефон  ?')
         bot.register_next_step_handler(message, get_phone)
-
 
 
 
@@ -313,13 +318,15 @@ def get_btn_project():
     '''Создаем и добавляем inline кнопки, да/нет для продолжения или сброса опроса'''
 
     keyboard = telebot.types.InlineKeyboardMarkup()
-    btn_yes = telebot.types.InlineKeyboardButton(text='Да все верно', callback_data='project_yes')
-    btn_no = telebot.types.InlineKeyboardButton(text='Нет, заполнить с начала', callback_data='project_no')
+
+    emoji_yes = emojize('✅', use_aliases=True)
+    emoji_no = emojize('❌', use_aliases=True)
+
+    btn_yes = telebot.types.InlineKeyboardButton(text=f'{emoji_yes} Да все верно', callback_data='project_yes')
+    btn_no = telebot.types.InlineKeyboardButton(text=f'{emoji_no} Нет, заполнить с начала', callback_data='project_no')
     keyboard.add(btn_yes, btn_no)
 
     return keyboard
-
-
 
 
 
