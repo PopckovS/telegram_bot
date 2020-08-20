@@ -2,8 +2,8 @@ from flaskSQLalchemy import db
 import config
 
 # Импортируем Модели
-from models.User import User
-from models.Messages import Messages
+from models.User import Telegram_User as User
+from models.Messages import Telegram_Messages as Messages
 
 
 

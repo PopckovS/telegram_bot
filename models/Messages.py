@@ -2,11 +2,11 @@
 from flaskSQLalchemy import db
 from datetime import datetime
 
-class Messages(db.Model):
+class Telegram_Messages(db.Model):
     '''Модель для работы с таблицей Messages
     Хранит все сообщения для бота telegram'''
 
-    __tablename__ = 'Messages'
+    __tablename__ = 'Telegram_Messages'
 
     id = db.Column(db.Integer(), primary_key=True)
     telegramID = db.Column(db.Integer(), nullable=False)

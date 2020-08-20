@@ -3,18 +3,19 @@
 import re
 import config
 
-from mitlabs import MitLabs
+
 from methods import *
 from commands import *
 
 # pip3 install emoji
 # Библиотека для работы
 from emoji import emojize
-from random import choice
 
-#
+from models import Company
+
+
 # Создаем экземляр класса для получения из него данных о компании
-mt = MitLabs()
+# mt = MitLabs()
 
 
 

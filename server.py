@@ -16,10 +16,10 @@ from datetime import datetime
 from start import app
 from flaskDB import *
 
-from models.Projects import Projects
-from models.User import User
-from models.Type import Type
-from models.Messages import Messages
+from models.Projects import Telegram_Projects as Projects
+from models.User import Telegram_User as User
+from models.Type import Telegram_Type as Type
+from models.Messages import Telegram_Messages as Messages
 
 # 'sendMessage?chat_id = 932670856 & text = Привет - Мир
 

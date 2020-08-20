@@ -2,10 +2,10 @@
 from flaskSQLalchemy import db
 from datetime import datetime
 
-class Projects(db.Model):
+class Telegram_Projects(db.Model):
     '''Модель для работы с таблицей Projects
     где собраны данные о проекте клиента, и контактная информация.'''
-    __tablename__ = 'Projects'
+    __tablename__ = 'Telegram_Projects'
 
     # Поля id и telegramID по которому пользователь идентифицирован в телеграмме
     id = db.Column(db.Integer(), primary_key=True)

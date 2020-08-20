@@ -5,11 +5,11 @@ from config import SAIT
 
 from methods import save_user, save_message
 from flaskSQLalchemy import db
-from models.Projects import Projects
+from models.Projects import Telegram_Projects as Projects
 
 from app import bot
 
-from models.Admin import Admin
+from models.Admin import Telegram_Admin as Admin
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
@@ -52,6 +52,13 @@ def start_message(message):
     save_user(message)
     save_message(message)
 
+
+
+@bot.message_handler(commands=['db'])
+def db_create(message):
+    '''Метод для обновления создания всех моделей в БД'''
+    result = db.create_all()
+    print(result)
 
 
 

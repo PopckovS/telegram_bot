@@ -16,9 +16,9 @@ primary_key=True Сделать первичным ключем
 nullable = False Принимает null или нет
 '''
 
-class User(db.Model):
+class Telegram_User(db.Model):
     '''Модель для работы с таблицей Users'''
-    __tablename__ = 'Users'
+    __tablename__ = 'Telegram_User'
 
     id = db.Column(db.Integer(), primary_key=True)
     telegramID = db.Column(db.Integer(), nullable=False)

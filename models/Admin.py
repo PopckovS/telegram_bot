@@ -2,11 +2,11 @@
 from flaskSQLalchemy import db
 from datetime import datetime
 
-class Admin(db.Model):
+class Telegram_Admin(db.Model):
     '''Модель для работы с таблицей Admin
     Хранит информацию о администраторах.'''
 
-    __tablename__ = 'Admin'
+    __tablename__ = 'Telegram_Admin'
 
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.Text(), nullable=False)
