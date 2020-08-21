@@ -3,7 +3,6 @@
 import re
 import config
 
-
 from methods import *
 from commands import *
 
@@ -11,11 +10,49 @@ from commands import *
 # Библиотека для работы
 from emoji import emojize
 
-from models import Company
-
+from models.Company import Company
+from models.CompanyDescription import CompanyDescription
 
 # Создаем экземляр класса для получения из него данных о компании
 # mt = MitLabs()
+
+
+
+@bot.message_handler(commands=['create'])
+def create_new_company(message):
+    company = Company(name='11', caption='22', email='33', requisites='44',
+                      facts='55', phone='66')
+    db.session.add(company)
+    db.session.commit()
+
+
+@bot.message_handler(commands=['sub'])
+def create_new_desc(message):
+    cd1 = CompanyDescription(title='a1', text='b1', Company_id=1)
+    cd2 = CompanyDescription(title='a2', text='b2', Company_id=1)
+    cd3 = CompanyDescription(title='a3', text='b3', Company_id=1)
+
+    db.session.add_all([cd1, cd2, cd3])
+    db.session.commit()
+
+
+
+@bot.message_handler(commands=['get'])
+def relation_company(message):
+
+    company = db.session.query(Company).filter(Company.id == 2).first()
+    # company = db.session.query(Company).all()
+    # company = db.session.query(Company).first()
+
+    print('=================='*5)
+    print(company)
+    print('==================')
+    print(company.__repr__())
+    print('=================='*5)
+    print(company.CompanyDescription)
+    print('========= END =========')
+
+    bot.send_message(message.chat.id, company.__repr__())
 
 
 
