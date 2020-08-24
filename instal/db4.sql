@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `CompanyDescription` (
   CONSTRAINT `CompanyDescription_ibfk_1` FOREIGN KEY (`Company_id`) REFERENCES `Company` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
--- Dumping data for table bot.CompanyDescription: ~0 rows (approximately)
+-- Dumping data for table bot.CompanyDescription: ~7 rows (approximately)
 DELETE FROM `CompanyDescription`;
 /*!40000 ALTER TABLE `CompanyDescription` DISABLE KEYS */;
 INSERT INTO `CompanyDescription` (`id`, `title`, `text`, `Company_id`, `created_on`, `updated_on`) VALUES
@@ -89,13 +89,15 @@ CREATE TABLE IF NOT EXISTS `Telegram_Messages` (
   `created_on` datetime DEFAULT NULL,
   `updated_on` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- Dumping data for table bot.Telegram_Messages: ~1 rows (approximately)
+-- Dumping data for table bot.Telegram_Messages: ~3 rows (approximately)
 DELETE FROM `Telegram_Messages`;
 /*!40000 ALTER TABLE `Telegram_Messages` DISABLE KEYS */;
 INSERT INTO `Telegram_Messages` (`id`, `telegramID`, `recipient`, `message`, `messageID`, `created_on`, `updated_on`) VALUES
-	(1, 932670856, 1266890760, '/start', 1690, '2020-08-21 00:51:35', '2020-08-21 00:51:35');
+	(1, 932670856, 1266890760, '/start', 1690, '2020-08-21 00:51:35', '2020-08-21 00:51:35'),
+	(2, 932670856, 1266890760, '/аааа', 1693, '2020-08-22 14:42:21', '2020-08-22 14:42:21'),
+	(3, 1266890760, 932670856, 'Я вас не понимаю :( Чем я могу тебе помочь?', 1693, '2020-08-22 14:42:21', '2020-08-22 14:42:21');
 /*!40000 ALTER TABLE `Telegram_Messages` ENABLE KEYS */;
 
 -- Dumping structure for table bot.Telegram_Projects
@@ -134,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `Telegram_User` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table bot.Telegram_User: ~1 rows (approximately)
+-- Dumping data for table bot.Telegram_User: ~0 rows (approximately)
 DELETE FROM `Telegram_User`;
 /*!40000 ALTER TABLE `Telegram_User` DISABLE KEYS */;
 INSERT INTO `Telegram_User` (`id`, `telegramID`, `first_name`, `last_name`, `username`, `type`, `create_project`, `bot_command`, `created_on`, `updated_on`) VALUES

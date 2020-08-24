@@ -10,59 +10,14 @@ from commands import *
 # Библиотека для работы
 from emoji import emojize
 
+import FullBrif
+
+from models.Brif import Brif
+from models.Projects import Telegram_Projects
 from models.Company import Company
 from models.CompanyDescription import CompanyDescription
 
-# Создаем экземляр класса для получения из него данных о компании
-# mt = MitLabs()
-
-
-
-@bot.message_handler(commands=['create'])
-def create_new_company(message):
-    company = Company(name='11', caption='22', email='33', requisites='44',
-                      facts='55', phone='66')
-    db.session.add(company)
-    db.session.commit()
-
-
-@bot.message_handler(commands=['sub'])
-def create_new_desc(message):
-    cd1 = CompanyDescription(title='a1', text='b1', Company_id=1)
-    cd2 = CompanyDescription(title='a2', text='b2', Company_id=1)
-    cd3 = CompanyDescription(title='a3', text='b3', Company_id=1)
-
-    db.session.add_all([cd1, cd2, cd3])
-    db.session.commit()
-
-
-
-@bot.message_handler(commands=['get'])
-def relation_company(message):
-
-    company = db.session.query(Company).filter(Company.id == 2).first()
-    # company = db.session.query(Company).all()
-    # company = db.session.query(Company).first()
-
-    print('=================='*5)
-    print(company)
-    print('==================')
-    print(company.__repr__())
-    print('=================='*5)
-    print(company.CompanyDescription)
-    print('========= END =========')
-
-    bot.send_message(message.chat.id, company.__repr__())
-
-
-
-@bot.message_handler(commands=['test'])
-def test(message):
-    # smile = emojize(choice(config.SMILE), use_aliases=True)
-    # smile = emojize('\ud83d\ude17', use_aliases=True)
-    smile = emojize('\N{grinning face}', use_aliases=True)
-    bot.send_message(message.from_user.id, 'Рандомно выбран emoji = ' + smile)
-    bot.send_sticker(message.chat.id, 'CAADBQADiQMAAukKyAPZH7wCI2BwFxYE')
+db.create_all()
 
 
 
@@ -73,23 +28,24 @@ def test(message):
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
 
-    # Сохраняем информацию о сообщении,акимбы оно не было
-    save_message(message)
+    tracem(message)
 
+    # Сохраняем информацию о сообщении
+    if message.text != '':
+        save_message(message)
+
+    # Получаем пользователя из БД
     user = db.session.query(User).filter(User.telegramID == message.chat.id).first()
 
-    print('========================')
-    print(message.message_id)
-    print('========================')
-
+    # Режим работы бота с пользователем, общение с человеком/ботом
     if user.bot_command == 0:
-        if message.text == 'Наши реквизиты':
-            save_message(message, "Пользователю показан блок 'Наши реквизиты'", 'bot')
-            bot.send_message(message.from_user.id, mt.get_requisites())
-        elif message.text == 'Наши услуги':
+        if message.text == 'Реквизиты':
 
-            # !!! НЕ ЗНАЮ ПО ЧЕМУ И КАК, НО ОПЫТНЫМ ПУТЕМ ВЫЯСНИЛ, ЧТО ЕСТЬ ОГРАНИЧЕНИЕ !!!
-            # !!! НА ДЛИННУ СТРОКИ ПРИ СТАВКИ ЗНАЧЕНИЯ В callback_data В ДОКАХ ПРО ЭТО НИЧЕГО!!!
+            company = db.session.query(Company).filter(Company.name == config.COMPANY).first()
+
+            save_message(message, "Пользователю показан блок 'Наши реквизиты'", 'bot')
+            bot.send_message(message.from_user.id, company.requisites)
+        elif message.text == 'Наши услуги':
             keyboard = telebot.types.InlineKeyboardMarkup()
 
             btn1 = telebot.types.InlineKeyboardButton(text='Дизайн от А до Я', callback_data='Дизайн от А до Я')
@@ -99,55 +55,37 @@ def get_text_messages(message):
             btn5 = telebot.types.InlineKeyboardButton(text='DEVOPS', callback_data='DEVOPS')
             btn6 = telebot.types.InlineKeyboardButton(text='AI И ML', callback_data='AI И ML')
             em1 = emojize('\N{page facing up}', use_aliases=True)
-            btn7 = telebot.types.InlineKeyboardButton(text= em1 + ' Документы и право', callback_data='Документы и право')
+            btn7 = telebot.types.InlineKeyboardButton(text=em1 + ' Документы и право', callback_data='Документы и право')
 
             keyboard.add(btn1, btn2, btn3, btn4, btn5, btn6, btn7)
 
-            em2 = emojize('gear', use_aliases=True)
             save_message(message, "Пользователю показан блок 'Услуг Компании'", 'bot')
+            em2 = emojize('gear', use_aliases=True)
             bot.send_message(message.chat.id, f"{em2} Услуги компании:", reply_markup=keyboard)
 
         elif message.text == 'Факты о нас':
+            company = db.session.query(Company).filter(Company.name == config.COMPANY).first()
             save_message(message, "Пользователю показан блок 'Факты о нас'", 'bot')
-            bot.send_message(message.from_user.id, mt.get_facts())
-        elif message.text == 'Расчитать стоимость проекта':
-            # bot.send_sticker(message.chat.id, 'CAADBQADiQMAAukKyAPZH7wCI2BwFxYE')
-            # Тут мы задаем пользователб вопрос, с которого начинается цикл вопросов пользователю
-            bot.send_message(message.from_user.id, "Как Вас зовут?")
-            save_message(message, "Как Вас зовут?", 'bot')
-            bot.register_next_step_handler(message, get_name)
-        elif message.text == 'Говорить с нашим Менеджером':
-            send_contacts_manager(message)
-        elif message.text == 'Говорить с нашим Менеджером в чате этого бота':
+            bot.send_message(message.from_user.id, company.facts)
+        elif message.text == 'Заполнить БРИФ для вашего сайта':
+            '''Начало цикла заполнения информации по проекту'''
+            keyboard = telebot.types.InlineKeyboardMarkup()
+
+            btn_questions = telebot.types.InlineKeyboardButton(text='Короткий опрос', callback_data='Короткий опрос')
+            btn_brif = telebot.types.InlineKeyboardButton(text='Полноценный БРИФ', callback_data='Полноценный БРИФ')
+            keyboard.add(btn_questions, btn_brif)
+            bot.send_message(message.from_user.id, "Есть несколько способов заполнить анкету:", reply_markup=keyboard)
+            # bot.send_message(message.from_user.id, "Как Вас зовут?")
+            # save_message(message, "Как Вас зовут?", 'bot')
+            # bot.register_next_step_handler(message, get_name)
+        elif message.text == 'Контакты наших Менеджеров':
             send_contacts_manager(message)
         else:
-            bot.send_message(message.from_user.id, 'Я вас не понимаю :( Чем я могу тебе помочь?')
-            save_message(message, 'Я вас не понимаю :( Чем я могу тебе помочь?', 'bot')
+            text = 'Я вас не понимаю :( Чем я могу тебе помочь?'
+            bot.send_message(message.from_user.id, text)
+            save_message(message, text, 'bot')
 
 
-
-def send_contacts_manager(message):
-    '''Показать клиенту контакты наших менеджеров.'''
-
-
-    # bot.send_message(message.chat.id, "Доступные контакты:", reply_markup=keyboard)
-    bot.send_message(message.chat.id, "Доступные контакты:")
-
-
-    bot.send_message(message.from_user.id, "Руководитель проектов\nМария Преснякова\n+79056542592\nEmail: mp@mitlabs.ru\nТелеграм: https://t.me/ma_svarchuk")
-
-
-    bot.send_message(message.from_user.id, "Системный маркетинг\nДарина Терехова\n+79515521503\nEmail: dt@mitlabs.ru\nТелеграм: https://t.me/nemayakovsky")
-
-    # btn1 = telebot.types.InlineKeyboardButton(
-    #     text='Руководитель проектов\nМария Преснякова\n+79056542592\nEmail: mp@mitlabs.ru\nТелеграм: https://t.me/ma_svarchuk', callback_data='Мария Преснякова')
-    # btn2 = telebot.types.InlineKeyboardButton(
-    #     text='Системный маркетинг\nДарина Терехова\n+79515521503\nEmail: dt@mitlabs.ru\nТелеграм: https://t.me/nemayakovsky', callback_data='Дарина Терехова')
-
-
-    # keyboard.add(btn1, btn2)
-
-    save_message(message, "Пользователю показаны контакты Менеджеров'", 'bot')
 
 
 
@@ -157,25 +95,49 @@ def send_contacts_manager(message):
 def callback_inline(call):
     '''Метод обработчик нажатых Inline кнопок, тоесть заранее заготов.кнопок меню.'''
 
-    if call.message:
+    # Получить из БД компанию и ее описание для панельных кнопок
+    company = db.session.query(Company).filter(Company.name == config.COMPANY).first()
+    descriptions = db.session.query(CompanyDescription).filter(CompanyDescription.Company_id == company.id).all()
 
+    current = None
+    # Получаем текущую нажатую кнопку
+    for elem in descriptions:
+        if call.data == elem.title:
+            current = elem
+
+    if call.message:
         # Это для обработки запроса на показ Услуг компании.
         # Если callback_data что была передана есть в массиве данных
-        if call.data in mt.get_price():
-            list_price = mt.get_price()
-            # По ключу что был передан в callback_data получаю значение и вывожу пользователю
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text=list_price[call.data])
-
-        if call.data == 'project_yes':
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Прекрасно, продолжим')
-
-
-        if call.data == 'project_no':
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Хорошо, давайте с начала')
-            # bot.send_message(call.message.from_user.id, 'Хорошо, давайте с начала')
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Как Вас зовут?')
-            # bot.send_message(call.message.from_user.id, "Как Вас зовут?")
+        if current is not None:
+            # Нажатая кнопка найдена
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text=current.text)
+        if call.data == 'Короткий опрос':
+            '''Заполнение короткой Анкеты'''
+            # bot.send_message(message.from_user.id, "Есть несколько способов заполнить анкету:", reply_markup=keyboard)
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Начнем заполнение анкеты:\nКак вас зовут ?")
             bot.register_next_step_handler(call.message, get_name)
+        if call.data == 'Полноценный БРИФ':
+            '''Выбор Какой БРИФ заполнить в Telegram/Google'''
+            keyboard = telebot.types.InlineKeyboardMarkup()
+            btn_brif = telebot.types.InlineKeyboardButton(text='В телеграм боте', callback_data='В телеграм боте')
+            btn_google_brif = telebot.types.InlineKeyboardButton(text="В Google форме", url=config.GOOGLE_FORM_BRIF)
+            keyboard.add(btn_google_brif, btn_brif)
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Где вы хотите пройти Бриф:", reply_markup=keyboard)
+        if call.data == 'В телеграм боте':
+            '''Заполнение полноценного БРИФА пользователем в Telegram'''
+            Brif_obj = FullBrif.FullBrif()
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                  text="Для более четкого определения целей, стоящих перед будущим сайтом, необходимо заполнить анкету максимально подробно:")
+            bot.register_next_step_handler(call.message, Brif_obj.start)
+        if call.data == 'project_yes':
+            # Пользователь подтвердил заполнение анкеты
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Прекрасно, мы обработаем вашу анкету.')
+        if call.data == 'project_no':
+            # Пользователь отказался подтвердить заполнение анкеты
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Хорошо, давайте с начала')
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Как Вас зовут?')
+            bot.register_next_step_handler(call.message, get_name)
+
     # Если сообщение из инлайн-режима
     # elif call.inline_message_id:
     #     if call.data == "test":
@@ -185,6 +147,15 @@ def callback_inline(call):
 
 
 
+
+def send_contacts_manager(message):
+    '''Показать клиенту контакты наших менеджеров.'''
+
+    bot.send_message(message.chat.id, "Доступные контакты:")
+    bot.send_message(message.from_user.id, "Руководитель проектов\nМария Преснякова\n+79056542592\nEmail: mp@mitlabs.ru\nТелеграм: https://t.me/ma_svarchuk")
+    bot.send_message(message.from_user.id, "Системный маркетинг\nДарина Терехова\n+79515521503\nEmail: dt@mitlabs.ru\nТелеграм: https://t.me/nemayakovsky")
+
+    save_message(message, "Пользователю показаны контакты Менеджеров'", 'bot')
 
 
 
@@ -202,9 +173,6 @@ def get_name(message):
 
     '''Метод получает от пользователя Имя Фамилию по установленному паттерну'''
 
-    # Сохраняем ФИО пользователя в БД
-    # user = User(telegramID=message.chat.id, fio=message.text)
-
     # Обновляем поле fio в БД, по ее message.chat.id тоесть по ник id пользователя в телеграмме.
     # project = db.session.query(Projects).filter(Projects.telegramID == message.chat.id).first()
     # Сохраняяем ФИО пользователя в поле fio модели Projects
@@ -213,32 +181,41 @@ def get_name(message):
     # если существует то уже его изьяли, используем.
     if project is None:
         project = Projects(telegramID=message.chat.id, fio=message.text)
+    else:
+        project.fio = message.text
 
     db.session.add(project)
     db.session.commit()
 
     # Сохраняем и ответ пользователя на превыдущий вопрос и новый вопрос бота
     save_message(message)
-    save_message(message, "Ваш email ?", 'bot')
+    save_message(message, "Контактная информация ?", 'bot')
 
-    em = emojize('\N{envelope}', use_aliases=True)
-    bot.send_message(message.from_user.id, f'Ваш email {em} ?')
-    bot.register_next_step_handler(message, get_email)
-
-    # keyboard = telebot.types.InlineKeyboardMarkup()
-    # btn_no_email = telebot.types.InlineKeyboardButton(text='Да все верно', callback_data='no_email')
-    # keyboard.add(btn_no_email)
-    #
-    # bot.send_message(message.from_user.id, 'Ваш email ?')
-    # bot.register_next_step_handler(message, get_email)
-
-#     keyboard = telebot.types.InlineKeyboardMarkup()
-#     btn_yes = telebot.types.InlineKeyboardButton(text='Да все верно', callback_data='project_yes')
-#     btn_no = telebot.types.InlineKeyboardButton(text='Нет, заполнить с начала', callback_data='project_no')
-#     keyboard.add(btn_yes, btn_no)
+    em_email = emojize('\N{envelope}', use_aliases=True)
+    em_phone = emojize('☎', use_aliases=True)
+    bot.send_message(message.from_user.id, f'Контактная информация: email {em_email} телефон {em_phone} другое ?')
+    bot.register_next_step_handler(message, get_contacts)
 
 
+def get_contacts(message):
+    '''Метод получает от пользователя контактную информацию'''
+    save_message(message)
 
+    project = db.session.query(Projects).filter(Projects.telegramID == message.chat.id).first()
+    project.contacts = message.text
+
+    db.session.add(project)
+    db.session.commit()
+
+    bot_message = 'Расскажите о Вашем проекте'
+    save_message(message, bot_message, 'bot')
+
+    bot.send_message(message.from_user.id, bot_message)
+    bot.register_next_step_handler(message, get_about_project)
+
+
+
+# TODO РАЬНЬШЕ ЭТОЛТ МЕТОД ВЫПОЛНЯЛ ФУНКЦИЮ РЕГИСТРАЦИИ EMAIL ПОЛЬЗОВАТЕЛЯ, ПОКА НЕ ИСПОЛЬЗУЕТСЯ
 def get_email(message):
     '''Метод получает от пользователя email'''
 
@@ -271,7 +248,7 @@ def get_email(message):
 
 
 
-
+# TODO РАЬНЬШЕ ЭТОЛТ МЕТОД ВЫПОЛНЯЛ ФУНКЦИЮ РЕГИСТРАЦИИ PHONE ПОЛЬЗОВАТЕЛЯ, ПОКА НЕ ИСПОЛЬЗУЕТСЯ
 def get_phone(message):
     '''Метод получает от пользователя телефон'''
 
@@ -316,40 +293,25 @@ def get_about_project(message):
     save_message(message)
     save_message(message, "Пользователю задан вопрос 'Правильно ли он заполнил данные'", 'bot')
 
-    # ======================= Новая версия ======================
-    keyboard = get_btn_project() # Добавляем кнопки к результату заполнения опроса
+
+    keyboard = get_btn_project()
     result_text = f"Все правильно ? \nВас зовут = {project.fio}"
-    result_text += f'\nВаш email = {project.email}'
-    result_text += f'\nВаш телефон = {project.phone}'
+    # result_text += f'\nВаш email = {project.email}'
+    # result_text += f'\nВаш телефон = {project.phone}'
+    result_text += f'\nВаши котакты = {project.contacts}'
     result_text += f'\nОписание проекта = {project.aboutProject}'
-    # ======================= Старая версия ======================
-    # keyboard = get_btn_project() # Добавляем кнопки к результату заполнения опроса
-    # result_text = f"Все правильно ? \nВас зовут = {name}"
-    #
-    # if not email == '':
-    #     result_text += f'\nВаш email = {email}'
-    # if not phone == '':
-    #     result_text += f'\nВаш телефон = {phone}'
-    #
-    # result_text += f'\nОписание проекта = {about_project}'
-    # =============================================
 
     bot.send_message(message.from_user.id, result_text, reply_markup=keyboard)
     bot.register_next_step_handler(message, get_answer)
 
-    # save_message(message, "Пользователю задан вопрос 'Правильно ли заполнил данные'", 'bot')
 
-    # Сохраняем и ответ пользователя на превыдущий вопрос и новый вопрос бота
-    # save_message(message)
-    # save_message(message, "Пользователю задан вопрос 'Правильно ли заполнил данные'", 'bot')
 
-    # msg = bot.send_poll(message.chat.id, 'Оцените работу бота', options=['Ужасно', 'Рок группа "Dark Funeral" полное го*но !', 'Хорошо'])
-    # all_response.chat_id = msg.chat.id
 
 
 # Завершающий вопрос о правильности заполнения данных.
 def get_answer(message):
     save_message(message)
+
 
 
 def get_btn_project():

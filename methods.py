@@ -6,7 +6,18 @@ from models.User import Telegram_User as User
 from models.Messages import Telegram_Messages as Messages
 
 
+def trace(object):
+    '''Метод отладчик, выводи ID и текст сообщения'''
+    print('========================')
+    print(object)
+    print('========================')
 
+def tracem(message):
+    '''Метод отладчик, выводи ID и текст сообщения'''
+    print('========================')
+    print(f'id сообщения = {message.message_id}')
+    print(f'text сообщения =  {message.text}')
+    print('========================')
 
 
 def save_message(message, text='', mod='user'):
@@ -15,9 +26,7 @@ def save_message(message, text='', mod='user'):
         user Сохраняется как сообщение от пользователя к телеграм боту
         bot  Сохраняется как сообщение от бота к пользователю
     '''
-    # print('================')
-    # print(config.BOT_ID)
-    # print('================')
+
     if mod is 'user':
         # Сохранение сообщения от пользователя к боту
         message = Messages(telegramID=message.chat.id, message=message.text, recipient=config.BOT_ID, messageID=message.message_id)
@@ -25,10 +34,8 @@ def save_message(message, text='', mod='user'):
         # Сохранение сообщения от бота пользователю
         message = Messages(telegramID=config.BOT_ID, message=text, recipient=message.chat.id, messageID=message.message_id)
 
-    # print(message)
-
-    db.session.add(message)  # Вносим сообщение в сессию
-    db.session.commit() # Сохраняем сообщение в БД
+    db.session.add(message)
+    db.session.commit()
 
 
 

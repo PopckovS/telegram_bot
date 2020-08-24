@@ -8,6 +8,11 @@ def initialBot():
     response = requests.get(config.BOT_URL + 'getMe')
     return response.json()['result']['id']
 
+# Название компании, для которой будут изьяты данные из БД
+COMPANY = 'Mitlabs'
+
+# Ссылка на БРИФ в гугул страницах
+GOOGLE_FORM_BRIF = 'https://docs.google.com/forms/d/e/1FAIpQLSdAhEeEfNyv4fnTHRt_EmxfbZ3JQtU1uH5lQr7bvgIXfP_ZVA/viewform'
 
 # Получаем ID телеграм бота в системе
 # BOT_ID = initialBot()
