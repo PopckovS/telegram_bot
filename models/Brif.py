@@ -11,50 +11,77 @@ class Brif(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     telegramID = db.Column(db.Integer(), nullable=False)
 
-    full_name = db.Column(db.Text(), nullable=True)
-    contact_info = db.Column(db.Text(), nullable=True)
-    area_of_activity = db.Column(db.Text(), nullable=True)
-    brend = db.Column(db.Text(), nullable=True)
-    brend_geography = db.Column(db.Text(), nullable=True)
-    task = db.Column(db.Text(), nullable=True)
-    competitors = db.Column(db.Text(), nullable=True)
-    services = db.Column(db.Text(), nullable=True)
-    language_version = db.Column(db.Text(), nullable=True)
-    information_materials = db.Column(db.Text(), nullable=True)
-    restrictions_for_website = db.Column(db.Text(), nullable=True)
-    interactions_sites = db.Column(db.Text(), nullable=True)
-    logo = db.Column(db.Text(), nullable=True)
-    like_sites = db.Column(db.Text(), nullable=True)
-    brand_strategy = db.Column(db.Text(), nullable=True)
-    seo = db.Column(db.Text(), nullable=True)
-    social_networks = db.Column(db.Text(), nullable=True)
-    another_information = db.Column(db.Text(), nullable=True)
+    # Название БРИФА(Версия)
+    name = db.Column(db.Text(), nullable=False)
+
+    # Поле для храниения связи 1::M
+    BrifDescription = db.relationship('BrifDescription', backref='Brif')
+
+    # Поля для заполнения БРИФА пользователем
+    # full_name = db.Column(db.Text(), nullable=True)
+    # contact_info = db.Column(db.Text(), nullable=True)
+    # area_of_activity = db.Column(db.Text(), nullable=True)
+    # brend = db.Column(db.Text(), nullable=True)
+    # brend_geography = db.Column(db.Text(), nullable=True)
+    # task = db.Column(db.Text(), nullable=True)
+    # competitors = db.Column(db.Text(), nullable=True)
+    # services = db.Column(db.Text(), nullable=True)
+    # language_version = db.Column(db.Text(), nullable=True)
+    # information_materials = db.Column(db.Text(), nullable=True)
+    # restrictions_for_website = db.Column(db.Text(), nullable=True)
+    # interactions_sites = db.Column(db.Text(), nullable=True)
+    # logo = db.Column(db.Text(), nullable=True)
+    # like_sites = db.Column(db.Text(), nullable=True)
+    # brand_strategy = db.Column(db.Text(), nullable=True)
+    # seo = db.Column(db.Text(), nullable=True)
+    # social_networks = db.Column(db.Text(), nullable=True)
+    # another_information = db.Column(db.Text(), nullable=True)
 
     # Даты созданияи обновления
     created_on = db.Column(db.DateTime(), default=datetime.utcnow)
     updated_on = db.Column(db.DateTime(), default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    def description(self):
-        return {
-                'full_name':'Полное название компании',
-                'contact_info':'Контактная информация',
-                'area_of_activity':'Область деятельности',
-                'brend':'Бренд',
-                'brend_geography':'География бренда',
-                'task':'Что нужно сделать?',
-                'competitors':'Прямые и косвенные конкуренты',
-                'services':' Сервисы сайта',
-                'language_version':'Публикация иностранных версий',
-                'information_materials':'Информационные материалы для сайта?',
-                'restrictions_for_website':'Ограничения для разработки сайта',
-                'interactions_sites':'Взаимодействия со сторонними сайтами',
-                'logo':'Логотип или фирменный стиль компании',
-                'like_sites':'Какие сайты вам нравятся',
-                'brand_strategy':'Существует ли стратегия продвижения бренда ?',
-                'seo':'Расчет стоимости продвижения сайта в поисковых системах ?',
-                'social_networks':'Продвижения проекта в социальных сетях? ',
-                'another_information':'Дополнительные материалы к брифу',
-                }
+
+    def fiels_for_register(self):
+        return ['full_name',
+                'contact_info',
+                'area_of_activity',
+                'brend',
+                'brend_geography',
+                'task',
+                'competitors',
+                'services',
+                'language_version',
+                'information_materials',
+                'restrictions_for_website',
+                'interactions_sites',
+                'logo',
+                'like_sites',
+                'brand_strategy',
+                'seo',
+                'social_networks',
+                'another_information'
+                ]
+        # return {
+        #         'full_name':'Полное название компании',
+        #         'contact_info':'Контактная информация',
+        #         'area_of_activity':'Область деятельности',
+        #         'brend':'Бренд',
+        #         'brend_geography':'География бренда',
+        #         'task':'Что нужно сделать?',
+        #         'competitors':'Прямые и косвенные конкуренты',
+        #         'services':' Сервисы сайта',
+        #         'language_version':'Публикация иностранных версий',
+        #         'information_materials':'Информационные материалы для сайта?',
+        #         'restrictions_for_website':'Ограничения для разработки сайта',
+        #         'interactions_sites':'Взаимодействия со сторонними сайтами',
+        #         'logo':'Логотип или фирменный стиль компании',
+        #         'like_sites':'Какие сайты вам нравятся',
+        #         'brand_strategy':'Существует ли стратегия продвижения бренда ?',
+        #         'seo':'Расчет стоимости продвижения сайта в поисковых системах ?',
+        #         'social_networks':'Продвижения проекта в социальных сетях? ',
+        #         'another_information':'Дополнительные материалы к брифу',
+        #         }
 
 
     # def __repr__(self):

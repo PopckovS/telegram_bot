@@ -1,6 +1,7 @@
 import requests
 import config
 
+# 932670856
 
 # TODO сделать проверку на отправку и получение
 def initialBot():
@@ -10,6 +11,9 @@ def initialBot():
 
 # Название компании, для которой будут изьяты данные из БД
 COMPANY = 'Mitlabs'
+
+# Название текущего рабочего БРИФА
+BRIF_NAME = 'first'
 
 # Ссылка на БРИФ в гугул страницах
 GOOGLE_FORM_BRIF = 'https://docs.google.com/forms/d/e/1FAIpQLSdAhEeEfNyv4fnTHRt_EmxfbZ3JQtU1uH5lQr7bvgIXfP_ZVA/viewform'
@@ -27,16 +31,22 @@ BOT_LINK = 'https://t.me/test_sergey_username_2_bot'
 # Сайт для управления ботом
 SAIT = 'localhost:5000'
 
-#
-IS_MAN = False
-
 # База Данных которую мы используем для работы
 DB = 'bot'
 
-#  Подключения к БД через Flask SQLAlchemy
-CONNECT_DB = 'mysql+pymysql://serg:11@localhost/' + DB
+# ХОСТ для подключения к БД
+DB_HOST = 'localhost'
 
-# Адрес Телеграм Бота
+# Имя пользователя для доступа к БД
+DB_USERNAME = 'serg'
+
+# Пароль для Доступа к БД
+DB_PASSWORD = '11'
+
+# Подключения к БД через Flask SQLAlchemy
+CONNECT_DB = 'mysql+pymysql://' + DB_USERNAME + ':' + DB_PASSWORD + '@' + DB_HOST + '/' + DB
+
+# Начальная чать адреса для Телеграм Бота
 URL = 'https://api.telegram.org/bot'
 
 # Адрес для обращения к боту через API телеграма

@@ -6,22 +6,35 @@ from models.User import Telegram_User as User
 from models.Messages import Telegram_Messages as Messages
 
 
+
+def convert_trace(func_trace):
+    '''Метод декоратор(обертка) для методов отладки.'''
+    def result_func(arg1):
+        print('========================')
+        func_trace(arg1)
+        print('========================')
+    return result_func
+
+
+@convert_trace
 def trace(object):
     '''Метод отладчик, выводи ID и текст сообщения'''
-    print('========================')
     print(object)
-    print('========================')
+    print(type(object))
 
+
+@convert_trace
 def tracem(message):
     '''Метод отладчик, выводи ID и текст сообщения'''
-    print('========================')
     print(f'id сообщения = {message.message_id}')
     print(f'text сообщения =  {message.text}')
-    print('========================')
+
+
 
 
 def save_message(message, text='', mod='user'):
-    '''Метод сохраняет в Бд переданное сообщение
+    '''Метод сохраняет в Бд переданное сообщение, сохранение
+    может быть как сообщений пользователю боту, так и бота пользователю
     recepient - string сохранение сообщения от кого кому
         user Сохраняется как сообщение от пользователя к телеграм боту
         bot  Сохраняется как сообщение от бота к пользователю
@@ -36,6 +49,7 @@ def save_message(message, text='', mod='user'):
 
     db.session.add(message)
     db.session.commit()
+
 
 
 

@@ -13,6 +13,7 @@ from emoji import emojize
 import FullBrif
 
 from models.Brif import Brif
+from models.BrifDescription import BrifDescription
 from models.Projects import Telegram_Projects
 from models.Company import Company
 from models.CompanyDescription import CompanyDescription
@@ -27,12 +28,10 @@ db.create_all()
 # @bot.message_handler(content_types=['text', 'document', 'audio'])
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
+    """Метод обработчик любого введенного текста, также обрабатывает нажатие Inline кнопок."""
 
     tracem(message)
-
-    # Сохраняем информацию о сообщении
-    if message.text != '':
-        save_message(message)
+    save_message(message)
 
     # Получаем пользователя из БД
     user = db.session.query(User).filter(User.telegramID == message.chat.id).first()
@@ -60,8 +59,8 @@ def get_text_messages(message):
             keyboard.add(btn1, btn2, btn3, btn4, btn5, btn6, btn7)
 
             save_message(message, "Пользователю показан блок 'Услуг Компании'", 'bot')
-            em2 = emojize('gear', use_aliases=True)
-            bot.send_message(message.chat.id, f"{em2} Услуги компании:", reply_markup=keyboard)
+            # em2 = emojize('gear', use_aliases=True)
+            bot.send_message(message.chat.id, f"Услуги компании:", reply_markup=keyboard)
 
         elif message.text == 'Факты о нас':
             company = db.session.query(Company).filter(Company.name == config.COMPANY).first()
@@ -75,9 +74,6 @@ def get_text_messages(message):
             btn_brif = telebot.types.InlineKeyboardButton(text='Полноценный БРИФ', callback_data='Полноценный БРИФ')
             keyboard.add(btn_questions, btn_brif)
             bot.send_message(message.from_user.id, "Есть несколько способов заполнить анкету:", reply_markup=keyboard)
-            # bot.send_message(message.from_user.id, "Как Вас зовут?")
-            # save_message(message, "Как Вас зовут?", 'bot')
-            # bot.register_next_step_handler(message, get_name)
         elif message.text == 'Контакты наших Менеджеров':
             send_contacts_manager(message)
         else:
@@ -138,11 +134,6 @@ def callback_inline(call):
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Как Вас зовут?')
             bot.register_next_step_handler(call.message, get_name)
 
-    # Если сообщение из инлайн-режима
-    # elif call.inline_message_id:
-    #     if call.data == "test":
-    #         bot.edit_message_text(inline_message_id=call.inline_message_id, text="Бдыщь")
-
 
 
 
@@ -160,25 +151,11 @@ def send_contacts_manager(message):
 
 
 
-
-
-
-# Это ПОТОК команд, метод register_next_step_handler регистрирует ряд методов
-# которые будут выполняться последовательно, один за другим, создавая и устанавливая
-# в нутри методов циклы, можно зациклить эти вопросы, до тех пор пока мы не получим
-# нужный результат, а если пользователь хочет выйти из потока методов, то мы можем
-# сделать исключение при помощи InlineKeyboardButton и просто не регистрировать
-# следующего метода, а просто выйти из потока методов.
 def get_name(message):
-
     '''Метод получает от пользователя Имя Фамилию по установленному паттерну'''
 
-    # Обновляем поле fio в БД, по ее message.chat.id тоесть по ник id пользователя в телеграмме.
-    # project = db.session.query(Projects).filter(Projects.telegramID == message.chat.id).first()
-    # Сохраняяем ФИО пользователя в поле fio модели Projects
     project = db.session.query(Projects).filter(Projects.telegramID == message.chat.id).first()
-    # Если такого пользователя не существует, то создадим нового,
-    # если существует то уже его изьяли, используем.
+
     if project is None:
         project = Projects(telegramID=message.chat.id, fio=message.text)
     else:
@@ -197,6 +174,7 @@ def get_name(message):
     bot.register_next_step_handler(message, get_contacts)
 
 
+
 def get_contacts(message):
     '''Метод получает от пользователя контактную информацию'''
     save_message(message)
@@ -212,6 +190,7 @@ def get_contacts(message):
 
     bot.send_message(message.from_user.id, bot_message)
     bot.register_next_step_handler(message, get_about_project)
+
 
 
 
@@ -282,6 +261,7 @@ def get_phone(message):
 
 
 def get_about_project(message):
+    """Метод сохраняет данные о проекте, опрашивает пользователя на правильность заполнения данных."""
 
     # Сохраняяем Описание проекта в поле aboutProject модели Projects
     project = db.session.query(Projects).filter(Projects.telegramID == message.chat.id).first()
@@ -331,8 +311,6 @@ def get_btn_project():
 
 
 
-# Если скрипт запущен как основной, то запустить работу бота,
-# Наш бот будет постоянно спрашивать у сервера телеграмма, ввел что либо пользователь.
 # none_stop=True Опрашивать бота постоянно
 # interval=0     Интервал между опросом
 if __name__ == '__main__':

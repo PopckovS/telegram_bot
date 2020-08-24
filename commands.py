@@ -11,6 +11,32 @@ from app import bot
 
 from models.Admin import Telegram_Admin as Admin
 
+# @bot.message_handler(commands=['document'])
+# def handle_email(message):
+#     pass
+
+    # uis_pdf = open('document/pres_mitlab.pdf', 'rb')
+    # uis_pdf = open('1.pdf', 'rb')
+    # bot.send_document(message.chat.id, uis_pdf)
+
+    # img = open('../Peek 2020-06-09 15-44.gif', 'rb')
+    # bot.send_photo(message.chat.id, img)
+
+    # bot.send_animation(message.chat.id, img)
+    # bot.send_message(id, '<a href="IMG_URL">&#8203;</a>', parse_mode="HTML")
+    # bot.send_message(message.chat.id, '<a href="">&#8203;</a>', parse_mode="HTML")
+
+
+# bot.send_animation - Посылает гифки и возможно видео
+# bot.send_photo     - Посылает картинки
+
+# import time
+# time.sleep(1)
+
+
+
+
+
 @bot.message_handler(commands=['start'])
 def start_message(message):
     '''Главный базовый метод, срабатвает в момент активайии бота, выводит приветствие, и создает кнопки.'''
@@ -21,7 +47,6 @@ def start_message(message):
     keyboard.row('Реквизиты', 'Наши услуги', 'Факты о нас')
     keyboard.add('Заполнить БРИФ для вашего сайта')
     keyboard.add('Контакты наших Менеджеров')
-
 
     # Выводим притствие, и показываем кнопки нашему пользователю
     bot.send_message(message.chat.id, 'Привет {0} {1} вас приветствует бот компании {2} \n'
@@ -50,20 +75,16 @@ def start_message(message):
 
 
 
-@bot.message_handler(commands=['db'])
-def db_create(message):
-    '''Метод для обновления создания всех моделей в БД'''
-    result = db.create_all()
-    print(result)
-
 
 
 @bot.message_handler(commands=['help'])
 def default_test(message):
     '''Метод помошник, выводит справочную информацию.'''
+
     text = "/start Начало работы с ботом \n" \
            "/help Получить список всех доступных команд \n" \
-           "/info Получить информацию о пользователе\n"
+           "/info Получить информацию о пользователе\n"\
+           "/adminRegistration Регистрация Администратора для бота\n"
     bot.send_message(message.from_user.id, text)
 
 
@@ -106,6 +127,7 @@ def registration_admin_name(message):
 
 
 
+
 def registration_admin_get_messages(message):
     '''Метод регистрации администратора, будет ли он получать сообщения ?.'''
 
@@ -123,6 +145,7 @@ def registration_admin_get_messages(message):
 
 
 
+
 def registration_admin_password(message):
     '''Метод регистрации пароль нового администратора.'''
 
@@ -134,10 +157,7 @@ def registration_admin_password(message):
     # bot.send_message(message.from_user.id, 'Вы зарегестрированы ! \nПерейдите на сайт <a>{sait}'.format(sait=SAIT))
 
     keyboard = telebot.types.InlineKeyboardMarkup()
-    btn_url_mitlabs = telebot.types.InlineKeyboardButton(
-        text="Mitlabs BotFather",
-        url="https://mitlabs.ru")
-
+    btn_url_mitlabs = telebot.types.InlineKeyboardButton(text="Mitlabs BotFather", url="https://mitlabs.ru")
     keyboard.add(btn_url_mitlabs)
     bot.send_message(message.chat.id, "Вы зарегестрированы ! \nПерейдите на сайт для управления ботом", reply_markup=keyboard)
 
@@ -145,40 +165,9 @@ def registration_admin_password(message):
 
 
 
-"""ИНТЕРЕСНОЕ - если вставить в текст сообщения пользователю сылку на сайт,
- то пользователь получит картинку сайта, с кратким описанием"""
-@bot.message_handler(commands=['url'])
-def start_message(message):
-    '''Тестовый метод для отправки http запроса на сайт'''
-
-    url = 'https://mitlabs.ru/'
-    response = requests.get(url)
-
-    print('==========================' * 50)
-    print('==========================' * 50)
-    print('==========================' * 50)
-
-    print('======= СТАТУС ОТВЕТ НА GET ЗАПРОС =======')
-    print(response.status_code)
-    print('=========================='*50)
-    print('============= ЗАГОЛОВКИ ОТВЕТА С СЕРВЕРА =============')
-    print(response.headers)
-    print('==========================' * 50)
-    print('============== ТЕЛО ОТВЕТА ============')
-    print(response.text)
-
-    text = f'Отправлено сообщение на сайт {url}'
-
-    # Отправляем сообщение пользователю
-    bot.send_message(message.chat.id, text)
-
-
-
-
-
 @bot.message_handler(commands=['get_project'])
 def get_project(message):
-    '''олучить данные о проекте, данного пользователя по его id в системе'''
+    '''Получить данные о проекте, данного пользователя по его id в системе'''
     project = db.session.query(Projects).filter(Projects.telegramID == message.chat.id).first()
     print(project.__repr__())
     bot.send_message(message.chat.id, project.__repr__())
@@ -238,29 +227,6 @@ def handle_email(message):
     bot.send_message(message.chat.id, str(__name__))
 
 
-
-
-# @bot.message_handler(commands=['document'])
-# def handle_email(message):
-#     pass
-
-    # uis_pdf = open('document/pres_mitlab.pdf', 'rb')
-    # uis_pdf = open('1.pdf', 'rb')
-    # bot.send_document(message.chat.id, uis_pdf)
-
-    # img = open('../Peek 2020-06-09 15-44.gif', 'rb')
-    # bot.send_photo(message.chat.id, img)
-
-    # bot.send_animation(message.chat.id, img)
-    # bot.send_message(id, '<a href="IMG_URL">&#8203;</a>', parse_mode="HTML")
-    # bot.send_message(message.chat.id, '<a href="">&#8203;</a>', parse_mode="HTML")
-
-
-# bot.send_animation - Посылает гифки и возможно видео
-# bot.send_photo     - Посылает картинки
-
-# import time
-# time.sleep(1)
 
 
 
