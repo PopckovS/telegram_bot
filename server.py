@@ -21,8 +21,6 @@ from models.User import Telegram_User as User
 from models.Type import Telegram_Type as Type
 from models.Messages import Telegram_Messages as Messages
 
-# 'sendMessage?chat_id = 932670856 & text = Привет - Мир
-
 
 
 
@@ -373,4 +371,4 @@ def get_header():
 
 # Запуск работы сервера
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5001)

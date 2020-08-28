@@ -23,7 +23,7 @@ GOOGLE_FORM_BRIF = 'https://docs.google.com/forms/d/e/1FAIpQLSdAhEeEfNyv4fnTHRt_
 BOT_ID = 1266890760
 
 # Ключ API для аутентификации с ботом, ключ можно получить от BotFather в telegram
-API_KEY = ''
+API_KEY = '🙂'
 
 # Ссылка на бота для начала взаимодействия
 BOT_LINK = 'https://t.me/test_sergey_username_2_bot'

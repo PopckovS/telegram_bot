@@ -9,10 +9,13 @@ class Telegram_Admin(db.Model):
     __tablename__ = 'Telegram_Admin'
 
     id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.Text(), nullable=False)
+    name = db.Column(db.String(255), nullable=False)
+    first_name = db.Column(db.String(255), nullable=False)
+    last_name = db.Column(db.String(255), nullable=True)
+    phone_number = db.Column(db.String(255), nullable=True)
     telegramID = db.Column(db.Integer(), nullable=False)
     password = db.Column(db.Text(), nullable=False)
-    get_messages = db.Column(db.Integer(), nullable=False)
+    get_messages = db.Column(db.Integer(), default=0, nullable=False)
 
     created_on = db.Column(db.DateTime(), default=datetime.utcnow)
     updated_on = db.Column(db.DateTime(), default=datetime.utcnow, onupdate=datetime.utcnow)
